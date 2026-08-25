@@ -1,0 +1,6 @@
+{
+  "name": "Dak Ghar Niryat Kendra",
+  "description": "Digital export assistance and management platform for India Post's Dak Ghar Niryat Kendra (DGNK) with RAG-powered AI customs and trade compliance assistant.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
