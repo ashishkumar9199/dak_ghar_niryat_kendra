@@ -22,6 +22,7 @@ import {
   Stamp
 } from 'lucide-react';
 import { ExporterProfile } from '../types';
+import { ExportChecklist } from './ExportChecklist';
 
 interface DashboardOverviewProps {
   profile: ExporterProfile;
@@ -197,6 +198,14 @@ export const DashboardOverview: React.FC<DashboardOverviewProps> = ({
         </div>
 
       </div>
+
+      {/* Export Preparation & Statutory Compliance Checklist */}
+      <ExportChecklist
+        profile={profile}
+        language={language}
+        onNavigate={onNavigate}
+        onOpenProfile={onOpenProfile}
+      />
 
       {/* Main Grid: Recent Export Orders & Right Compliance Sidebar */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
