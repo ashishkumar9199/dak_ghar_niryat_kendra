@@ -129,15 +129,15 @@ async function startServer() {
     }
   });
 
-  // 2. RAG AI Assistant Chat endpoint
+  // 2. RAG AI Assistant Chatbot endpoint (Multi-turn trained DNK Postal Assistant)
   app.post("/api/assistant/chat", async (req: Request, res: Response) => {
     try {
-      const { query, userProfile } = req.body;
+      const { query, userProfile, history } = req.body;
       if (!query || typeof query !== "string") {
         return res.status(400).json({ error: "A valid 'query' string is required." });
       }
 
-      const result = await generateGroundedAnswer(query, userProfile);
+      const result = await generateGroundedAnswer(query, userProfile, history);
       return res.json(result);
     } catch (err: any) {
       console.error("Error in /api/assistant/chat:", err);

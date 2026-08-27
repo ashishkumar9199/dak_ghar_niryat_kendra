@@ -151,8 +151,8 @@ export const DashboardOverview: React.FC<DashboardOverviewProps> = ({
         </div>
       </div>
 
-      {/* 2. Core 4-Action Quick Grid (Intuitive & User-Friendly) */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5 sm:gap-4 lg:gap-5 2xl:gap-6">
+      {/* 2. Core 3-Action Quick Grid (Intuitive & User-Friendly) */}
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3.5 sm:gap-4 lg:gap-5 2xl:gap-6">
         
         {/* Action 1: Create PBE */}
         <button
@@ -243,37 +243,6 @@ export const DashboardOverview: React.FC<DashboardOverviewProps> = ({
 
           <div className="mt-4 pt-3 border-t border-gray-100 flex items-center justify-between text-xs font-bold text-purple-700">
             <span>{isHindi ? 'ट्रैक करें' : 'Track Now'}</span>
-            <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
-          </div>
-        </button>
-
-        {/* Action 4: AI Export Advisor */}
-        <button
-          id="card-ai-advisor"
-          onClick={() => onNavigate('assistant')}
-          className="group bg-white hover:bg-gradient-to-br hover:from-blue-50/60 hover:to-white border-2 border-gray-200 hover:border-blue-600 rounded-2xl p-5 text-left transition-all shadow-xs hover:shadow-md flex flex-col justify-between cursor-pointer"
-        >
-          <div>
-            <div className="flex items-center justify-between mb-3.5">
-              <div className="w-13 h-13 rounded-2xl flex items-center justify-center font-black shadow-xs transition-all group-hover:scale-105">
-                <FeatureVectorIcon id="ai-advisor" className="w-13 h-13" />
-              </div>
-              <span className="text-[9px] font-black text-blue-700 bg-blue-50 border border-blue-200 px-2 py-0.5 rounded-full uppercase">
-                Grounded AI
-              </span>
-            </div>
-            <h3 className="text-base font-black text-gray-900 group-hover:text-blue-700 transition-colors">
-              {isHindi ? 'AI निर्यात सलाहकार' : 'AI Export Advisor'}
-            </h3>
-            <p className="text-xs text-gray-500 font-medium mt-1 leading-relaxed">
-              {isHindi 
-                ? 'HS कोड, RoDTEP दरें व सीमा शुल्क नियमों पर तत्काल प्रमाणित सलाह।' 
-                : 'Instant statutory answers on HS codes, RoDTEP benefits & DGFT rules.'}
-            </p>
-          </div>
-
-          <div className="mt-4 pt-3 border-t border-gray-100 flex items-center justify-between text-xs font-bold text-blue-700">
-            <span>{isHindi ? 'सलाह लें' : 'Ask AI'}</span>
             <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
           </div>
         </button>

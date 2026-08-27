@@ -46,40 +46,48 @@ interface DocumentVector {
   magnitude: number;
 }
 
-const documentVectors: DocumentVector[] = DGNK_KNOWLEDGE_BASE.map(chunk => {
-  const combinedText = `${chunk.title} ${chunk.title} ${chunk.keywords.join(' ')} ${chunk.keywords.join(' ')} ${chunk.content} ${chunk.sourceDoc} ${chunk.authority}`;
-  const tokens = tokenize(combinedText);
-  const tf = new Map<string, number>();
+function getDocumentVectors(): DocumentVector[] {
+  return DGNK_KNOWLEDGE_BASE.map(chunk => {
+    const combinedText = `${chunk.title} ${chunk.title} ${chunk.keywords.join(' ')} ${chunk.keywords.join(' ')} ${chunk.content} ${chunk.sourceDoc} ${chunk.authority} ${chunk.circularRef}`;
+    const tokens = tokenize(combinedText);
+    const tf = new Map<string, number>();
 
-  for (const token of tokens) {
-    tf.set(token, (tf.get(token) || 0) + 1);
-  }
+    for (const token of tokens) {
+      tf.set(token, (tf.get(token) || 0) + 1);
+    }
 
-  // Calculate vector magnitude
-  let sumSquares = 0;
-  for (const count of tf.values()) {
-    sumSquares += count * count;
-  }
-  const magnitude = Math.sqrt(sumSquares) || 1;
+    // Calculate vector magnitude
+    let sumSquares = 0;
+    for (const count of tf.values()) {
+      sumSquares += count * count;
+    }
+    const magnitude = Math.sqrt(sumSquares) || 1;
 
-  return {
-    chunk,
-    termFrequencies: tf,
-    magnitude
-  };
-});
+    return {
+      chunk,
+      termFrequencies: tf,
+      magnitude
+    };
+  });
+}
+
+let documentVectors: DocumentVector[] = getDocumentVectors();
 
 /**
  * Retrieve the top K relevant chunks using cosine similarity + keyword boost
  */
-export function retrieveRelevantChunks(query: string, topK: number = 3): RetrievedContext[] {
+export function retrieveRelevantChunks(query: string, topK: number = 4): RetrievedContext[] {
+  if (!documentVectors || documentVectors.length !== DGNK_KNOWLEDGE_BASE.length) {
+    documentVectors = getDocumentVectors();
+  }
+
   const queryTokens = tokenize(query);
   if (queryTokens.length === 0) {
     // Return top general DGNK chunks as default
     return documentVectors.slice(0, topK).map(dv => ({
       chunk: dv.chunk,
-      score: 0.75,
-      matchedKeywords: ['general']
+      score: 0.85,
+      matchedKeywords: ['general_dgnk']
     }));
   }
 
@@ -110,7 +118,7 @@ export function retrieveRelevantChunks(query: string, topK: number = 3): Retriev
 
     let cosineSim = dotProduct / (queryMagnitude * doc.magnitude);
 
-    // Boost score if explicit keywords or title words match
+    // Boost score if explicit keywords match
     for (const kw of doc.chunk.keywords) {
       if (query.toLowerCase().includes(kw.toLowerCase())) {
         cosineSim += 0.15;
@@ -118,7 +126,7 @@ export function retrieveRelevantChunks(query: string, topK: number = 3): Retriev
       }
     }
 
-    // Boost if title matches
+    // Boost if title words match
     const titleTokens = tokenize(doc.chunk.title);
     for (const qt of queryTokens) {
       if (titleTokens.includes(qt)) {
@@ -142,7 +150,6 @@ export function retrieveRelevantChunks(query: string, topK: number = 3): Retriev
   results.sort((a, b) => b.score - a.score);
 
   if (results.length === 0) {
-    // Fallback to top 2 general guidance
     return documentVectors.slice(0, topK).map(dv => ({
       chunk: dv.chunk,
       score: 0.5,

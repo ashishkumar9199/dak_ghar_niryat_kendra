@@ -19,6 +19,7 @@ import { WalletModal } from './components/WalletModal';
 import { BulkUploadModal } from './components/BulkUploadModal';
 import { AuthModal } from './components/AuthModal';
 import { MobileBottomNav } from './components/MobileBottomNav';
+import { FloatingAIChatWidget } from './components/FloatingAIChatWidget';
 import { DnkLogo } from './components/DnkLogo';
 import { ExporterProfile, SupportedLanguage } from './types';
 import { AuthProvider, useAuth } from './context/AuthContext';
@@ -138,6 +139,9 @@ function AppContent() {
             language={language}
             onOpenRagInspector={() => setIsRagInspectorOpen(true)}
             onNavigateToWizard={() => handleNavigate('wizard')}
+            onNavigateToCalculator={() => handleNavigate('calculator')}
+            onNavigateToLocator={() => handleNavigate('locator')}
+            onNavigateToProhibited={() => handleNavigate('prohibited')}
           />
         )}
 
@@ -259,6 +263,15 @@ function AppContent() {
           </div>
         </div>
       </footer>
+
+      {/* Floating Right-Bottom DNK AI Chatbot Widget */}
+      <FloatingAIChatWidget
+        profile={profile}
+        language={language}
+        currentTab={currentTab}
+        onNavigate={handleNavigate}
+        onOpenRagInspector={() => setIsRagInspectorOpen(true)}
+      />
 
       {/* Mobile Bottom Quick Navigation Bar for Phone Displays */}
       <MobileBottomNav

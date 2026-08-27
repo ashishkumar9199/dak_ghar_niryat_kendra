@@ -51,9 +51,9 @@ export const translations: Record<SupportedLanguage, Record<string, string>> = {
     trackDesc: 'Live tracking for UPU S10 articles with customs clearance status.',
     trackBtn: 'Track Now',
 
-    aiAdvisorTitle: 'AI Export Advisor',
-    aiAdvisorDesc: 'Instant statutory answers on HS codes, RoDTEP benefits & DGFT rules.',
-    aiAdvisorBtn: 'Ask AI',
+    aiAdvisorTitle: 'DNK AI Chatbot',
+    aiAdvisorDesc: 'India Post postal AI assistant trained on official SOPs, CBIC rules & DGFT guidelines.',
+    aiAdvisorBtn: 'Chat with DNK Bot',
 
     // Dashboard sections
     recentConsignments: 'Recent Export Consignments',
@@ -74,7 +74,7 @@ export const translations: Record<SupportedLanguage, Record<string, string>> = {
     navLocator: 'Find DGNK',
     navTracker: 'Track Article',
     navKnowledge: 'SOP & Circulars',
-    navAssistant: 'AI Advisor',
+    navAssistant: 'DNK Chatbot',
     navWallet: 'Wallet',
     navBulk: 'Bulk Upload',
 
@@ -132,9 +132,9 @@ export const translations: Record<SupportedLanguage, Record<string, string>> = {
     trackDesc: 'UPU S10 बारकोड व कस्टम्स Out-of-Charge स्थिति लाइव देखें।',
     trackBtn: 'ट्रैक करें',
 
-    aiAdvisorTitle: 'AI निर्यात सलाहकार',
-    aiAdvisorDesc: 'HS कोड, RoDTEP दरें व सीमा शुल्क नियमों पर तत्काल प्रमाणित सलाह।',
-    aiAdvisorBtn: 'सलाह लें',
+    aiAdvisorTitle: 'DNK AI चैटबॉट',
+    aiAdvisorDesc: 'भारतीय डाक SOP, CBIC सीमा शुल्क व DGFT नियमों पर प्रशिक्षित आधिकारिक चैटबॉट।',
+    aiAdvisorBtn: 'DNK चैटबॉट से पूछें',
 
     // Dashboard sections
     recentConsignments: 'हाल के निर्यात पार्सल',
@@ -155,7 +155,7 @@ export const translations: Record<SupportedLanguage, Record<string, string>> = {
     navLocator: 'DGNK खोजें',
     navTracker: 'पार्सल ट्रैकिंग',
     navKnowledge: 'नियम व SOP',
-    navAssistant: 'AI सलाहकार',
+    navAssistant: 'DNK चैटबॉट',
     navWallet: 'वॉलेट',
     navBulk: 'बल्क अपलोड',
 
