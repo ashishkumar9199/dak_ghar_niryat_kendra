@@ -40,6 +40,7 @@ import { NoticeTicker } from './NoticeTicker';
 import { DnkLogo } from './DnkLogo';
 import { SUPPORTED_LANGUAGES, translations } from '../utils/translations';
 import { useAuth } from '../context/AuthContext';
+import { MenuVectorIcon } from './MenuIcons';
 
 interface NavbarProps {
   currentTab?: string;
@@ -1028,9 +1029,8 @@ export const Navbar: React.FC<NavbarProps> = ({
                 <span className="text-[10px] font-black text-gray-400 uppercase tracking-wider block mb-2 px-1">
                   Core Export Services
                 </span>
-                <div className="space-y-2">
+                <div className="space-y-2.5">
                   {filteredPages.filter(p => p.category === 'core').map((page) => {
-                    const Icon = page.icon;
                     const isCurrent = active === page.id;
                     const pageTitle = page.titles[language] || page.titles.EN;
                     const pageDesc = page.descs[language] || page.descs.EN;
@@ -1038,31 +1038,31 @@ export const Navbar: React.FC<NavbarProps> = ({
                       <div
                         key={page.id}
                         onClick={() => handleNav(page.id)}
-                        className={`p-3 rounded-2xl border transition-all cursor-pointer flex items-start gap-3 select-none ${
+                        className={`group p-3 rounded-2xl border transition-all cursor-pointer flex items-center gap-3.5 select-none ${
                           isCurrent 
-                            ? 'bg-red-50/80 border-[#C8102E] shadow-xs' 
-                            : 'bg-white border-gray-200 hover:border-gray-300 hover:bg-gray-50'
+                            ? 'bg-red-50/90 border-[#C8102E] ring-1 ring-[#C8102E]/20 shadow-xs' 
+                            : 'bg-white border-gray-200 hover:border-gray-300 hover:bg-gray-50/80 hover:shadow-xs'
                         }`}
                       >
-                        <div className={`w-9 h-9 rounded-xl flex items-center justify-center shrink-0 ${page.bgLight}`}>
-                          <Icon className={`w-5 h-5 ${page.color}`} />
+                        <div className="shrink-0">
+                          <MenuVectorIcon id={page.id} className="w-11 h-11" />
                         </div>
                         <div className="flex-1 min-w-0">
                           <div className="flex items-center gap-2">
-                            <h4 className={`text-xs font-black truncate ${isCurrent ? 'text-[#C8102E]' : 'text-gray-900'}`}>
+                            <h4 className={`text-xs font-black truncate ${isCurrent ? 'text-[#C8102E]' : 'text-gray-900 group-hover:text-[#C8102E] transition-colors'}`}>
                               {pageTitle}
                             </h4>
                             {page.badge && (
-                              <span className={`text-[9px] font-black px-1.5 py-0.2 rounded uppercase ${page.badgeColor}`}>
+                              <span className={`text-[9px] font-black px-1.5 py-0.2 rounded uppercase shrink-0 ${page.badgeColor}`}>
                                 {page.badge}
                               </span>
                             )}
                           </div>
-                          <p className="text-[11px] text-gray-500 line-clamp-2 mt-0.5">
+                          <p className="text-[11px] text-gray-500 line-clamp-2 mt-0.5 leading-relaxed">
                             {pageDesc}
                           </p>
                         </div>
-                        <ChevronRight className={`w-4 h-4 shrink-0 mt-2 ${isCurrent ? 'text-[#C8102E]' : 'text-gray-400'}`} />
+                        <ChevronRight className={`w-4 h-4 shrink-0 transition-transform group-hover:translate-x-0.5 ${isCurrent ? 'text-[#C8102E]' : 'text-gray-400'}`} />
                       </div>
                     );
                   })}
@@ -1074,9 +1074,8 @@ export const Navbar: React.FC<NavbarProps> = ({
                 <span className="text-[10px] font-black text-gray-400 uppercase tracking-wider block mb-2 px-1">
                   Customs Tools & Calculators
                 </span>
-                <div className="space-y-2">
+                <div className="space-y-2.5">
                   {filteredPages.filter(p => p.category === 'tools').map((page) => {
-                    const Icon = page.icon;
                     const isCurrent = active === page.id;
                     const pageTitle = page.titles[language] || page.titles.EN;
                     const pageDesc = page.descs[language] || page.descs.EN;
@@ -1084,31 +1083,31 @@ export const Navbar: React.FC<NavbarProps> = ({
                       <div
                         key={page.id}
                         onClick={() => handleNav(page.id)}
-                        className={`p-3 rounded-2xl border transition-all cursor-pointer flex items-start gap-3 select-none ${
+                        className={`group p-3 rounded-2xl border transition-all cursor-pointer flex items-center gap-3.5 select-none ${
                           isCurrent 
-                            ? 'bg-red-50/80 border-[#C8102E] shadow-xs' 
-                            : 'bg-white border-gray-200 hover:border-gray-300 hover:bg-gray-50'
+                            ? 'bg-red-50/90 border-[#C8102E] ring-1 ring-[#C8102E]/20 shadow-xs' 
+                            : 'bg-white border-gray-200 hover:border-gray-300 hover:bg-gray-50/80 hover:shadow-xs'
                         }`}
                       >
-                        <div className={`w-9 h-9 rounded-xl flex items-center justify-center shrink-0 ${page.bgLight}`}>
-                          <Icon className={`w-5 h-5 ${page.color}`} />
+                        <div className="shrink-0">
+                          <MenuVectorIcon id={page.id} className="w-11 h-11" />
                         </div>
                         <div className="flex-1 min-w-0">
                           <div className="flex items-center gap-2">
-                            <h4 className={`text-xs font-black truncate ${isCurrent ? 'text-[#C8102E]' : 'text-gray-900'}`}>
+                            <h4 className={`text-xs font-black truncate ${isCurrent ? 'text-[#C8102E]' : 'text-gray-900 group-hover:text-[#C8102E] transition-colors'}`}>
                               {pageTitle}
                             </h4>
                             {page.badge && (
-                              <span className={`text-[9px] font-black px-1.5 py-0.2 rounded uppercase ${page.badgeColor}`}>
+                              <span className={`text-[9px] font-black px-1.5 py-0.2 rounded uppercase shrink-0 ${page.badgeColor}`}>
                                 {page.badge}
                               </span>
                             )}
                           </div>
-                          <p className="text-[11px] text-gray-500 line-clamp-2 mt-0.5">
+                          <p className="text-[11px] text-gray-500 line-clamp-2 mt-0.5 leading-relaxed">
                             {pageDesc}
                           </p>
                         </div>
-                        <ChevronRight className={`w-4 h-4 shrink-0 mt-2 ${isCurrent ? 'text-[#C8102E]' : 'text-gray-400'}`} />
+                        <ChevronRight className={`w-4 h-4 shrink-0 transition-transform group-hover:translate-x-0.5 ${isCurrent ? 'text-[#C8102E]' : 'text-gray-400'}`} />
                       </div>
                     );
                   })}
@@ -1120,9 +1119,8 @@ export const Navbar: React.FC<NavbarProps> = ({
                 <span className="text-[10px] font-black text-gray-400 uppercase tracking-wider block mb-2 px-1">
                   Centers & Regulations
                 </span>
-                <div className="space-y-2">
+                <div className="space-y-2.5">
                   {filteredPages.filter(p => p.category === 'resources').map((page) => {
-                    const Icon = page.icon;
                     const isCurrent = active === page.id;
                     const pageTitle = page.titles[language] || page.titles.EN;
                     const pageDesc = page.descs[language] || page.descs.EN;
@@ -1130,31 +1128,31 @@ export const Navbar: React.FC<NavbarProps> = ({
                       <div
                         key={page.id}
                         onClick={() => handleNav(page.id)}
-                        className={`p-3 rounded-2xl border transition-all cursor-pointer flex items-start gap-3 select-none ${
+                        className={`group p-3 rounded-2xl border transition-all cursor-pointer flex items-center gap-3.5 select-none ${
                           isCurrent 
-                            ? 'bg-red-50/80 border-[#C8102E] shadow-xs' 
-                            : 'bg-white border-gray-200 hover:border-gray-300 hover:bg-gray-50'
+                            ? 'bg-red-50/90 border-[#C8102E] ring-1 ring-[#C8102E]/20 shadow-xs' 
+                            : 'bg-white border-gray-200 hover:border-gray-300 hover:bg-gray-50/80 hover:shadow-xs'
                         }`}
                       >
-                        <div className={`w-9 h-9 rounded-xl flex items-center justify-center shrink-0 ${page.bgLight}`}>
-                          <Icon className={`w-5 h-5 ${page.color}`} />
+                        <div className="shrink-0">
+                          <MenuVectorIcon id={page.id} className="w-11 h-11" />
                         </div>
                         <div className="flex-1 min-w-0">
                           <div className="flex items-center gap-2">
-                            <h4 className={`text-xs font-black truncate ${isCurrent ? 'text-[#C8102E]' : 'text-gray-900'}`}>
+                            <h4 className={`text-xs font-black truncate ${isCurrent ? 'text-[#C8102E]' : 'text-gray-900 group-hover:text-[#C8102E] transition-colors'}`}>
                               {pageTitle}
                             </h4>
                             {page.badge && (
-                              <span className={`text-[9px] font-black px-1.5 py-0.2 rounded uppercase ${page.badgeColor}`}>
+                              <span className={`text-[9px] font-black px-1.5 py-0.2 rounded uppercase shrink-0 ${page.badgeColor}`}>
                                 {page.badge}
                               </span>
                             )}
                           </div>
-                          <p className="text-[11px] text-gray-500 line-clamp-2 mt-0.5">
+                          <p className="text-[11px] text-gray-500 line-clamp-2 mt-0.5 leading-relaxed">
                             {pageDesc}
                           </p>
                         </div>
-                        <ChevronRight className={`w-4 h-4 shrink-0 mt-2 ${isCurrent ? 'text-[#C8102E]' : 'text-gray-400'}`} />
+                        <ChevronRight className={`w-4 h-4 shrink-0 transition-transform group-hover:translate-x-0.5 ${isCurrent ? 'text-[#C8102E]' : 'text-gray-400'}`} />
                       </div>
                     );
                   })}

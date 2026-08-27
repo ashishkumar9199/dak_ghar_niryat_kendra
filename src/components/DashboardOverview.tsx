@@ -1,21 +1,16 @@
 import React, { useState } from 'react';
 import { 
   Package, 
-  Sparkles, 
-  Calculator, 
-  MapPin, 
-  Search, 
   CheckCircle2, 
   ArrowRight, 
-  FileText, 
   FileCheck, 
   ArrowUpRight, 
-  AlertTriangle, 
   Plus 
 } from 'lucide-react';
 import { ExporterProfile, SupportedLanguage } from '../types';
 import { DnkLogo } from './DnkLogo';
 import { translations } from '../utils/translations';
+import { FeatureVectorIcon } from './DashboardFeatureIcons';
 
 interface DashboardOverviewProps {
   profile: ExporterProfile;
@@ -166,9 +161,9 @@ export const DashboardOverview: React.FC<DashboardOverviewProps> = ({
           className="group bg-white hover:bg-gradient-to-br hover:from-red-50/60 hover:to-white border-2 border-gray-200 hover:border-[#C8102E] rounded-2xl p-5 text-left transition-all shadow-xs hover:shadow-md flex flex-col justify-between cursor-pointer"
         >
           <div>
-            <div className="flex items-center justify-between mb-3">
-              <div className="w-11 h-11 rounded-xl bg-red-100 text-[#C8102E] group-hover:bg-[#C8102E] group-hover:text-white flex items-center justify-center font-black shadow-xs transition-all group-hover:scale-105">
-                <Package className="w-5 h-5" />
+            <div className="flex items-center justify-between mb-3.5">
+              <div className="w-13 h-13 rounded-2xl flex items-center justify-center font-black shadow-xs transition-all group-hover:scale-105">
+                <FeatureVectorIcon id="pbe" className="w-13 h-13" />
               </div>
               <span className="text-[9px] font-black text-[#C8102E] bg-red-50 border border-red-200 px-2 py-0.5 rounded-full uppercase">
                 CBIC 48/2018
@@ -197,9 +192,9 @@ export const DashboardOverview: React.FC<DashboardOverviewProps> = ({
           className="group bg-white hover:bg-gradient-to-br hover:from-amber-50/60 hover:to-white border-2 border-gray-200 hover:border-amber-500 rounded-2xl p-5 text-left transition-all shadow-xs hover:shadow-md flex flex-col justify-between cursor-pointer"
         >
           <div>
-            <div className="flex items-center justify-between mb-3">
-              <div className="w-11 h-11 rounded-xl bg-amber-100 text-[#8B6E00] group-hover:bg-[#FFC107] group-hover:text-[#990B20] flex items-center justify-center font-black shadow-xs transition-all group-hover:scale-105">
-                <Calculator className="w-5 h-5" />
+            <div className="flex items-center justify-between mb-3.5">
+              <div className="w-13 h-13 rounded-2xl flex items-center justify-center font-black shadow-xs transition-all group-hover:scale-105">
+                <FeatureVectorIcon id="tariff" className="w-13 h-13" />
               </div>
               <span className="text-[9px] font-black text-[#8B6E00] bg-amber-50 border border-amber-200 px-2 py-0.5 rounded-full uppercase">
                 CBIC FX Live
@@ -228,9 +223,9 @@ export const DashboardOverview: React.FC<DashboardOverviewProps> = ({
           className="group bg-white hover:bg-gradient-to-br hover:from-purple-50/60 hover:to-white border-2 border-gray-200 hover:border-purple-600 rounded-2xl p-5 text-left transition-all shadow-xs hover:shadow-md flex flex-col justify-between cursor-pointer"
         >
           <div>
-            <div className="flex items-center justify-between mb-3">
-              <div className="w-11 h-11 rounded-xl bg-purple-100 text-purple-700 group-hover:bg-purple-700 group-hover:text-white flex items-center justify-center font-black shadow-xs transition-all group-hover:scale-105">
-                <Search className="w-5 h-5" />
+            <div className="flex items-center justify-between mb-3.5">
+              <div className="w-13 h-13 rounded-2xl flex items-center justify-center font-black shadow-xs transition-all group-hover:scale-105">
+                <FeatureVectorIcon id="tracker" className="w-13 h-13" />
               </div>
               <span className="text-[9px] font-black text-purple-700 bg-purple-50 border border-purple-200 px-2 py-0.5 rounded-full uppercase">
                 ICES 1.5 FPO
@@ -259,9 +254,9 @@ export const DashboardOverview: React.FC<DashboardOverviewProps> = ({
           className="group bg-white hover:bg-gradient-to-br hover:from-blue-50/60 hover:to-white border-2 border-gray-200 hover:border-blue-600 rounded-2xl p-5 text-left transition-all shadow-xs hover:shadow-md flex flex-col justify-between cursor-pointer"
         >
           <div>
-            <div className="flex items-center justify-between mb-3">
-              <div className="w-11 h-11 rounded-xl bg-blue-100 text-blue-700 group-hover:bg-blue-700 group-hover:text-white flex items-center justify-center font-black shadow-xs transition-all group-hover:scale-105">
-                <Sparkles className="w-5 h-5" />
+            <div className="flex items-center justify-between mb-3.5">
+              <div className="w-13 h-13 rounded-2xl flex items-center justify-center font-black shadow-xs transition-all group-hover:scale-105">
+                <FeatureVectorIcon id="ai-advisor" className="w-13 h-13" />
               </div>
               <span className="text-[9px] font-black text-blue-700 bg-blue-50 border border-blue-200 px-2 py-0.5 rounded-full uppercase">
                 Grounded AI
@@ -293,9 +288,9 @@ export const DashboardOverview: React.FC<DashboardOverviewProps> = ({
           
           {/* Quick Track Input Bar */}
           <div className="bg-white border border-gray-200 rounded-2xl p-4 sm:p-5 shadow-xs flex flex-col sm:flex-row items-center justify-between gap-3">
-            <div className="flex items-center gap-3 w-full sm:w-auto">
-              <div className="w-9 h-9 rounded-xl bg-gray-100 flex items-center justify-center text-gray-700 shrink-0">
-                <Search className="w-4 h-4" />
+            <div className="flex items-center gap-3.5 w-full sm:w-auto">
+              <div className="shrink-0">
+                <FeatureVectorIcon id="barcode-scanner" className="w-11 h-11" />
               </div>
               <div>
                 <h4 className="text-xs font-black uppercase tracking-wider text-gray-800">
@@ -385,10 +380,10 @@ export const DashboardOverview: React.FC<DashboardOverviewProps> = ({
           {/* Exporter Readiness Summary Card */}
           <div className="bg-white border border-gray-200 rounded-3xl p-6 shadow-xs space-y-4">
             <div className="flex items-center justify-between">
-              <div className="flex items-center gap-2">
-                <FileCheck className="w-4 h-4 text-emerald-600" />
+              <div className="flex items-center gap-2.5">
+                <FeatureVectorIcon id="readiness" className="w-6 h-6" />
                 <h3 className="text-xs font-black uppercase tracking-wider text-gray-800">
-                  {isHindi ? 'निर्यात तत्परता' : 'Export Readiness'}
+                  {isHindi ? 'निर्यात तत्परता' : 'Export Readiness Items'}
                 </h3>
               </div>
               <button
@@ -438,53 +433,53 @@ export const DashboardOverview: React.FC<DashboardOverviewProps> = ({
               {isHindi ? 'उपयोगी लिंक्स व केंद्र' : 'Exporter Utilities'}
             </h4>
 
-            <div className="space-y-2">
+            <div className="space-y-2.5">
               <button
                 onClick={() => onNavigate('locator')}
-                className="w-full p-3 rounded-xl hover:bg-gray-50 border border-gray-200 text-left transition-colors flex items-center justify-between group cursor-pointer"
+                className="w-full p-3 rounded-2xl hover:bg-teal-50/50 border border-gray-200 hover:border-teal-300 text-left transition-all flex items-center justify-between group cursor-pointer"
               >
-                <div className="flex items-center gap-2.5">
-                  <div className="w-8 h-8 rounded-lg bg-emerald-50 text-emerald-700 flex items-center justify-center shrink-0">
-                    <MapPin className="w-4 h-4" />
+                <div className="flex items-center gap-3">
+                  <div className="shrink-0">
+                    <FeatureVectorIcon id="locator" className="w-10 h-10" />
                   </div>
                   <div>
-                    <span className="text-xs font-bold text-gray-800 block group-hover:text-emerald-700 transition-colors">
-                      {isHindi ? 'निकटतम DGNK केंद्र' : 'Find Nearest DGNK Post Office'}
+                    <span className="text-xs font-bold text-gray-900 block group-hover:text-teal-800 transition-colors">
+                      {isHindi ? 'निकटतम DGNK केंद्र' : 'Find Nearest DNK Office'}
                     </span>
                     <span className="text-[10px] text-gray-500">1000+ linked HPO counters</span>
                   </div>
                 </div>
-                <ArrowRight className="w-3.5 h-3.5 text-gray-400 group-hover:text-emerald-700 group-hover:translate-x-0.5 transition-all" />
+                <ArrowRight className="w-3.5 h-3.5 text-gray-400 group-hover:text-teal-700 group-hover:translate-x-0.5 transition-all" />
               </button>
 
               <button
                 onClick={() => onNavigate('prohibited')}
-                className="w-full p-3 rounded-xl hover:bg-gray-50 border border-gray-200 text-left transition-colors flex items-center justify-between group cursor-pointer"
+                className="w-full p-3 rounded-2xl hover:bg-orange-50/50 border border-gray-200 hover:border-orange-300 text-left transition-all flex items-center justify-between group cursor-pointer"
               >
-                <div className="flex items-center gap-2.5">
-                  <div className="w-8 h-8 rounded-lg bg-amber-50 text-amber-800 flex items-center justify-center shrink-0">
-                    <AlertTriangle className="w-4 h-4" />
+                <div className="flex items-center gap-3">
+                  <div className="shrink-0">
+                    <FeatureVectorIcon id="prohibited" className="w-10 h-10" />
                   </div>
                   <div>
-                    <span className="text-xs font-bold text-gray-800 block group-hover:text-amber-800 transition-colors">
+                    <span className="text-xs font-bold text-gray-900 block group-hover:text-orange-800 transition-colors">
                       {isHindi ? 'प्रतिबंधित वस्तुएं जांचें' : 'Prohibited Goods Screener'}
                     </span>
                     <span className="text-[10px] text-gray-500">CITES, liquids & dangerous goods</span>
                   </div>
                 </div>
-                <ArrowRight className="w-3.5 h-3.5 text-gray-400 group-hover:text-amber-800 group-hover:translate-x-0.5 transition-all" />
+                <ArrowRight className="w-3.5 h-3.5 text-gray-400 group-hover:text-orange-700 group-hover:translate-x-0.5 transition-all" />
               </button>
 
               <button
                 onClick={() => onNavigate('knowledge')}
-                className="w-full p-3 rounded-xl hover:bg-gray-50 border border-gray-200 text-left transition-colors flex items-center justify-between group cursor-pointer"
+                className="w-full p-3 rounded-2xl hover:bg-purple-50/50 border border-gray-200 hover:border-purple-300 text-left transition-all flex items-center justify-between group cursor-pointer"
               >
-                <div className="flex items-center gap-2.5">
-                  <div className="w-8 h-8 rounded-lg bg-purple-50 text-purple-700 flex items-center justify-center shrink-0">
-                    <FileText className="w-4 h-4" />
+                <div className="flex items-center gap-3">
+                  <div className="shrink-0">
+                    <FeatureVectorIcon id="circulars" className="w-10 h-10" />
                   </div>
                   <div>
-                    <span className="text-xs font-bold text-gray-800 block group-hover:text-purple-700 transition-colors">
+                    <span className="text-xs font-bold text-gray-900 block group-hover:text-purple-800 transition-colors">
                       {isHindi ? 'सर्कुलर व SOP हब' : 'CBIC Circulars & SOP Hub'}
                     </span>
                     <span className="text-[10px] text-gray-500">Notification 48/2018 & FTP 2023</span>
