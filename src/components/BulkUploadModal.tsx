@@ -194,37 +194,39 @@ Klaus Weber,DE,Berlin,"Friedrichstrasse 100",Varanasi Brocade Fabric,5007.90.00,
               </div>
 
               <div className="border border-gray-200 rounded-xl overflow-hidden max-h-60 overflow-y-auto">
-                <table className="w-full text-left text-xs">
-                  <thead className="bg-gray-100 text-gray-700 font-bold border-b border-gray-200">
-                    <tr>
-                      <th className="p-2.5">#</th>
-                      <th className="p-2.5">Recipient</th>
-                      <th className="p-2.5">Destination</th>
-                      <th className="p-2.5">Product & HS Code</th>
-                      <th className="p-2.5">Value</th>
-                      <th className="p-2.5">Status</th>
-                    </tr>
-                  </thead>
-                  <tbody className="divide-y divide-gray-100">
-                    {previewRows.map((row) => (
-                      <tr key={row.id} className="hover:bg-gray-50">
-                        <td className="p-2.5 font-bold text-gray-500">{row.id}</td>
-                        <td className="p-2.5 font-bold text-gray-900">{row.recipient}</td>
-                        <td className="p-2.5 text-gray-600">{row.country}</td>
-                        <td className="p-2.5">
-                          <span className="font-semibold text-gray-800 block">{row.product}</span>
-                          <span className="font-mono text-[10px] text-gray-500">{row.hsCode}</span>
-                        </td>
-                        <td className="p-2.5 font-bold text-gray-900">{row.value}</td>
-                        <td className="p-2.5">
-                          <span className="inline-flex items-center gap-1 text-[10px] font-black text-emerald-700 bg-emerald-100 px-1.5 py-0.5 rounded uppercase">
-                            <CheckCircle2 className="w-3 h-3" /> Valid
-                          </span>
-                        </td>
+                <div className="overflow-x-auto">
+                  <table className="w-full text-left text-xs min-w-[500px]">
+                    <thead className="bg-gray-100 text-gray-700 font-bold border-b border-gray-200">
+                      <tr>
+                        <th className="p-2.5">#</th>
+                        <th className="p-2.5">Recipient</th>
+                        <th className="p-2.5">Destination</th>
+                        <th className="p-2.5">Product & HS Code</th>
+                        <th className="p-2.5">Value</th>
+                        <th className="p-2.5">Status</th>
                       </tr>
-                    ))}
-                  </tbody>
-                </table>
+                    </thead>
+                    <tbody className="divide-y divide-gray-100">
+                      {previewRows.map((row) => (
+                        <tr key={row.id} className="hover:bg-gray-50">
+                          <td className="p-2.5 font-bold text-gray-500">{row.id}</td>
+                          <td className="p-2.5 font-bold text-gray-900">{row.recipient}</td>
+                          <td className="p-2.5 text-gray-600">{row.country}</td>
+                          <td className="p-2.5">
+                            <span className="font-semibold text-gray-800 block">{row.product}</span>
+                            <span className="font-mono text-[10px] text-gray-500">{row.hsCode}</span>
+                          </td>
+                          <td className="p-2.5 font-bold text-gray-900">{row.value}</td>
+                          <td className="p-2.5">
+                            <span className="inline-flex items-center gap-1 text-[10px] font-black text-emerald-700 bg-emerald-100 px-1.5 py-0.5 rounded uppercase">
+                              <CheckCircle2 className="w-3 h-3" /> Valid
+                            </span>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
               </div>
 
               {isSuccess ? (

@@ -57,10 +57,10 @@ export const ShipmentTracker: React.FC<{ initialArticleId?: string; language: Su
   ];
 
   return (
-    <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-6">
+    <div className="w-full max-w-5xl 2xl:max-w-6xl mx-auto px-3 sm:px-5 md:px-6 lg:px-8 py-4 sm:py-6 lg:py-8 space-y-4 sm:space-y-6">
       
       {/* Search Console */}
-      <div className="bg-white rounded-[28px] sm:rounded-[32px] border border-gray-200 p-6 sm:p-8 shadow-xs">
+      <div className="bg-white rounded-2xl sm:rounded-3xl border border-gray-200 p-4 sm:p-6 lg:p-8 shadow-xs">
         <div className="flex items-center gap-3.5 mb-2">
           <div className="w-12 h-12 rounded-2xl bg-red-100 text-[#D42426] flex items-center justify-center font-black">
             <Package className="w-6 h-6" />
@@ -159,26 +159,26 @@ export const ShipmentTracker: React.FC<{ initialArticleId?: string; language: Su
           </div>
 
           {/* Timeline Events */}
-          <div className="bg-white rounded-[28px] border border-gray-200 p-6 shadow-xs">
+          <div className="bg-white rounded-[28px] border border-gray-200 p-5 sm:p-6 shadow-xs">
             <h3 className="text-xs font-black uppercase tracking-wider text-gray-400 mb-6">
               Consignment Event History
             </h3>
 
-            <div className="relative pl-6 space-y-8 before:absolute before:left-2.5 before:top-2 before:bottom-2 before:w-0.5 before:bg-gray-200">
+            <div className="relative pl-7 space-y-6 before:absolute before:left-2.5 before:top-2 before:bottom-2 before:w-0.5 before:bg-gray-200">
               {trackingData.events.map((evt, idx) => {
                 const isLatest = idx === 0;
                 return (
                   <div key={idx} className="relative group">
                     {/* Timeline Node Dot */}
-                    <div className={`absolute -left-6 top-1 w-5 h-5 rounded-full border-2 flex items-center justify-center ${
+                    <div className={`absolute -left-7 top-1 w-5 h-5 rounded-full border-2 flex items-center justify-center ${
                       isLatest 
-                        ? 'bg-[#D42426] border-white shadow-md' 
+                        ? 'bg-[#D42426] border-white shadow-md ring-2 ring-red-200' 
                         : 'bg-white border-gray-300'
                     }`}>
                       {isLatest && <div className="w-1.5 h-1.5 bg-[#FFC107] rounded-full animate-ping" />}
                     </div>
 
-                    <div className="bg-gray-50 p-4 rounded-2xl border border-gray-100 hover:border-gray-200 transition-colors">
+                    <div className="bg-gray-50 p-3.5 sm:p-4 rounded-2xl border border-gray-100 hover:border-gray-200 transition-colors">
                       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1 mb-1">
                         <span className={`text-xs font-black ${isLatest ? 'text-[#D42426]' : 'text-gray-800'}`}>
                           {evt.status}

@@ -163,21 +163,21 @@ export const TariffCalculator: React.FC<{ language: SupportedLanguage; onBookSer
   const declaredValueSDR = Math.round(declaredValueINR / 115.2);
 
   return (
-    <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-6">
+    <div className="w-full max-w-[1440px] 2xl:max-w-[1600px] mx-auto px-3 sm:px-5 md:px-6 lg:px-8 xl:px-10 py-4 sm:py-6 lg:py-8 space-y-4 sm:space-y-6">
       
       {/* Header Banner */}
-      <div className="bg-white rounded-[28px] sm:rounded-[32px] border border-gray-200 p-6 sm:p-8 shadow-xs">
+      <div className="bg-white rounded-2xl sm:rounded-3xl border border-gray-200 p-4 sm:p-6 lg:p-8 shadow-xs">
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-          <div className="flex items-center gap-3.5">
-            <div className="w-12 h-12 rounded-2xl bg-red-100 text-[#C8102E] flex items-center justify-center font-black shrink-0 shadow-xs">
-              <Calculator className="w-6 h-6" />
+          <div className="flex items-center gap-3 sm:gap-3.5">
+            <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl sm:rounded-2xl bg-red-100 text-[#C8102E] flex items-center justify-center font-black shrink-0 shadow-xs">
+              <Calculator className="w-5 h-5 sm:w-6 sm:h-6" />
             </div>
             <div>
-              <div className="flex items-center gap-2">
-                <h2 className="text-xl sm:text-2xl font-black text-gray-900 tracking-tight">
+              <div className="flex items-center gap-2 flex-wrap">
+                <h2 className="text-lg sm:text-xl lg:text-2xl font-black text-gray-900 tracking-tight">
                   {isHindi ? 'भारतीय डाक अंतरराष्ट्रीय दर एवं मुद्रा कैलकुलेटर' : 'International Tariff & CBIC Currency Calculator'}
                 </h2>
-                <span className="hidden sm:inline-flex items-center gap-1 bg-amber-50 text-amber-900 border border-amber-300 text-[10px] font-black px-2 py-0.5 rounded-full uppercase">
+                <span className="inline-flex items-center gap-1 bg-amber-50 text-amber-900 border border-amber-300 text-[9px] sm:text-[10px] font-black px-2 py-0.5 rounded-full uppercase">
                   CBIC Sec 14 Live
                 </span>
               </div>
@@ -190,10 +190,10 @@ export const TariffCalculator: React.FC<{ language: SupportedLanguage; onBookSer
           </div>
 
           {/* Display Mode Toggle */}
-          <div className="flex items-center gap-1 bg-gray-100 p-1 rounded-2xl self-start md:self-auto border border-gray-200">
+          <div className="flex flex-wrap sm:flex-nowrap items-center gap-1 bg-gray-100 p-1 rounded-2xl w-full sm:w-auto border border-gray-200">
             <button
               onClick={() => setDisplayMode('dual')}
-              className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all ${
+              className={`flex-1 sm:flex-none px-3 py-1.5 rounded-xl text-xs font-bold transition-all text-center ${
                 displayMode === 'dual'
                   ? 'bg-white text-gray-900 shadow-xs'
                   : 'text-gray-600 hover:text-gray-900'
@@ -203,7 +203,7 @@ export const TariffCalculator: React.FC<{ language: SupportedLanguage; onBookSer
             </button>
             <button
               onClick={() => setDisplayMode('inr')}
-              className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all ${
+              className={`flex-1 sm:flex-none px-3 py-1.5 rounded-xl text-xs font-bold transition-all text-center ${
                 displayMode === 'inr'
                   ? 'bg-white text-[#C8102E] shadow-xs'
                   : 'text-gray-600 hover:text-gray-900'
@@ -213,7 +213,7 @@ export const TariffCalculator: React.FC<{ language: SupportedLanguage; onBookSer
             </button>
             <button
               onClick={() => setDisplayMode('foreign')}
-              className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all ${
+              className={`flex-1 sm:flex-none px-3 py-1.5 rounded-xl text-xs font-bold transition-all text-center ${
                 displayMode === 'foreign'
                   ? 'bg-white text-blue-700 shadow-xs'
                   : 'text-gray-600 hover:text-gray-900'

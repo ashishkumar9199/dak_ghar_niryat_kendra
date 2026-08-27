@@ -86,35 +86,35 @@ export const DashboardOverview: React.FC<DashboardOverviewProps> = ({
   };
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-6">
+    <div className="w-full max-w-[1440px] 2xl:max-w-[1600px] mx-auto px-3 sm:px-5 md:px-6 lg:px-8 xl:px-10 py-4 sm:py-6 lg:py-8 space-y-4 sm:space-y-6 lg:space-y-8">
       
       {/* 1. Clean Top Header with Exporter Stats & Primary CTA */}
-      <div className="bg-white border border-gray-200 rounded-3xl p-6 sm:p-7 shadow-xs">
-        <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+      <div className="bg-white border border-gray-200 rounded-2xl sm:rounded-3xl p-4 sm:p-6 lg:p-7 2xl:p-8 shadow-xs">
+        <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 sm:gap-6">
           
           {/* Welcome and Exporter Badges */}
-          <div className="flex items-start gap-4">
-            <DnkLogo variant="badge" size="lg" language={language} isHindi={isHindi} className="hidden sm:inline-flex mt-1" />
+          <div className="flex items-start gap-3 sm:gap-4">
+            <DnkLogo variant="badge" size="lg" language={language} isHindi={isHindi} className="hidden sm:inline-flex mt-1 shrink-0" />
             <div>
-              <div className="flex items-center gap-2 mb-1.5 flex-wrap">
-                <span className="bg-[#C8102E] text-white text-[10px] font-black px-2.5 py-0.5 rounded-full uppercase tracking-wider">
+              <div className="flex items-center gap-1.5 sm:gap-2 mb-1.5 flex-wrap">
+                <span className="bg-[#C8102E] text-white text-[9px] sm:text-[10px] font-black px-2 sm:px-2.5 py-0.5 rounded-full uppercase tracking-wider">
                   India Post DGNK
                 </span>
-                <span className="bg-emerald-50 text-emerald-800 border border-emerald-200 text-[10px] font-bold px-2 py-0.5 rounded-md flex items-center gap-1">
+                <span className="bg-emerald-50 text-emerald-800 border border-emerald-200 text-[9px] sm:text-[10px] font-bold px-2 py-0.5 rounded-md flex items-center gap-1">
                   <CheckCircle2 className="w-3 h-3 text-emerald-600" />
                   IEC: {profile.iecCode || 'Active'}
                 </span>
-                <span className="bg-blue-50 text-blue-800 border border-blue-200 text-[10px] font-bold px-2 py-0.5 rounded-md">
+                <span className="bg-blue-50 text-blue-800 border border-blue-200 text-[9px] sm:text-[10px] font-bold px-2 py-0.5 rounded-md">
                   LUT: 0% IGST (RFD-11)
                 </span>
               </div>
 
-              <h1 className="text-2xl sm:text-3xl font-black text-gray-900 tracking-tight">
+              <h1 className="text-xl sm:text-2xl lg:text-3xl font-black text-gray-900 tracking-tight">
                 {isHindi 
                   ? `नमस्ते, ${profile.contactPerson || profile.businessName || 'निर्यातक'}!` 
                   : `Welcome, ${profile.contactPerson || profile.businessName || 'Exporter'}!`}
               </h1>
-              <p className="text-gray-500 font-medium text-xs sm:text-sm mt-0.5">
+              <p className="text-gray-500 font-medium text-xs sm:text-sm mt-0.5 max-w-3xl">
                 {isHindi
                   ? 'डाक घर निर्यात केंद्र (DNK) डैशबोर्ड • इलेक्ट्रॉनिक PBE, डाक दरें और पार्सल ट्रैकिंग।'
                   : 'Dak Ghar Niryat Kendra Dashboard • Create Postal Bills of Export, check tariffs, and track consignments.'}
@@ -123,25 +123,25 @@ export const DashboardOverview: React.FC<DashboardOverviewProps> = ({
           </div>
 
           {/* Quick Metrics + Primary Action Button */}
-          <div className="flex items-center gap-3 flex-wrap sm:flex-nowrap">
-            <div className="px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-2xl text-center min-w-[95px]">
-              <span className="block text-[10px] font-bold text-gray-500 uppercase tracking-wider">
+          <div className="grid grid-cols-2 sm:flex sm:items-center gap-2.5 sm:gap-3 w-full lg:w-auto shrink-0">
+            <div className="px-3.5 sm:px-4 py-2 sm:py-2.5 bg-gray-50 border border-gray-200 rounded-xl sm:rounded-2xl text-center">
+              <span className="block text-[9px] sm:text-[10px] font-bold text-gray-500 uppercase tracking-wider">
                 {isHindi ? 'सक्रिय पार्सल' : 'Active Parcels'}
               </span>
-              <span className="text-lg sm:text-xl font-black text-[#C8102E]">12</span>
+              <span className="text-base sm:text-xl font-black text-[#C8102E]">12</span>
             </div>
 
-            <div className="px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-2xl text-center min-w-[110px]">
-              <span className="block text-[10px] font-bold text-gray-500 uppercase tracking-wider">
+            <div className="px-3.5 sm:px-4 py-2 sm:py-2.5 bg-gray-50 border border-gray-200 rounded-xl sm:rounded-2xl text-center">
+              <span className="block text-[9px] sm:text-[10px] font-bold text-gray-500 uppercase tracking-wider">
                 {isHindi ? 'फ्रैंकिंग बैलेंस' : 'Wallet Balance'}
               </span>
-              <span className="text-lg sm:text-xl font-black text-gray-900">₹{profile.walletBalance?.toLocaleString('en-IN') || '18,450'}</span>
+              <span className="text-base sm:text-xl font-black text-gray-900">₹{profile.walletBalance?.toLocaleString('en-IN') || '18,450'}</span>
             </div>
 
             {/* Primary Action Button */}
             <button
               onClick={() => onNavigate('wizard')}
-              className="px-5 py-3.5 bg-[#C8102E] hover:bg-[#A30D25] text-white rounded-2xl font-black text-xs sm:text-sm shadow-md hover:shadow-lg transition-all flex items-center justify-center gap-2 cursor-pointer shrink-0"
+              className="col-span-2 sm:col-auto w-full sm:w-auto px-4 sm:px-5 py-2.5 sm:py-3.5 bg-[#C8102E] hover:bg-[#A30D25] text-white rounded-xl sm:rounded-2xl font-black text-xs sm:text-sm shadow-md hover:shadow-lg transition-all flex items-center justify-center gap-2 cursor-pointer shrink-0"
             >
               <Plus className="w-4 h-4" strokeWidth={3} />
               <span>{isHindi ? 'नया PBE बनाएं' : 'New Export (PBE)'}</span>
@@ -152,7 +152,7 @@ export const DashboardOverview: React.FC<DashboardOverviewProps> = ({
       </div>
 
       {/* 2. Core 4-Action Quick Grid (Intuitive & User-Friendly) */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5 sm:gap-4 lg:gap-5 2xl:gap-6">
         
         {/* Action 1: Create PBE */}
         <button
@@ -281,22 +281,22 @@ export const DashboardOverview: React.FC<DashboardOverviewProps> = ({
       </div>
 
       {/* 3. Main Dashboard Grid (Clean 2-Column Structure) */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
         
         {/* Left Column (2 Cols): Recent Consignments & Quick Track Bar */}
-        <div className="lg:col-span-2 space-y-6">
+        <div className="lg:col-span-2 space-y-4 sm:space-y-6">
           
           {/* Quick Track Input Bar */}
-          <div className="bg-white border border-gray-200 rounded-2xl p-4 sm:p-5 shadow-xs flex flex-col sm:flex-row items-center justify-between gap-3">
-            <div className="flex items-center gap-3.5 w-full sm:w-auto">
+          <div className="bg-white border border-gray-200 rounded-2xl p-3.5 sm:p-5 shadow-xs flex flex-col sm:flex-row items-center justify-between gap-3">
+            <div className="flex items-center gap-3 sm:gap-3.5 w-full sm:w-auto">
               <div className="shrink-0">
-                <FeatureVectorIcon id="barcode-scanner" className="w-11 h-11" />
+                <FeatureVectorIcon id="barcode-scanner" className="w-9 h-9 sm:w-11 sm:h-11" />
               </div>
               <div>
                 <h4 className="text-xs font-black uppercase tracking-wider text-gray-800">
                   {isHindi ? 'त्वरित पार्सल ट्रैकिंग' : 'Quick Article Lookup'}
                 </h4>
-                <p className="text-[11px] text-gray-500 font-medium">
+                <p className="text-[10px] sm:text-[11px] text-gray-500 font-medium">
                   {isHindi ? '13-अंकीय UPU S10 बारकोड दर्ज करें' : 'Enter 13-digit barcode (e.g., EE928410294IN)'}
                 </p>
               </div>
@@ -321,7 +321,7 @@ export const DashboardOverview: React.FC<DashboardOverviewProps> = ({
           </div>
 
           {/* Recent Export Consignments List Card */}
-          <div className="bg-white border border-gray-200 rounded-3xl p-6 shadow-xs">
+          <div className="bg-white border border-gray-200 rounded-2xl sm:rounded-3xl p-4 sm:p-6 lg:p-7 shadow-xs">
             <div className="flex items-center justify-between mb-4">
               <div className="flex items-center gap-2">
                 <Package className="w-4 h-4 text-[#C8102E]" />
@@ -375,10 +375,10 @@ export const DashboardOverview: React.FC<DashboardOverviewProps> = ({
         </div>
 
         {/* Right Column (1 Col): Readiness & Essential Utilities */}
-        <div className="space-y-6">
+        <div className="space-y-4 sm:space-y-6">
           
           {/* Exporter Readiness Summary Card */}
-          <div className="bg-white border border-gray-200 rounded-3xl p-6 shadow-xs space-y-4">
+          <div className="bg-white border border-gray-200 rounded-2xl sm:rounded-3xl p-4 sm:p-6 shadow-xs space-y-4">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2.5">
                 <FeatureVectorIcon id="readiness" className="w-6 h-6" />
@@ -428,7 +428,7 @@ export const DashboardOverview: React.FC<DashboardOverviewProps> = ({
           </div>
 
           {/* Quick Exporter Utilities (Compact Links) */}
-          <div className="bg-white border border-gray-200 rounded-3xl p-5 shadow-xs">
+          <div className="bg-white border border-gray-200 rounded-2xl sm:rounded-3xl p-4 sm:p-5 shadow-xs">
             <h4 className="text-[11px] font-black uppercase tracking-wider text-gray-500 mb-3">
               {isHindi ? 'उपयोगी लिंक्स व केंद्र' : 'Exporter Utilities'}
             </h4>

@@ -95,8 +95,8 @@ export const NoticeTicker: React.FC<NoticeTickerProps> = ({
   const [currentIndex, setCurrentIndex] = useState(0);
 
   return (
-    <div className="bg-gradient-to-r from-amber-500 via-amber-400 to-[#FFC107] text-[#5c3e00] border-b border-amber-500/40 text-xs font-medium py-1.5 px-4 shadow-2xs">
-      <div className="max-w-7xl mx-auto flex items-center justify-between gap-3">
+    <div className="w-full max-w-full overflow-hidden bg-gradient-to-r from-amber-500 via-amber-400 to-[#FFC107] text-[#5c3e00] border-b border-amber-500/40 text-xs font-medium py-1.5 px-3 sm:px-5 md:px-6 lg:px-8 xl:px-10 shadow-2xs">
+      <div className="w-full max-w-[1440px] 2xl:max-w-[1600px] mx-auto flex items-center justify-between gap-2 sm:gap-3 min-w-0">
         
         {/* Left Notice Badge */}
         <div className="flex items-center gap-2 shrink-0">

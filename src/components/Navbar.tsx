@@ -55,6 +55,8 @@ interface NavbarProps {
   onOpenRagInspector: () => void;
   onOpenWallet?: () => void;
   onOpenBulkUpload?: () => void;
+  isMenuOpen?: boolean;
+  setIsMenuOpen?: (open: boolean) => void;
 }
 
 interface PageItem {
@@ -82,8 +84,13 @@ export const Navbar: React.FC<NavbarProps> = ({
   onOpenRagInspector,
   onOpenWallet,
   onOpenBulkUpload,
+  isMenuOpen: controlledIsMenuOpen,
+  setIsMenuOpen: controlledSetIsMenuOpen,
 }) => {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [internalMenuOpen, setInternalMenuOpen] = useState(false);
+  const isMenuOpen = controlledIsMenuOpen !== undefined ? controlledIsMenuOpen : internalMenuOpen;
+  const setIsMenuOpen = controlledSetIsMenuOpen || setInternalMenuOpen;
+
   const [menuSearch, setMenuSearch] = useState('');
   const [isLangDropdownOpen, setIsLangDropdownOpen] = useState(false);
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
@@ -449,29 +456,29 @@ export const Navbar: React.FC<NavbarProps> = ({
         <div className="h-1 w-full bg-gradient-to-r from-[#FF9933] via-white to-[#138808]" />
 
         {/* Main Branding & Navigation Container */}
-        <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-2.5 sm:py-3 flex items-center justify-between gap-3">
+        <div className="w-full max-w-[1440px] 2xl:max-w-[1600px] mx-auto px-2.5 sm:px-5 md:px-6 lg:px-8 xl:px-10 py-2 sm:py-3 flex items-center justify-between gap-2 sm:gap-3 min-w-0">
           
           {/* Left: 3-Line Mega Menu Button + National Emblem & India Post Brand */}
-          <div className="flex items-center gap-2.5 sm:gap-4">
+          <div className="flex items-center gap-1.5 sm:gap-4 min-w-0">
             
             {/* 3-Line Mega Menu Button */}
             <button
               id="btn-three-line-menu"
               onClick={() => setIsMenuOpen(true)}
-              className="group relative flex items-center gap-2 px-2.5 sm:px-3 py-2 rounded-xl bg-white/15 hover:bg-white/25 active:scale-95 border border-white/25 transition-all shadow-xs cursor-pointer"
+              className="group relative flex items-center gap-1.5 sm:gap-2 px-2 sm:px-3 py-1.5 sm:py-2 rounded-xl bg-white/15 hover:bg-white/25 active:scale-95 border border-white/25 transition-all shadow-xs cursor-pointer shrink-0"
               title={isHindi ? 'सभी सेवाएं, भाषा और टूल्स (मेन्यू)' : 'All Services, Language & Tools (Menu)'}
               aria-label="Open Navigation Menu"
             >
-              <div className="w-5 h-5 flex flex-col justify-center gap-1 shrink-0">
-                <span className="h-0.5 w-5 bg-[#FFC107] rounded-full group-hover:w-5 transition-all" />
-                <span className="h-0.5 w-3.5 bg-white rounded-full group-hover:w-5 transition-all" />
-                <span className="h-0.5 w-4.5 bg-[#FFC107] rounded-full group-hover:w-5 transition-all" />
+              <div className="w-4.5 h-4.5 sm:w-5 sm:h-5 flex flex-col justify-center gap-1 shrink-0">
+                <span className="h-0.5 w-4.5 sm:w-5 bg-[#FFC107] rounded-full group-hover:w-5 transition-all" />
+                <span className="h-0.5 w-3 sm:w-3.5 bg-white rounded-full group-hover:w-5 transition-all" />
+                <span className="h-0.5 w-4 sm:w-4.5 bg-[#FFC107] rounded-full group-hover:w-5 transition-all" />
               </div>
-              <div className="flex items-center gap-1.5">
+              <div className="flex items-center gap-1 sm:gap-1.5">
                 <span className="text-xs font-black tracking-wide uppercase text-white hidden md:inline-block">
                   Menu
                 </span>
-                <span className="text-[10px] font-bold px-1.5 py-0.2 rounded bg-amber-400/20 text-amber-300 border border-amber-400/30">
+                <span className="text-[9px] sm:text-[10px] font-bold px-1.5 py-0.2 rounded bg-amber-400/20 text-amber-300 border border-amber-400/30">
                   {currentLangObj.code}
                 </span>
               </div>
@@ -479,12 +486,12 @@ export const Navbar: React.FC<NavbarProps> = ({
 
             {/* Official DNK Brand Logo Lockup */}
             <div 
-              className="flex items-center gap-3 cursor-pointer group select-none" 
+              className="flex items-center gap-2 sm:gap-3 cursor-pointer group select-none min-w-0" 
               onClick={() => handleNav('dashboard')}
               id="brand-logo"
             >
               {/* Ashoka Lion Emblem Badge */}
-              <div className="hidden sm:flex flex-col items-center justify-center border-r border-white/20 pr-3">
+              <div className="hidden sm:flex flex-col items-center justify-center border-r border-white/20 pr-3 shrink-0">
                 <div className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center border border-white/30 text-amber-200">
                   <Award className="w-4 h-4 text-[#FFC107]" />
                 </div>
@@ -571,13 +578,13 @@ export const Navbar: React.FC<NavbarProps> = ({
           </nav>
 
           {/* Right Action Controls: Prepaid Wallet, Bulk Upload, Profile */}
-          <div className="flex items-center gap-2 sm:gap-2.5">
+          <div className="flex items-center gap-1.5 sm:gap-2.5 shrink-0">
             
             {/* Bulk Upload Button */}
             {onOpenBulkUpload && (
               <button
                 onClick={onOpenBulkUpload}
-                className="hidden xl:flex items-center gap-1.5 text-xs font-bold px-2.5 py-1.5 rounded-xl bg-white/10 hover:bg-white/20 text-amber-200 border border-white/20 transition-all"
+                className="hidden xl:flex items-center gap-1.5 text-xs font-bold px-2.5 py-1.5 rounded-xl bg-white/10 hover:bg-white/20 text-amber-200 border border-white/20 transition-all shrink-0"
                 title="Bulk Consignment Booking via CSV"
               >
                 <FileSpreadsheet className="w-3.5 h-3.5 text-[#FFC107]" />
@@ -589,15 +596,15 @@ export const Navbar: React.FC<NavbarProps> = ({
             {onOpenWallet && (
               <button
                 onClick={onOpenWallet}
-                className="flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 rounded-xl bg-gradient-to-r from-amber-500/30 to-amber-600/40 hover:from-amber-500/40 hover:to-amber-600/50 border border-amber-300/40 text-white transition-all shadow-2xs group"
+                className="flex items-center gap-1 sm:gap-1.5 px-2 sm:px-3 py-1 sm:py-1.5 rounded-xl bg-gradient-to-r from-amber-500/30 to-amber-600/40 hover:from-amber-500/40 hover:to-amber-600/50 border border-amber-300/40 text-white transition-all shadow-2xs group shrink-0"
                 title="Open DNK Prepaid Franking Wallet"
               >
-                <Wallet className="w-3.5 h-3.5 text-[#FFD54F] group-hover:scale-110 transition-transform" />
+                <Wallet className="w-3.5 h-3.5 text-[#FFD54F] group-hover:scale-110 transition-transform shrink-0" />
                 <div className="text-left">
-                  <span className="text-[9px] block text-amber-200 uppercase font-black leading-none">
+                  <span className="text-[8px] sm:text-[9px] block text-amber-200 uppercase font-black leading-none">
                     {t.navWallet}
                   </span>
-                  <span className="text-xs font-black text-white font-mono leading-tight">
+                  <span className="text-[11px] sm:text-xs font-black text-white font-mono leading-tight">
                     ₹{walletAmount.toLocaleString('en-IN')}
                   </span>
                 </div>
@@ -606,14 +613,14 @@ export const Navbar: React.FC<NavbarProps> = ({
 
             {/* Exporter KYC Profile / Login Button & Dropdown */}
             {isAuthenticated && currentUser ? (
-              <div className="relative" ref={userMenuRef}>
+              <div className="relative shrink-0" ref={userMenuRef}>
                 <button
                   id="btn-exporter-user-menu"
                   onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
-                  className="flex items-center gap-2 pl-2 pr-2.5 py-1.5 rounded-xl bg-black/25 hover:bg-black/35 border border-white/20 transition-all text-left cursor-pointer group"
+                  className="flex items-center gap-1.5 sm:gap-2 pl-1.5 sm:pl-2 pr-2 sm:pr-2.5 py-1 sm:py-1.5 rounded-xl bg-black/25 hover:bg-black/35 border border-white/20 transition-all text-left cursor-pointer group shrink-0"
                   title="Exporter Account & KYC Menu"
                 >
-                  <div className="w-7 h-7 rounded-lg bg-[#FFC107] text-[#990B20] flex items-center justify-center font-black text-xs shadow-xs shrink-0 group-hover:scale-105 transition-transform">
+                  <div className="w-6 h-6 sm:w-7 sm:h-7 rounded-lg bg-[#FFC107] text-[#990B20] flex items-center justify-center font-black text-xs shadow-xs shrink-0 group-hover:scale-105 transition-transform">
                     {currentUser.businessName ? currentUser.businessName.charAt(0).toUpperCase() : 'E'}
                   </div>
                   <div className="hidden sm:block">
@@ -629,7 +636,7 @@ export const Navbar: React.FC<NavbarProps> = ({
 
                 {/* Exporter Account Dropdown Menu */}
                 {isUserMenuOpen && (
-                  <div className="absolute right-0 mt-2 w-72 bg-white rounded-2xl shadow-2xl border border-gray-200 py-2 z-50 text-gray-800 animate-in fade-in zoom-in-95 duration-150">
+                  <div className="absolute right-0 mt-2 w-72 max-w-[calc(100vw-24px)] bg-white rounded-2xl shadow-2xl border border-gray-200 py-2 z-50 text-gray-800 animate-in fade-in zoom-in-95 duration-150">
                     
                     {/* User Card Header */}
                     <div className="px-4 py-3 border-b border-gray-100 bg-gray-50/80">
@@ -726,22 +733,22 @@ export const Navbar: React.FC<NavbarProps> = ({
                 )}
               </div>
             ) : (
-              <div className="flex items-center gap-1.5">
+              <div className="flex items-center gap-1 sm:gap-1.5 shrink-0">
                 <button
                   onClick={() => openAuthModal('login')}
-                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-white text-[#C8102E] hover:bg-amber-50 font-black text-xs shadow-xs transition-all cursor-pointer"
+                  className="flex items-center gap-1 sm:gap-1.5 px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-xl bg-white text-[#C8102E] hover:bg-amber-50 font-black text-xs shadow-xs transition-all cursor-pointer shrink-0"
                   title="Sign In to Dak Ghar Niryat Kendra"
                 >
-                  <LogIn className="w-3.5 h-3.5" />
+                  <LogIn className="w-3.5 h-3.5 shrink-0" />
                   <span>{isHindi ? 'लॉगिन' : 'Login'}</span>
                 </button>
 
                 <button
                   onClick={() => openAuthModal('register')}
-                  className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-black/25 hover:bg-black/35 border border-white/25 text-white font-black text-xs transition-all cursor-pointer"
+                  className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-black/25 hover:bg-black/35 border border-white/25 text-white font-black text-xs transition-all cursor-pointer shrink-0"
                   title="Register as New Exporter"
                 >
-                  <UserPlus className="w-3.5 h-3.5 text-[#FFC107]" />
+                  <UserPlus className="w-3.5 h-3.5 text-[#FFC107] shrink-0" />
                   <span>{isHindi ? 'पंजीकरण' : 'Register'}</span>
                 </button>
               </div>

@@ -234,13 +234,13 @@ export const ShipmentWizard: React.FC<ShipmentWizardProps> = ({
   ];
 
   return (
-    <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+    <div className="w-full max-w-5xl 2xl:max-w-6xl mx-auto px-3 sm:px-5 md:px-6 lg:px-8 py-4 sm:py-6 lg:py-8">
       
       {/* Step Progress Bar */}
-      <div className="bg-white rounded-xl border border-stone-200 p-4 sm:p-6 mb-6 shadow-2xs">
-        <div className="flex items-center justify-between text-xs font-bold text-stone-500 uppercase tracking-wider mb-3">
+      <div className="bg-white rounded-xl sm:rounded-2xl border border-stone-200 p-4 sm:p-6 mb-4 sm:mb-6 shadow-2xs">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between text-xs font-bold text-stone-500 uppercase tracking-wider mb-3 gap-1">
           <span>{isHindi ? `चरण ${currentStep} / 6` : `Step ${currentStep} of 6`}</span>
-          <span className="text-red-700 font-bold">
+          <span className="text-red-700 font-bold text-xs sm:text-sm">
             {currentStep === 1 && (isHindi ? 'निर्यातक व प्राप्तकर्ता' : '1. Exporter & Recipient')}
             {currentStep === 2 && (isHindi ? 'उत्पाद व एचएस कोड' : '2. Products & HS Codes')}
             {currentStep === 3 && (isHindi ? 'सीमा शुल्क घोषणा' : '3. Customs Declaration')}
@@ -251,7 +251,7 @@ export const ShipmentWizard: React.FC<ShipmentWizardProps> = ({
         </div>
 
         {/* Progress Dots */}
-        <div className="grid grid-cols-6 gap-2">
+        <div className="grid grid-cols-6 gap-1.5 sm:gap-2">
           {[1, 2, 3, 4, 5, 6].map(st => (
             <div
               key={st}
@@ -395,7 +395,7 @@ export const ShipmentWizard: React.FC<ShipmentWizardProps> = ({
                 </select>
               </div>
 
-              <div className="grid grid-cols-2 gap-2">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
                 <div>
                   <label className="block text-xs font-semibold text-stone-700 mb-1">Recipient Name *</label>
                   <input
@@ -429,7 +429,7 @@ export const ShipmentWizard: React.FC<ShipmentWizardProps> = ({
                 />
               </div>
 
-              <div className="grid grid-cols-3 gap-2">
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
                 <div>
                   <label className="block text-xs font-semibold text-stone-700 mb-1">City *</label>
                   <input
@@ -459,7 +459,7 @@ export const ShipmentWizard: React.FC<ShipmentWizardProps> = ({
                 </div>
               </div>
 
-              <div className="grid grid-cols-2 gap-2">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
                 <div>
                   <label className="block text-xs font-semibold text-stone-700 mb-1">Email (for delivery SMS)</label>
                   <input
@@ -485,7 +485,7 @@ export const ShipmentWizard: React.FC<ShipmentWizardProps> = ({
           <div className="flex justify-end pt-4 border-t border-stone-200">
             <button
               onClick={handleNextStep}
-              className="px-6 py-2.5 bg-red-700 hover:bg-red-800 text-white font-bold text-xs rounded-lg flex items-center gap-2 shadow-xs transition-colors"
+              className="w-full sm:w-auto justify-center px-6 py-2.5 bg-red-700 hover:bg-red-800 text-white font-bold text-xs rounded-lg flex items-center gap-2 shadow-xs transition-colors"
             >
               <span>{isHindi ? 'आगे बढ़ें: उत्पाद विवरण' : 'Next: Product Information'}</span>
               <ArrowRight className="w-4 h-4" />

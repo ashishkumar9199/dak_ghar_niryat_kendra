@@ -165,24 +165,24 @@ export const AIAssistant: React.FC<AIAssistantProps> = ({
   ];
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+    <div className="w-full max-w-[1440px] 2xl:max-w-[1600px] mx-auto px-3 sm:px-5 md:px-6 lg:px-8 xl:px-10 py-4 sm:py-6 lg:py-8">
       
       {/* Header Banner in Vibrant Theme */}
-      <div className="bg-[#D42426] rounded-[28px] sm:rounded-[32px] text-white p-6 sm:p-8 mb-6 shadow-lg relative overflow-hidden flex flex-col md:flex-row md:items-center justify-between gap-4">
+      <div className="bg-[#D42426] rounded-2xl sm:rounded-3xl text-white p-4 sm:p-6 lg:p-7 2xl:p-8 mb-4 sm:mb-6 shadow-lg relative overflow-hidden flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div className="relative z-10 max-w-3xl">
-          <div className="flex items-center gap-2 mb-2">
-            <span className="bg-[#FFC107] text-[#D42426] font-black text-[11px] px-2.5 py-0.5 rounded-full uppercase tracking-wider shadow-2xs">
+          <div className="flex items-center gap-2 mb-2 flex-wrap">
+            <span className="bg-[#FFC107] text-[#D42426] font-black text-[10px] sm:text-[11px] px-2.5 py-0.5 rounded-full uppercase tracking-wider shadow-2xs">
               Official RAG Assistant
             </span>
-            <span className="text-white/90 text-xs font-semibold flex items-center gap-1.5 bg-white/10 px-2.5 py-0.5 rounded-full border border-white/20">
+            <span className="text-white/90 text-[11px] sm:text-xs font-semibold flex items-center gap-1.5 bg-white/10 px-2.5 py-0.5 rounded-full border border-white/20">
               <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></span>
               Verified CBIC & DGFT Database
             </span>
           </div>
-          <h2 className="text-2xl sm:text-3xl font-black tracking-tight leading-tight">
+          <h2 className="text-xl sm:text-2xl lg:text-3xl font-black tracking-tight leading-tight">
             {isHindi ? 'DGNK एआई निर्यात सलाहकार' : 'DGNK AI Export Compliance Advisor'}
           </h2>
-          <p className="text-sm text-white/90 mt-1.5 leading-relaxed">
+          <p className="text-xs sm:text-sm text-white/90 mt-1.5 leading-relaxed">
             {isHindi
               ? 'आधिकारिक भारतीय डाक नियमों और अंतरराष्ट्रीय सीमा शुल्क दिशानिर्देशों के आधार पर सत्यापित सहायता प्राप्त करें।'
               : 'Grounded intelligence for MSMEs & artisans. Ask complex customs, documentation, or restriction questions in plain language.'}
@@ -192,7 +192,7 @@ export const AIAssistant: React.FC<AIAssistantProps> = ({
         <div className="flex items-center gap-3 shrink-0 relative z-10">
           <button
             onClick={onOpenRagInspector}
-            className="flex items-center gap-2 px-4 py-2.5 rounded-2xl bg-white/15 hover:bg-white/25 text-white text-xs font-black border border-white/30 transition-all shadow-sm"
+            className="flex items-center gap-2 px-3.5 sm:px-4 py-2 sm:py-2.5 rounded-xl sm:rounded-2xl bg-white/15 hover:bg-white/25 text-white text-xs font-black border border-white/30 transition-all shadow-sm cursor-pointer"
           >
             <Layers className="w-4 h-4 text-[#FFC107]" />
             <span>Inspect Semantic Vectors</span>
@@ -204,7 +204,7 @@ export const AIAssistant: React.FC<AIAssistantProps> = ({
       </div>
 
       {/* Main Chat Grid */}
-      <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-4 gap-4 sm:gap-6">
         
         {/* Left Sidebar: Exporter Profile Context & Quick Topics */}
         <div className="lg:col-span-1 space-y-4">
@@ -289,17 +289,17 @@ export const AIAssistant: React.FC<AIAssistantProps> = ({
         </div>
 
         {/* Right Area: Main Interactive Chat Console from Theme */}
-        <div className="lg:col-span-3 bg-white rounded-[28px] sm:rounded-[32px] border border-gray-200 shadow-sm flex flex-col h-[700px] overflow-hidden">
+        <div className="lg:col-span-3 bg-white rounded-[28px] sm:rounded-[32px] border border-gray-200 shadow-sm flex flex-col h-[520px] sm:h-[620px] lg:h-[700px] overflow-hidden order-1 lg:order-2">
           
           {/* Top Chat Subheader */}
-          <div className="px-6 py-4 border-b border-gray-100 bg-gray-50 flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 bg-[#D42426] rounded-full flex items-center justify-center text-[#FFC107] shadow-sm">
-                <Sparkles className="w-5 h-5" />
+          <div className="px-4 sm:px-6 py-3.5 sm:py-4 border-b border-gray-100 bg-gray-50 flex items-center justify-between">
+            <div className="flex items-center gap-2.5 sm:gap-3">
+              <div className="w-8 h-8 sm:w-10 sm:h-10 bg-[#D42426] rounded-full flex items-center justify-center text-[#FFC107] shadow-sm shrink-0">
+                <Sparkles className="w-4 h-4 sm:w-5 sm:h-5" />
               </div>
               <div>
-                <h4 className="text-base font-black text-gray-900 leading-tight">DGNK Assistant</h4>
-                <p className="text-xs text-green-600 font-bold flex items-center gap-1 mt-0.5">
+                <h4 className="text-sm sm:text-base font-black text-gray-900 leading-tight">DGNK Assistant</h4>
+                <p className="text-[10px] sm:text-xs text-green-600 font-bold flex items-center gap-1 mt-0.5">
                   <span className="w-1.5 h-1.5 bg-green-600 rounded-full animate-pulse"></span>
                   Grounded in Official Guidelines
                 </p>
@@ -308,15 +308,29 @@ export const AIAssistant: React.FC<AIAssistantProps> = ({
 
             <button
               onClick={() => setMessages([messages[0]])}
-              className="text-xs text-gray-400 hover:text-[#D42426] flex items-center gap-1 font-bold transition-colors"
+              className="text-xs text-gray-400 hover:text-[#D42426] flex items-center gap-1 font-bold transition-colors cursor-pointer"
             >
               <RefreshCw className="w-3.5 h-3.5" />
-              <span>Reset Chat</span>
+              <span className="hidden sm:inline">Reset Chat</span>
             </button>
           </div>
 
+          {/* Quick Horizontal Prompt Chips for mobile & tablet */}
+          <div className="lg:hidden px-3 py-2 bg-amber-50/60 border-b border-amber-100/80 overflow-x-auto flex gap-1.5 no-scrollbar select-none">
+            {suggestedQuestions.map((sq, i) => (
+              <button
+                key={i}
+                onClick={() => handleSendMessage(sq.query)}
+                disabled={loading}
+                className="whitespace-nowrap px-2.5 py-1 rounded-full bg-white border border-amber-200 text-[11px] font-bold text-gray-700 hover:bg-amber-100 hover:text-[#C8102E] transition-colors shrink-0 shadow-2xs cursor-pointer"
+              >
+                ✨ {sq.label}
+              </button>
+            ))}
+          </div>
+
           {/* Messages Scroll Area */}
-          <div className="flex-1 p-6 overflow-y-auto space-y-4">
+          <div className="flex-1 p-4 sm:p-6 overflow-y-auto space-y-4">
             {messages.map((msg) => {
               const isUser = msg.sender === 'user';
 

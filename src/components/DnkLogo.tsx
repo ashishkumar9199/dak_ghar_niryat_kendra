@@ -106,23 +106,23 @@ export const DnkLogo: React.FC<DnkLogoProps> = ({
 
   if (variant === 'full') {
     return (
-      <div className={`flex items-center gap-3 select-none ${className}`}>
+      <div className={`flex items-center gap-2.5 sm:gap-3 select-none min-w-0 ${className}`}>
         <LogoIcon />
-        <div className="flex flex-col">
-          <div className="flex items-center gap-1.5">
-            <span className={`font-black tracking-tight text-white ${selectedSize.textTitle}`}>
+        <div className="flex flex-col min-w-0">
+          <div className="flex items-center gap-1.5 min-w-0">
+            <span className={`font-black tracking-tight text-white truncate ${selectedSize.textTitle}`}>
               {t.portalTitle}
             </span>
-            <span className="bg-[#FFC107] text-[#990B20] text-[9px] font-black px-1.5 py-0.2 rounded-xs uppercase tracking-wider shadow-2xs">
+            <span className="bg-[#FFC107] text-[#990B20] text-[9px] font-black px-1.5 py-0.2 rounded-xs uppercase tracking-wider shadow-2xs shrink-0">
               DNK
             </span>
           </div>
-          <div className="flex items-center gap-1.5 text-white/80">
-            <span className={`font-medium tracking-wide ${selectedSize.textSub}`}>
+          <div className="flex items-center gap-1.5 text-white/80 min-w-0">
+            <span className={`font-medium tracking-wide truncate ${selectedSize.textSub}`}>
               {t.deptName}
             </span>
             <span className="text-white/40">•</span>
-            <span className={`font-bold text-[#FFC107] ${selectedSize.textSub}`}>
+            <span className={`font-bold text-[#FFC107] shrink-0 ${selectedSize.textSub}`}>
               India Post
             </span>
           </div>
@@ -133,18 +133,18 @@ export const DnkLogo: React.FC<DnkLogoProps> = ({
 
   // Default compact
   return (
-    <div className={`flex items-center gap-2.5 select-none ${className}`}>
+    <div className={`flex items-center gap-2 sm:gap-2.5 select-none min-w-0 ${className}`}>
       <LogoIcon />
-      <div className="flex flex-col">
-        <div className="flex items-center gap-1.5">
-          <span className={`font-black tracking-tight text-[#FFD54F] ${selectedSize.textTitle}`}>
+      <div className="flex flex-col min-w-0">
+        <div className="flex items-center gap-1.5 min-w-0">
+          <span className={`font-black tracking-tight text-[#FFD54F] truncate ${selectedSize.textTitle}`}>
             {t.portalTitle}
           </span>
-          <span className="bg-[#FFC107] text-[#990B20] text-[9px] font-black px-1.5 py-0.2 rounded-xs uppercase tracking-wider shadow-2xs">
+          <span className="bg-[#FFC107] text-[#990B20] text-[9px] font-black px-1.5 py-0.2 rounded-xs uppercase tracking-wider shadow-2xs shrink-0">
             DNK
           </span>
         </div>
-        <span className="text-[10px] text-white/80 font-medium tracking-wide">
+        <span className="text-[9px] sm:text-[10px] text-white/80 font-medium tracking-wide truncate hidden xs:block">
           {t.portalSubTitle}
         </span>
       </div>

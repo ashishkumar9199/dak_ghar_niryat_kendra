@@ -32,10 +32,10 @@ export const KnowledgeHub: React.FC<{ language: SupportedLanguage; onOpenRagInsp
   });
 
   return (
-    <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-6">
+    <div className="w-full max-w-6xl 2xl:max-w-[1440px] mx-auto px-3 sm:px-5 md:px-6 lg:px-8 py-4 sm:py-6 lg:py-8 space-y-4 sm:space-y-6">
       
       {/* Header Banner */}
-      <div className="bg-white rounded-[28px] border border-gray-200 p-6 sm:p-7 shadow-xs relative overflow-hidden">
+      <div className="bg-white rounded-2xl sm:rounded-3xl border border-gray-200 p-4 sm:p-6 lg:p-7 shadow-xs relative overflow-hidden">
         <div className="absolute top-0 left-0 right-0 h-1.5 bg-speedpost-stripes" />
 
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mt-1">
