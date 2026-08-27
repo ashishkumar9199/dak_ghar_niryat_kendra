@@ -48,6 +48,7 @@ export interface ExporterProfile {
   email?: string;
   preferredDGNK: string;
   businessCategory: string;
+  walletBalance?: number;
 }
 
 export interface ProductItem {

@@ -271,12 +271,62 @@ export const ShipmentWizard: React.FC<ShipmentWizardProps> = ({
       {currentStep === 1 && (
         <div className="bg-white rounded-xl border border-stone-200 p-6 shadow-2xs space-y-6">
           <div>
+            <div className="flex items-center gap-2 mb-1">
+              <span className="bg-[#C8102E] text-white text-[10px] font-black px-2 py-0.5 rounded uppercase tracking-wider">
+                CBIC 48/2018-Customs (N.T.)
+              </span>
+              <span className="text-xs text-gray-500 font-semibold">
+                Electronic Postal Bill of Export
+              </span>
+            </div>
             <h2 className="text-lg font-black text-stone-900">
-              {isHindi ? 'चरण 1: निर्यातक व गंतव्य प्राप्तकर्ता विवरण' : 'Step 1: Exporter & Overseas Consignee Details'}
+              {isHindi ? 'चरण 1: PBE प्रकार, निर्यातक व गंतव्य प्राप्तकर्ता विवरण' : 'Step 1: PBE Classification, Exporter & Consignee Details'}
             </h2>
             <p className="text-xs text-stone-500 mt-1">
-              Verify your DGNK registered credentials and specify the destination address in Latin script (English).
+              Select mandatory PBE statutory category and specify the overseas recipient address in Latin script (English).
             </p>
+          </div>
+
+          {/* Official PBE Type Selector */}
+          <div className="bg-amber-50/70 border border-amber-200 rounded-2xl p-4">
+            <label className="text-xs font-black text-stone-900 uppercase tracking-wider block mb-2">
+              {isHindi ? 'पोस्टल बिल ऑफ एक्सपोर्ट (PBE) श्रेणी चुनें *' : 'Select Statutory Postal Bill of Export (PBE) Category *'}
+            </label>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div 
+                onClick={() => setFormData(prev => ({ ...prev, categoryOfItem: 'Sold Goods (E-Commerce)' }))}
+                className={`p-3.5 rounded-xl border-2 cursor-pointer transition-all ${
+                  formData.categoryOfItem.includes('E-Commerce')
+                    ? 'bg-white border-[#C8102E] shadow-xs'
+                    : 'bg-white/60 border-stone-200 hover:border-stone-300'
+                }`}
+              >
+                <div className="flex items-center justify-between">
+                  <span className="font-black text-xs text-[#C8102E]">PBE-III (E-Commerce)</span>
+                  <span className="text-[10px] font-bold bg-amber-100 text-amber-900 px-1.5 py-0.5 rounded">B2C Retail</span>
+                </div>
+                <p className="text-[11px] text-stone-600 mt-1 leading-snug">
+                  For cross-border e-commerce orders sold via online marketplaces, Shopify, Amazon Global, Etsy or exporter website.
+                </p>
+              </div>
+
+              <div 
+                onClick={() => setFormData(prev => ({ ...prev, categoryOfItem: 'Commercial Export (B2B)' }))}
+                className={`p-3.5 rounded-xl border-2 cursor-pointer transition-all ${
+                  formData.categoryOfItem.includes('Commercial')
+                    ? 'bg-white border-[#C8102E] shadow-xs'
+                    : 'bg-white/60 border-stone-200 hover:border-stone-300'
+                }`}
+              >
+                <div className="flex items-center justify-between">
+                  <span className="font-black text-xs text-[#C8102E]">PBE-IV (Commercial / Other)</span>
+                  <span className="text-[10px] font-bold bg-blue-100 text-blue-900 px-1.5 py-0.5 rounded">B2B Trade</span>
+                </div>
+                <p className="text-[11px] text-stone-600 mt-1 leading-snug">
+                  For direct B2B wholesale consignments, trade samples, promotional exhibits, or non-marketplace commercial dispatches.
+                </p>
+              </div>
+            </div>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">

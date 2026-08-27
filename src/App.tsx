@@ -15,6 +15,8 @@ import { ShipmentTracker } from './components/ShipmentTracker';
 import { KnowledgeHub } from './components/KnowledgeHub';
 import { RagInspectorModal } from './components/RagInspectorModal';
 import { ExporterProfileModal } from './components/ExporterProfileModal';
+import { WalletModal } from './components/WalletModal';
+import { BulkUploadModal } from './components/BulkUploadModal';
 import { ExporterProfile } from './types';
 import { ShieldCheck, Heart, ExternalLink, Globe, Phone, Mail, Building } from 'lucide-react';
 
@@ -23,6 +25,8 @@ export default function App() {
   const [language, setLanguage] = useState<'EN' | 'HI'>('EN');
   const [isRagInspectorOpen, setIsRagInspectorOpen] = useState<boolean>(false);
   const [isProfileModalOpen, setIsProfileModalOpen] = useState<boolean>(false);
+  const [isWalletModalOpen, setIsWalletModalOpen] = useState<boolean>(false);
+  const [isBulkUploadModalOpen, setIsBulkUploadModalOpen] = useState<boolean>(false);
   const [assistantInitialQuery, setAssistantInitialQuery] = useState<string>('');
   const [trackerInitialArticleId, setTrackerInitialArticleId] = useState<string>('EE928410294IN');
 
@@ -39,7 +43,8 @@ export default function App() {
     hasLUT: true,
     lutNumber: 'AD0903250084712',
     adCode: '02819405820194',
-    preferredDGNK: 'Varanasi Cantt HPO DGNK (221002)'
+    preferredDGNK: 'Varanasi Cantt HPO DGNK (221002)',
+    walletBalance: 18450
   });
 
   const handleNavigate = (tab: string) => {
@@ -59,10 +64,15 @@ export default function App() {
     }
   };
 
+  const handleBulkProcessed = (count: number) => {
+    alert(`Successfully imported batch of ${count} export consignments. Ready for PBE generation!`);
+    setCurrentTab('wizard');
+  };
+
   return (
     <div className="min-h-screen bg-[#F8F9FA] text-gray-800 flex flex-col font-sans selection:bg-[#FFC107] selection:text-[#D42426]">
       
-      {/* Top Navbar */}
+      {/* Official India Post DGNK Top Navbar */}
       <Navbar
         currentTab={currentTab}
         onNavigate={handleNavigate}
@@ -70,6 +80,8 @@ export default function App() {
         onToggleLanguage={() => setLanguage(l => l === 'EN' ? 'HI' : 'EN')}
         onOpenRagInspector={() => setIsRagInspectorOpen(true)}
         onOpenProfile={() => setIsProfileModalOpen(true)}
+        onOpenWallet={() => setIsWalletModalOpen(true)}
+        onOpenBulkUpload={() => setIsBulkUploadModalOpen(true)}
         profile={profile}
       />
 
@@ -157,6 +169,24 @@ export default function App() {
         onSaveProfile={(newProf) => setProfile(newProf)}
       />
 
+      {/* Exporter Prepaid Franking Wallet Modal */}
+      <WalletModal
+        isOpen={isWalletModalOpen}
+        onClose={() => setIsWalletModalOpen(false)}
+        profile={profile}
+        language={language}
+        onUpdateBalance={(newBal) => setProfile(p => ({ ...p, walletBalance: newBal }))}
+      />
+
+      {/* Batch Consignment Upload Modal */}
+      <BulkUploadModal
+        isOpen={isBulkUploadModalOpen}
+        onClose={() => setIsBulkUploadModalOpen(false)}
+        language={language}
+        profile={profile}
+        onBulkProcessed={handleBulkProcessed}
+      />
+
       {/* Footer from Vibrant Palette theme */}
       <footer className="bg-gray-900 text-gray-400 border-t border-gray-800 text-[11px] flex-shrink-0">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -166,15 +196,15 @@ export default function App() {
                 IP
               </div>
               <div className="flex flex-wrap items-center gap-2 uppercase font-bold tracking-widest text-[10px]">
-                <span className="text-white">© {new Date().getFullYear()} INDIA POST DGNK</span>
+                <span className="text-white">© {new Date().getFullYear()} DAK GHAR NIRYAT KENDRA (DNK) • INDIA POST</span>
                 <span className="text-gray-600">|</span>
-                <span>MSME SUPPORT HELPLINE: 1800-266-6868</span>
+                <span>MSME EXPORT HELPLINE: 1800-266-6868</span>
               </div>
             </div>
 
             <div className="flex items-center gap-6 uppercase font-bold tracking-widest text-[10px]">
               <button onClick={() => handleNavigate('knowledge')} className="hover:text-[#FFC107] transition-colors">
-                CBIC Guidelines
+                CBIC Circulars
               </button>
               <button onClick={() => handleNavigate('knowledge')} className="hover:text-[#FFC107] transition-colors">
                 DGFT FTP 2023
