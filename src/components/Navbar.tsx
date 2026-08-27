@@ -441,120 +441,6 @@ export const Navbar: React.FC<NavbarProps> = ({
 
   return (
     <>
-      {/* 1. Official Government of India Top Accessibility Bar */}
-      <div className="bg-[#212529] text-gray-200 text-[11px] font-medium py-1 px-3 sm:px-6 border-b border-gray-700 select-none">
-        <div className="max-w-7xl mx-auto flex items-center justify-between gap-3">
-          
-          {/* Ministry & Govt Hierarchy */}
-          <div className="flex items-center gap-2 overflow-hidden truncate">
-            <span className="text-gray-300 hidden sm:inline">
-              {t.ministryName}
-            </span>
-            <span className="text-gray-500 hidden sm:inline">|</span>
-            <span className="text-amber-300 font-bold hidden md:inline">
-              {t.deptName}
-            </span>
-          </div>
-
-          {/* Accessibility Controls & Multi-Language Selector */}
-          <div className="flex items-center gap-3 shrink-0">
-            
-            {/* Skip to main content */}
-            <a 
-              href="#brand-logo" 
-              className="text-gray-400 hover:text-white text-[10px] hidden lg:inline focus:underline"
-            >
-              {t.skipToMain}
-            </a>
-
-            {/* Font Size Adjusters */}
-            <div className="flex items-center bg-gray-800 rounded px-1 py-0.5 border border-gray-700 text-[10px] font-bold">
-              <button 
-                onClick={() => handleFontSizeChange('small')}
-                className={`px-1.5 hover:text-white transition-colors ${fontSizeClass === 'small' ? 'text-[#FFC107]' : 'text-gray-400'}`}
-                title="Decrease Font Size"
-              >
-                A-
-              </button>
-              <button 
-                onClick={() => handleFontSizeChange('normal')}
-                className={`px-1.5 hover:text-white transition-colors ${fontSizeClass === 'normal' ? 'text-[#FFC107]' : 'text-gray-400'}`}
-                title="Standard Font Size"
-              >
-                A
-              </button>
-              <button 
-                onClick={() => handleFontSizeChange('large')}
-                className={`px-1.5 hover:text-white transition-colors ${fontSizeClass === 'large' ? 'text-[#FFC107]' : 'text-gray-400'}`}
-                title="Increase Font Size"
-              >
-                A+
-              </button>
-            </div>
-
-            {/* 10-Language Selector Dropdown */}
-            <div className="relative" ref={langDropdownRef}>
-              <button
-                id="btn-language-selector"
-                onClick={() => setIsLangDropdownOpen(prev => !prev)}
-                className="px-2.5 py-1 rounded bg-amber-400/20 hover:bg-amber-400/30 border border-amber-400/40 text-[11px] font-bold text-amber-300 transition-colors flex items-center gap-1.5 cursor-pointer shadow-2xs"
-                title="Change Language / भाषा चुनें (10 Languages)"
-                aria-expanded={isLangDropdownOpen}
-              >
-                <Globe className="w-3.5 h-3.5 text-amber-300 shrink-0" />
-                <span className="font-extrabold">{currentLangObj.nativeName}</span>
-                <span className="text-[9px] text-amber-200/80 font-mono hidden sm:inline">({currentLangObj.code})</span>
-                <ChevronDown className={`w-3 h-3 text-amber-300 transition-transform ${isLangDropdownOpen ? 'rotate-180' : ''}`} />
-              </button>
-
-              {/* Language Dropdown Menu */}
-              {isLangDropdownOpen && (
-                <div 
-                  id="dropdown-language-options"
-                  className="absolute right-0 top-full mt-1.5 w-60 bg-gray-900 border border-gray-700 rounded-xl shadow-2xl z-50 py-2 overflow-hidden animate-in fade-in zoom-in-95 duration-150 backdrop-blur-md"
-                >
-                  <div className="px-3 py-1.5 border-b border-gray-800 flex items-center justify-between text-[10px] text-gray-400 font-bold uppercase tracking-wider">
-                    <span>Select Language (10)</span>
-                    <span className="text-amber-400 font-black">भाषा चुनें</span>
-                  </div>
-                  
-                  <div className="max-h-72 overflow-y-auto py-1 divide-y divide-gray-800/50">
-                    {SUPPORTED_LANGUAGES.map((lang) => {
-                      const isSelected = lang.code === language;
-                      return (
-                        <button
-                          key={lang.code}
-                          onClick={() => handleSelectLang(lang.code)}
-                          className={`w-full px-3 py-2 text-left flex items-center justify-between transition-colors text-xs ${
-                            isSelected
-                              ? 'bg-amber-400/20 text-amber-300 font-black'
-                              : 'text-gray-200 hover:bg-gray-800 hover:text-white'
-                          }`}
-                        >
-                          <div className="flex flex-col">
-                            <span className="font-bold text-sm tracking-wide">
-                              {lang.nativeName}
-                            </span>
-                            <span className="text-[10px] text-gray-400 font-medium">
-                              {lang.name} • <span className="font-mono text-gray-500">{lang.code}</span>
-                            </span>
-                          </div>
-                          {isSelected && (
-                            <Check className="w-4 h-4 text-amber-400 shrink-0" />
-                          )}
-                        </button>
-                      );
-                    })}
-                  </div>
-                </div>
-              )}
-            </div>
-
-          </div>
-
-        </div>
-      </div>
-
       {/* 2. Main India Post & DGNK Portal Header */}
       <header className="sticky top-0 z-40 bg-gradient-to-r from-[#990B20] via-[#C8102E] to-[#A60D24] text-white shadow-lg flex-shrink-0 border-b border-red-950/40">
         
@@ -572,7 +458,7 @@ export const Navbar: React.FC<NavbarProps> = ({
               id="btn-three-line-menu"
               onClick={() => setIsMenuOpen(true)}
               className="group relative flex items-center gap-2 px-2.5 sm:px-3 py-2 rounded-xl bg-white/15 hover:bg-white/25 active:scale-95 border border-white/25 transition-all shadow-xs cursor-pointer"
-              title={isHindi ? 'सभी सेवाएं (मेन्यू)' : 'All Services & Tools (Menu)'}
+              title={isHindi ? 'सभी सेवाएं, भाषा और टूल्स (मेन्यू)' : 'All Services, Language & Tools (Menu)'}
               aria-label="Open Navigation Menu"
             >
               <div className="w-5 h-5 flex flex-col justify-center gap-1 shrink-0">
@@ -580,9 +466,14 @@ export const Navbar: React.FC<NavbarProps> = ({
                 <span className="h-0.5 w-3.5 bg-white rounded-full group-hover:w-5 transition-all" />
                 <span className="h-0.5 w-4.5 bg-[#FFC107] rounded-full group-hover:w-5 transition-all" />
               </div>
-              <span className="text-xs font-black tracking-wide uppercase text-white hidden md:inline-block">
-                Menu
-              </span>
+              <div className="flex items-center gap-1.5">
+                <span className="text-xs font-black tracking-wide uppercase text-white hidden md:inline-block">
+                  Menu
+                </span>
+                <span className="text-[10px] font-bold px-1.5 py-0.2 rounded bg-amber-400/20 text-amber-300 border border-amber-400/30">
+                  {currentLangObj.code}
+                </span>
+              </div>
             </button>
 
             {/* Official DNK Brand Logo Lockup */}
@@ -1039,6 +930,80 @@ export const Navbar: React.FC<NavbarProps> = ({
                   </div>
                 </div>
               )}
+            </div>
+
+            {/* Government Hierarchy & Font Accessibility Banner */}
+            <div className="bg-[#1F2429] text-gray-300 px-4 py-2 border-b border-gray-800 text-[11px] font-semibold flex items-center justify-between gap-2 shrink-0">
+              <div className="flex items-center gap-2 truncate">
+                <span className="text-[#FFC107] font-black shrink-0">भारत सरकार</span>
+                <span className="text-gray-600">|</span>
+                <span className="truncate text-gray-300 text-[10.5px]">
+                  {t.ministryName} • {t.deptName}
+                </span>
+              </div>
+              
+              {/* Font Size Accessibility Controls */}
+              <div className="flex items-center bg-gray-800 rounded px-1.5 py-0.5 border border-gray-700 text-[10px] font-bold shrink-0">
+                <span className="text-[9px] text-gray-400 mr-1 hidden sm:inline">Text:</span>
+                <button 
+                  onClick={() => handleFontSizeChange('small')}
+                  className={`px-1.5 py-0.5 rounded hover:text-white transition-colors cursor-pointer ${fontSizeClass === 'small' ? 'bg-amber-400/20 text-[#FFC107] font-black' : 'text-gray-400'}`}
+                  title="Decrease Font Size (A-)"
+                >
+                  A-
+                </button>
+                <button 
+                  onClick={() => handleFontSizeChange('normal')}
+                  className={`px-1.5 py-0.5 rounded hover:text-white transition-colors cursor-pointer ${fontSizeClass === 'normal' ? 'bg-amber-400/20 text-[#FFC107] font-black' : 'text-gray-400'}`}
+                  title="Standard Font Size (A)"
+                >
+                  A
+                </button>
+                <button 
+                  onClick={() => handleFontSizeChange('large')}
+                  className={`px-1.5 py-0.5 rounded hover:text-white transition-colors cursor-pointer ${fontSizeClass === 'large' ? 'bg-amber-400/20 text-[#FFC107] font-black' : 'text-gray-400'}`}
+                  title="Increase Font Size (A+)"
+                >
+                  A+
+                </button>
+              </div>
+            </div>
+
+            {/* 10-Language Selector Section */}
+            <div className="p-3 bg-amber-50/80 border-b border-amber-200/90 shrink-0">
+              <div className="flex items-center justify-between mb-2">
+                <span className="text-[11px] font-black uppercase tracking-wider text-gray-800 flex items-center gap-1.5">
+                  <Globe className="w-3.5 h-3.5 text-[#C8102E]" />
+                  <span>{isHindi ? 'भाषा चुनें (10 भाषाएं)' : 'Select Language (10 Languages)'}</span>
+                </span>
+                <span className="text-[10px] font-bold px-2 py-0.5 rounded bg-amber-200/80 text-amber-950 font-mono">
+                  {currentLangObj.nativeName} ({currentLangObj.code})
+                </span>
+              </div>
+              <div className="grid grid-cols-2 sm:grid-cols-5 gap-1.5">
+                {SUPPORTED_LANGUAGES.map((lang) => {
+                  const isSelected = lang.code === language;
+                  return (
+                    <button
+                      key={lang.code}
+                      onClick={() => handleSelectLang(lang.code)}
+                      className={`p-1.5 rounded-xl border text-left flex flex-col justify-between transition-all cursor-pointer ${
+                        isSelected
+                          ? 'bg-[#990B20] text-white border-[#990B20] shadow-xs'
+                          : 'bg-white hover:bg-gray-100/90 text-gray-800 border-gray-200'
+                      }`}
+                    >
+                      <div className="flex items-center justify-between">
+                        <span className="text-xs font-black truncate">{lang.nativeName}</span>
+                        {isSelected && <Check className="w-3 h-3 text-amber-300 shrink-0" />}
+                      </div>
+                      <span className={`text-[9px] font-medium truncate mt-0.5 ${isSelected ? 'text-amber-200' : 'text-gray-500'}`}>
+                        {lang.name} • {lang.code}
+                      </span>
+                    </button>
+                  );
+                })}
+              </div>
             </div>
 
             {/* Search Filter Input in Menu */}
