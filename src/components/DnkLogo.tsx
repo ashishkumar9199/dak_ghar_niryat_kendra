@@ -1,18 +1,25 @@
 import React from 'react';
+import { SupportedLanguage } from '../types';
+import { translations } from '../utils/translations';
 
 interface DnkLogoProps {
   variant?: 'full' | 'compact' | 'badge' | 'white';
   size?: 'sm' | 'md' | 'lg' | 'xl';
   className?: string;
   isHindi?: boolean;
+  language?: SupportedLanguage;
 }
 
 export const DnkLogo: React.FC<DnkLogoProps> = ({
   variant = 'compact',
   size = 'md',
   className = '',
-  isHindi = false
+  isHindi = false,
+  language
 }) => {
+  const langKey: SupportedLanguage = language ? language : (isHindi ? 'HI' : 'EN');
+  const t = translations[langKey] || translations.EN;
+
   // Dimensions based on size
   const sizeMap = {
     sm: { iconSize: 'w-8 h-8', textTitle: 'text-xs', textSub: 'text-[9px]' },
@@ -53,7 +60,7 @@ export const DnkLogo: React.FC<DnkLogoProps> = ({
         <path d="M14 50 A36 36 0 0 1 86 50" stroke="#FFFFFF" strokeWidth="1.5" strokeOpacity="0.25" strokeDasharray="3 3" />
         <path d="M50 14 A36 36 0 0 1 50 86" stroke="#FFFFFF" strokeWidth="1.5" strokeOpacity="0.25" strokeDasharray="3 3" />
 
-        {/* India Post Iconic Soaring Wing (Dynamic Feather Shapes) */}
+        {/* India Post Iconic Soaring Wing */}
         <path 
           d="M20 74 L46 22 C48 18 54 18 56 22 L82 74 C80 66 74 60 66 58 L52 38 L36 58 C28 60 22 66 20 74 Z" 
           fill="url(#dnkGoldGrad)" 
@@ -63,7 +70,7 @@ export const DnkLogo: React.FC<DnkLogoProps> = ({
           fill="#FFFFFF" 
         />
 
-        {/* Export Arrow Overlay (Signifying Cross-Border Cargo Export) */}
+        {/* Export Arrow Overlay */}
         <path 
           d="M51 26 L64 39 H56 V55 H46 V39 H38 L51 26 Z" 
           fill="#C8102E" 
@@ -104,7 +111,7 @@ export const DnkLogo: React.FC<DnkLogoProps> = ({
         <div className="flex flex-col">
           <div className="flex items-center gap-1.5">
             <span className={`font-black tracking-tight text-white ${selectedSize.textTitle}`}>
-              {isHindi ? 'डाक घर निर्यात केंद्र' : 'DAK GHAR NIRYAT KENDRA'}
+              {t.portalTitle}
             </span>
             <span className="bg-[#FFC107] text-[#990B20] text-[9px] font-black px-1.5 py-0.2 rounded-xs uppercase tracking-wider shadow-2xs">
               DNK
@@ -112,7 +119,7 @@ export const DnkLogo: React.FC<DnkLogoProps> = ({
           </div>
           <div className="flex items-center gap-1.5 text-white/80">
             <span className={`font-medium tracking-wide ${selectedSize.textSub}`}>
-              {isHindi ? 'डाक विभाग' : 'Department of Posts'}
+              {t.deptName}
             </span>
             <span className="text-white/40">•</span>
             <span className={`font-bold text-[#FFC107] ${selectedSize.textSub}`}>
@@ -131,14 +138,14 @@ export const DnkLogo: React.FC<DnkLogoProps> = ({
       <div className="flex flex-col">
         <div className="flex items-center gap-1.5">
           <span className={`font-black tracking-tight text-[#FFD54F] ${selectedSize.textTitle}`}>
-            {isHindi ? 'डाक घर निर्यात केंद्र' : 'Dak Ghar Niryat Kendra'}
+            {t.portalTitle}
           </span>
           <span className="bg-[#FFC107] text-[#990B20] text-[9px] font-black px-1.5 py-0.2 rounded-xs uppercase tracking-wider shadow-2xs">
             DNK
           </span>
         </div>
         <span className="text-[10px] text-white/80 font-medium tracking-wide">
-          {isHindi ? 'डाक विभाग • भारत सरकार' : 'Department of Posts • India Post'}
+          {t.portalSubTitle}
         </span>
       </div>
     </div>

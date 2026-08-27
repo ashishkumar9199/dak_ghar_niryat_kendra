@@ -12,6 +12,7 @@ import {
   ExternalLink,
   ArrowRight
 } from 'lucide-react';
+import { SupportedLanguage } from '../types';
 
 interface ItemRegulation {
   id: string;
@@ -24,11 +25,11 @@ interface ItemRegulation {
   packagingRequirement: string;
 }
 
-export const ProhibitedChecker: React.FC<{ language: 'EN' | 'HI'; onAskAI?: (q: string) => void }> = ({
+export const ProhibitedChecker: React.FC<{ language: SupportedLanguage; onAskAI?: (q: string) => void }> = ({
   language,
   onAskAI
 }) => {
-  const isHindi = language === 'HI';
+  const isHindi = language === 'HI' || language === 'MAI';
 
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('ALL');

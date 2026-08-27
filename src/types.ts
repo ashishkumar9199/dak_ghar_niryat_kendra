@@ -1,3 +1,12 @@
+export type SupportedLanguage = 'EN' | 'HI' | 'KN' | 'TA' | 'ML' | 'PA' | 'TE' | 'GU' | 'MAI' | 'FR';
+
+export interface LanguageOption {
+  code: SupportedLanguage;
+  name: string;
+  nativeName: string;
+  script: string;
+}
+
 export interface KnowledgeChunk {
   id: string;
   category: 'dgnk_sop' | 'customs_cbic' | 'dgft_ftp' | 'packaging_upu' | 'country_rules' | 'prohibited_items';

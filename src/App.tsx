@@ -18,12 +18,12 @@ import { ExporterProfileModal } from './components/ExporterProfileModal';
 import { WalletModal } from './components/WalletModal';
 import { BulkUploadModal } from './components/BulkUploadModal';
 import { DnkLogo } from './components/DnkLogo';
-import { ExporterProfile } from './types';
+import { ExporterProfile, SupportedLanguage } from './types';
 import { ShieldCheck, Heart, ExternalLink, Globe, Phone, Mail, Building } from 'lucide-react';
 
 export default function App() {
   const [currentTab, setCurrentTab] = useState<string>('dashboard');
-  const [language, setLanguage] = useState<'EN' | 'HI'>('EN');
+  const [language, setLanguage] = useState<SupportedLanguage>('EN');
   const [isRagInspectorOpen, setIsRagInspectorOpen] = useState<boolean>(false);
   const [isProfileModalOpen, setIsProfileModalOpen] = useState<boolean>(false);
   const [isWalletModalOpen, setIsWalletModalOpen] = useState<boolean>(false);
@@ -78,6 +78,7 @@ export default function App() {
         currentTab={currentTab}
         onNavigate={handleNavigate}
         language={language}
+        setLanguage={setLanguage}
         onToggleLanguage={() => setLanguage(l => l === 'EN' ? 'HI' : 'EN')}
         onOpenRagInspector={() => setIsRagInspectorOpen(true)}
         onOpenProfile={() => setIsProfileModalOpen(true)}

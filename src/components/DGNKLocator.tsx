@@ -11,12 +11,13 @@ import {
   CheckCircle2
 } from 'lucide-react';
 import { DGNKCenter, DGNK_CENTERS } from '../../server/data';
+import { SupportedLanguage } from '../types';
 
-export const DGNKLocator: React.FC<{ language: 'EN' | 'HI'; onSelectCenter?: (c: DGNKCenter) => void }> = ({
+export const DGNKLocator: React.FC<{ language: SupportedLanguage; onSelectCenter?: (c: DGNKCenter) => void }> = ({
   language,
   onSelectCenter
 }) => {
-  const isHindi = language === 'HI';
+  const isHindi = language === 'HI' || language === 'MAI';
 
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedState, setSelectedState] = useState('ALL');

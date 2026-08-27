@@ -12,13 +12,13 @@ import {
   Globe2,
   AlertCircle
 } from 'lucide-react';
-import { TrackingResult } from '../types';
+import { TrackingResult, SupportedLanguage } from '../types';
 
-export const ShipmentTracker: React.FC<{ initialArticleId?: string; language: 'EN' | 'HI' }> = ({
+export const ShipmentTracker: React.FC<{ initialArticleId?: string; language: SupportedLanguage }> = ({
   initialArticleId = 'EE928410294IN',
   language
 }) => {
-  const isHindi = language === 'HI';
+  const isHindi = language === 'HI' || language === 'MAI';
 
   const [articleId, setArticleId] = useState(initialArticleId);
   const [trackingData, setTrackingData] = useState<TrackingResult | null>(null);

@@ -8,17 +8,18 @@ import {
   CheckCircle2, 
   ArrowRight, 
   FileText, 
-  FileCheck,
-  ArrowUpRight,
-  AlertTriangle,
-  Plus
+  FileCheck, 
+  ArrowUpRight, 
+  AlertTriangle, 
+  Plus 
 } from 'lucide-react';
-import { ExporterProfile } from '../types';
+import { ExporterProfile, SupportedLanguage } from '../types';
 import { DnkLogo } from './DnkLogo';
+import { translations } from '../utils/translations';
 
 interface DashboardOverviewProps {
   profile: ExporterProfile;
-  language: 'EN' | 'HI';
+  language: SupportedLanguage;
   onNavigate: (tab: string) => void;
   onOpenProfile: () => void;
   onOpenRagInspector: () => void;
@@ -31,7 +32,8 @@ export const DashboardOverview: React.FC<DashboardOverviewProps> = ({
   onOpenProfile,
   onOpenRagInspector
 }) => {
-  const isHindi = language === 'HI';
+  const isHindi = language === 'HI' || language === 'MAI';
+  const t = translations[language] || translations.EN;
   const [quickTrackId, setQuickTrackId] = useState('');
 
   const recentParcels = [
@@ -97,7 +99,7 @@ export const DashboardOverview: React.FC<DashboardOverviewProps> = ({
           
           {/* Welcome and Exporter Badges */}
           <div className="flex items-start gap-4">
-            <DnkLogo variant="badge" size="lg" className="hidden sm:inline-flex mt-1" />
+            <DnkLogo variant="badge" size="lg" language={language} isHindi={isHindi} className="hidden sm:inline-flex mt-1" />
             <div>
               <div className="flex items-center gap-2 mb-1.5 flex-wrap">
                 <span className="bg-[#C8102E] text-white text-[10px] font-black px-2.5 py-0.5 rounded-full uppercase tracking-wider">

@@ -14,13 +14,13 @@ import {
   QrCode,
   AlertCircle
 } from 'lucide-react';
-import { ExporterProfile } from '../types';
+import { ExporterProfile, SupportedLanguage } from '../types';
 
 interface WalletModalProps {
   isOpen: boolean;
   onClose: () => void;
   profile: ExporterProfile;
-  language: 'EN' | 'HI';
+  language: SupportedLanguage;
   onUpdateBalance: (newBalance: number) => void;
 }
 
@@ -33,7 +33,7 @@ export const WalletModal: React.FC<WalletModalProps> = ({
 }) => {
   if (!isOpen) return null;
 
-  const isHindi = language === 'HI';
+  const isHindi = language === 'HI' || language === 'MAI';
   const currentBalance = profile.walletBalance ?? 18450;
   const [topUpAmount, setTopUpAmount] = useState<number>(5000);
   const [paymentMode, setPaymentMode] = useState<'upi' | 'netbanking' | 'neft'>('upi');

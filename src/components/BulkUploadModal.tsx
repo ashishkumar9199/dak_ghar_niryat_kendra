@@ -13,12 +13,12 @@ import {
   Sparkles,
   FileText
 } from 'lucide-react';
-import { ExporterProfile, ShipmentFormData } from '../types';
+import { ExporterProfile, ShipmentFormData, SupportedLanguage } from '../types';
 
 interface BulkUploadModalProps {
   isOpen: boolean;
   onClose: () => void;
-  language: 'EN' | 'HI';
+  language: SupportedLanguage;
   profile: ExporterProfile;
   onBulkProcessed: (itemsCount: number) => void;
 }
@@ -32,7 +32,7 @@ export const BulkUploadModal: React.FC<BulkUploadModalProps> = ({
 }) => {
   if (!isOpen) return null;
 
-  const isHindi = language === 'HI';
+  const isHindi = language === 'HI' || language === 'MAI';
   const [dragOver, setDragOver] = useState(false);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [isProcessing, setIsProcessing] = useState(false);

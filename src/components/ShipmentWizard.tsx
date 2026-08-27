@@ -19,12 +19,12 @@ import {
   ShieldCheck,
   Building2
 } from 'lucide-react';
-import { ExporterProfile, ProductItem, ShipmentFormData, TariffOption } from '../types';
+import { ExporterProfile, ProductItem, ShipmentFormData, TariffOption, SupportedLanguage } from '../types';
 import { HS_CODES_DATABASE } from '../../server/data';
 
 interface ShipmentWizardProps {
   profile: ExporterProfile;
-  language: 'EN' | 'HI';
+  language: SupportedLanguage;
   onShipmentCreated: (shipmentData: any) => void;
   onAskAI: (prompt: string) => void;
 }
@@ -35,7 +35,7 @@ export const ShipmentWizard: React.FC<ShipmentWizardProps> = ({
   onShipmentCreated,
   onAskAI
 }) => {
-  const isHindi = language === 'HI';
+  const isHindi = language === 'HI' || language === 'MAI';
 
   const [currentStep, setCurrentStep] = useState<number>(1);
   const [formData, setFormData] = useState<ShipmentFormData>({

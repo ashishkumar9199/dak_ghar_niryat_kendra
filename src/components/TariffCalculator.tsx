@@ -16,14 +16,14 @@ import {
   AlertCircle,
   FileCheck2
 } from 'lucide-react';
-import { TariffOption, CbicExchangeRate } from '../types';
+import { TariffOption, CbicExchangeRate, SupportedLanguage } from '../types';
 import { DEFAULT_CBIC_EXCHANGE_RATES, getCurrencyForCountry } from '../data/cbicExchangeRates';
 
-export const TariffCalculator: React.FC<{ language: 'EN' | 'HI'; onBookService?: (service: string) => void }> = ({
+export const TariffCalculator: React.FC<{ language: SupportedLanguage; onBookService?: (service: string) => void }> = ({
   language,
   onBookService
 }) => {
-  const isHindi = language === 'HI';
+  const isHindi = language === 'HI' || language === 'MAI';
 
   // Calculator inputs
   const [countryCode, setCountryCode] = useState('US');

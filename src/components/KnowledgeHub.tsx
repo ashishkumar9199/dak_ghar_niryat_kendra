@@ -13,13 +13,14 @@ import {
   Award
 } from 'lucide-react';
 import { DGNK_KNOWLEDGE_BASE } from '../../server/knowledgeBase';
+import { SupportedLanguage } from '../types';
 
-export const KnowledgeHub: React.FC<{ language: 'EN' | 'HI'; onOpenRagInspector: () => void; onAskAI: (q: string) => void }> = ({
+export const KnowledgeHub: React.FC<{ language: SupportedLanguage; onOpenRagInspector: () => void; onAskAI: (q: string) => void }> = ({
   language,
   onOpenRagInspector,
   onAskAI
 }) => {
-  const isHindi = language === 'HI';
+  const isHindi = language === 'HI' || language === 'MAI';
 
   const [selectedCategory, setSelectedCategory] = useState('ALL');
   const [selectedDoc, setSelectedDoc] = useState<any>(null);

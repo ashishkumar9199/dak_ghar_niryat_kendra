@@ -16,11 +16,11 @@ import {
   HelpCircle,
   Award
 } from 'lucide-react';
-import { ChatMessage, ExporterProfile, GroundedSource } from '../types';
+import { ChatMessage, ExporterProfile, GroundedSource, SupportedLanguage } from '../types';
 
 interface AIAssistantProps {
   profile: ExporterProfile;
-  language: 'EN' | 'HI';
+  language: SupportedLanguage;
   onOpenRagInspector: () => void;
   onNavigateToWizard?: () => void;
 }
@@ -31,7 +31,7 @@ export const AIAssistant: React.FC<AIAssistantProps> = ({
   onOpenRagInspector,
   onNavigateToWizard
 }) => {
-  const isHindi = language === 'HI';
+  const isHindi = language === 'HI' || language === 'MAI';
 
   const [messages, setMessages] = useState<ChatMessage[]>([
     {
