@@ -1,1 +1,43 @@
 @import "tailwindcss";
+
+@layer utilities {
+  /* India Post Speed Post Stripe Pattern */
+  .bg-speedpost-stripes {
+    background-image: repeating-linear-gradient(
+      -45deg,
+      #C8102E,
+      #C8102E 12px,
+      #FFFFFF 12px,
+      #FFFFFF 18px,
+      #0B4F9C 18px,
+      #0B4F9C 30px,
+      #FFFFFF 30px,
+      #FFFFFF 36px
+    );
+  }
+
+  /* Air Mail Border Pattern */
+  .bg-airmail-border {
+    background-image: repeating-linear-gradient(
+      -45deg,
+      #C8102E,
+      #C8102E 10px,
+      #FFFFFF 10px,
+      #FFFFFF 15px,
+      #0B4F9C 15px,
+      #0B4F9C 25px,
+      #FFFFFF 25px,
+      #FFFFFF 30px
+    );
+  }
+
+  /* Postal Stamp Perforation Border */
+  .stamp-edge {
+    background: radial-gradient(circle, transparent 4px, white 5px);
+    background-size: 14px 14px;
+  }
+}
+
+body {
+  font-family: 'Plus Jakarta Sans', 'Mukta', system-ui, -apple-system, sans-serif;
+}

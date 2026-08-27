@@ -5,7 +5,6 @@ import {
   ArrowRight, 
   ArrowLeft, 
   CheckCircle2, 
-  ShieldAlert, 
   FileText, 
   Calculator, 
   Printer, 

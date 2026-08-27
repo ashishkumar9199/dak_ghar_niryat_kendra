@@ -8,7 +8,9 @@ import {
   ShieldCheck, 
   Layers, 
   CheckCircle2,
-  Building2
+  Building2,
+  HelpCircle,
+  Award
 } from 'lucide-react';
 import { DGNK_KNOWLEDGE_BASE } from '../../server/knowledgeBase';
 
@@ -32,41 +34,49 @@ export const KnowledgeHub: React.FC<{ language: 'EN' | 'HI'; onOpenRagInspector:
     <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-6">
       
       {/* Header Banner */}
-      <div className="bg-white rounded-xl border border-stone-200 p-6 shadow-2xs">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+      <div className="bg-white rounded-[28px] border border-gray-200 p-6 sm:p-7 shadow-xs relative overflow-hidden">
+        <div className="absolute top-0 left-0 right-0 h-1.5 bg-speedpost-stripes" />
+
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mt-1">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-lg bg-purple-100 text-purple-800 flex items-center justify-center font-bold">
-              <BookOpen className="w-5 h-5" />
+            <div className="w-11 h-11 rounded-2xl bg-red-100 text-[#C8102E] flex items-center justify-center font-bold shadow-2xs">
+              <BookOpen className="w-6 h-6" />
             </div>
             <div>
-              <h2 className="text-xl font-black text-stone-900">
-                {isHindi ? 'DGNK आधिकारिक नियामक ज्ञान केंद्र' : 'DGNK Official Regulatory Knowledge Repository'}
+              <div className="flex items-center gap-2">
+                <span className="bg-[#C8102E] text-white text-[10px] font-black px-2 py-0.5 rounded uppercase tracking-wider">
+                  Official Repository
+                </span>
+                <span className="text-xs text-gray-500 font-semibold">Grounded in CBIC & DGFT Law</span>
+              </div>
+              <h2 className="text-xl sm:text-2xl font-black text-gray-900 mt-0.5">
+                {isHindi ? 'DGNK आधिकारिक नियामक ज्ञान केंद्र' : 'DGNK Official Regulatory & SOP Repository'}
               </h2>
-              <p className="text-xs text-stone-500">
-                Source of truth for DGNK SOPs, CBIC Circulars, and DGFT Foreign Trade Policy grounding our AI engine.
+              <p className="text-xs text-gray-500 font-medium">
+                Verified source documents powering India Post DGNK AI compliance and automated PBE validation.
               </p>
             </div>
           </div>
 
           <button
             onClick={onOpenRagInspector}
-            className="px-4 py-2 bg-purple-700 hover:bg-purple-800 text-white rounded-lg text-xs font-bold flex items-center gap-1.5 transition-colors self-start sm:self-auto shrink-0 shadow-xs"
+            className="px-4 py-2.5 bg-[#C8102E] hover:bg-[#A60D24] text-white rounded-xl text-xs font-bold flex items-center gap-1.5 transition-colors self-start sm:self-auto shrink-0 shadow-xs"
           >
-            <Layers className="w-4 h-4 text-amber-300" />
-            <span>Open Vector RAG Inspector</span>
+            <Layers className="w-4 h-4 text-[#FFC107]" />
+            <span>Open RAG Vector Inspector</span>
           </button>
         </div>
 
         {/* Category Tabs */}
-        <div className="flex flex-wrap gap-2 mt-6 pt-4 border-t border-stone-200">
+        <div className="flex flex-wrap gap-2 mt-6 pt-4 border-t border-gray-200">
           {categories.map(cat => (
             <button
               key={cat}
               onClick={() => setSelectedCategory(cat)}
-              className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-colors ${
+              className={`px-3.5 py-1.5 rounded-xl text-xs font-bold transition-colors ${
                 selectedCategory === cat
-                  ? 'bg-purple-900 text-white'
-                  : 'bg-stone-100 text-stone-700 hover:bg-stone-200'
+                  ? 'bg-[#C8102E] text-white shadow-2xs'
+                  : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
               }`}
             >
               {cat}
@@ -75,106 +85,105 @@ export const KnowledgeHub: React.FC<{ language: 'EN' | 'HI'; onOpenRagInspector:
         </div>
       </div>
 
-      {/* Documents Grid */}
+      {/* Document Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        {filteredDocs.map((doc) => (
-          <div
-            key={doc.id}
-            className="bg-white rounded-xl border border-stone-200 p-5 shadow-2xs hover:border-purple-600 transition-all flex flex-col justify-between"
+        {filteredDocs.map((doc, idx) => (
+          <div 
+            key={idx}
+            className="bg-white border border-gray-200 rounded-2xl p-5 shadow-xs hover:border-[#C8102E] transition-all flex flex-col justify-between"
           >
             <div>
-              <div className="flex items-start justify-between gap-2 mb-2">
-                <span className="text-[10px] font-bold uppercase tracking-wider text-purple-800 bg-purple-50 px-2 py-0.5 rounded border border-purple-200">
-                  {doc.category}
+              <div className="flex items-start justify-between gap-3 mb-2">
+                <span className="inline-block px-2.5 py-0.5 bg-amber-100 text-[#8B6E00] font-black text-[10px] rounded-md uppercase tracking-wider">
+                  {doc.category.replace('_', ' ')}
                 </span>
-                <span className="text-[11px] font-mono text-stone-500 font-semibold">
-                  {doc.circularRef}
+                <span className="text-[10px] font-mono text-gray-500 bg-gray-100 px-2 py-0.5 rounded truncate max-w-[200px]">
+                  {doc.circularRef || doc.authority}
                 </span>
               </div>
 
-              <h3 className="font-bold text-stone-900 text-sm mb-1">{doc.title}</h3>
-              <p className="text-xs text-stone-500 mb-3 flex items-center gap-1">
-                <Building2 className="w-3 h-3 text-stone-400" />
-                <span>Authority: {doc.authority}</span>
+              <h3 className="text-base font-black text-gray-900 mb-1 leading-snug">
+                {doc.title}
+              </h3>
+              <p className="text-xs text-gray-600 line-clamp-3 leading-relaxed mb-3">
+                {doc.content}
               </p>
 
-              <div className="bg-stone-50 p-3 rounded-lg border border-stone-200 text-xs text-stone-700 font-mono line-clamp-3 mb-3 leading-relaxed">
-                {doc.content}
-              </div>
-
-              <div className="flex flex-wrap gap-1 mb-2">
-                {doc.keywords.slice(0, 5).map((kw: string, ki: number) => (
-                  <span key={ki} className="bg-stone-100 text-stone-700 px-1.5 py-0.5 rounded text-[10px]">
-                    #{kw}
-                  </span>
-                ))}
+              <div className="bg-gray-50 p-3 rounded-xl border border-gray-100 space-y-1 mb-3">
+                <span className="text-[10px] font-black text-[#C8102E] uppercase tracking-wider block">Source Authority:</span>
+                <p className="text-xs text-gray-700 font-medium">{doc.authority}</p>
               </div>
             </div>
 
-            <div className="mt-3 pt-3 border-t border-stone-100 flex items-center justify-between">
+            <div className="flex items-center justify-between pt-3 border-t border-gray-100">
               <button
-                onClick={() => setSelectedDoc(doc)}
-                className="text-xs font-bold text-purple-800 hover:text-purple-900 flex items-center gap-1"
+                onClick={() => onAskAI(`Explain key requirements of ${doc.title}`)}
+                className="text-xs font-bold text-[#C8102E] hover:underline flex items-center gap-1"
               >
-                <span>Read Full SOP Text</span>
-                <ExternalLink className="w-3.5 h-3.5" />
+                <Sparkles className="w-3.5 h-3.5 text-[#FFC107]" />
+                <span>Ask AI to Explain</span>
               </button>
 
               <button
-                onClick={() => onAskAI(`Explain the details of ${doc.title} (${doc.circularRef}) for an artisan exporter.`)}
-                className="text-xs font-semibold text-red-700 hover:underline flex items-center gap-1"
+                onClick={() => setSelectedDoc(doc)}
+                className="px-3 py-1.5 bg-gray-100 hover:bg-gray-200 text-gray-800 rounded-xl text-xs font-bold transition-colors flex items-center gap-1"
               >
-                <Sparkles className="w-3.5 h-3.5" />
-                <span>Ask AI on this</span>
+                <FileText className="w-3.5 h-3.5" />
+                <span>Read Full SOP</span>
               </button>
             </div>
           </div>
         ))}
       </div>
 
-      {/* Document Reader Modal */}
+      {/* Document Detail Modal */}
       {selectedDoc && (
-        <div className="fixed inset-0 z-50 overflow-y-auto bg-stone-900/60 backdrop-blur-xs flex items-center justify-center p-4">
-          <div className="bg-white rounded-xl shadow-2xl border border-stone-200 max-w-2xl w-full p-6 animate-in fade-in zoom-in-95 duration-150">
+        <div className="fixed inset-0 z-50 bg-black/50 backdrop-blur-xs flex items-center justify-center p-4">
+          <div className="bg-white rounded-[28px] max-w-2xl w-full max-h-[85vh] overflow-y-auto p-6 sm:p-7 shadow-xl border border-gray-200">
             <div className="flex items-start justify-between gap-4 mb-4">
               <div>
-                <span className="text-[10px] font-bold uppercase tracking-wider text-purple-800 bg-purple-50 px-2 py-0.5 rounded border border-purple-200">
-                  {selectedDoc.category}
+                <span className="px-2.5 py-0.5 bg-red-100 text-[#C8102E] text-[10px] font-black rounded-md uppercase tracking-wider inline-block mb-1">
+                  {selectedDoc.category.replace('_', ' ')}
                 </span>
-                <h3 className="font-bold text-stone-900 text-base mt-1">{selectedDoc.title}</h3>
-                <div className="text-xs text-purple-900 font-mono mt-0.5">{selectedDoc.circularRef}</div>
+                <h3 className="text-xl font-black text-gray-900">{selectedDoc.title}</h3>
+                <p className="text-xs text-gray-500 font-semibold mt-0.5">Authority: {selectedDoc.authority} • Ref: {selectedDoc.circularRef || 'DGNK SOP'}</p>
               </div>
-              <button
+              <button 
                 onClick={() => setSelectedDoc(null)}
-                className="text-stone-400 hover:text-stone-700 text-sm font-bold"
+                className="w-8 h-8 rounded-full bg-gray-100 hover:bg-gray-200 flex items-center justify-center font-bold text-gray-600 text-sm"
               >
                 ✕
               </button>
             </div>
 
-            <div className="space-y-3 text-xs">
-              <div className="bg-stone-50 p-3 rounded-lg border border-stone-200">
-                <span className="text-stone-500 font-semibold block mb-0.5">Issuing Authority:</span>
-                <span className="font-bold text-stone-900">{selectedDoc.authority}</span>
-              </div>
-
-              <div className="bg-stone-50 p-4 rounded-lg border border-stone-200 text-stone-800 whitespace-pre-line leading-relaxed font-sans">
-                {selectedDoc.content}
-              </div>
+            <div className="prose prose-sm text-gray-700 space-y-3 border-t border-b border-gray-100 py-4">
+              <p className="font-medium text-xs leading-relaxed">{selectedDoc.content}</p>
             </div>
 
-            <div className="mt-5 flex items-center justify-between pt-3 border-t border-stone-200">
-              <span className="text-[11px] text-stone-500">Official India Post Digital Export Architecture</span>
+            <div className="flex items-center justify-between gap-3 mt-4 pt-2">
+              <button
+                onClick={() => {
+                  const title = selectedDoc.title;
+                  setSelectedDoc(null);
+                  onAskAI(`Explain compliance specifics for ${title}`);
+                }}
+                className="px-4 py-2 bg-[#C8102E] text-white rounded-xl text-xs font-bold hover:bg-[#A60D24] transition-colors flex items-center gap-1.5 shadow-xs"
+              >
+                <Sparkles className="w-4 h-4 text-[#FFC107]" />
+                <span>Ask AI Assistant About This</span>
+              </button>
+
               <button
                 onClick={() => setSelectedDoc(null)}
-                className="px-4 py-2 bg-stone-900 text-white rounded-lg text-xs font-bold hover:bg-stone-800 transition-colors"
+                className="px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-xl text-xs font-bold transition-colors"
               >
-                Close Document
+                Close
               </button>
             </div>
           </div>
         </div>
       )}
+
     </div>
   );
 };
