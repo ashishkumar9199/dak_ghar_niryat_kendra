@@ -26,6 +26,7 @@ import {
   MessageSquare
 } from 'lucide-react';
 import { ChatMessage, ExporterProfile, GroundedSource, SupportedLanguage } from '../types';
+import { DnkLogo } from './DnkLogo';
 
 interface FloatingAIChatWidgetProps {
   profile: ExporterProfile;
@@ -52,8 +53,8 @@ export const FloatingAIChatWidget: React.FC<FloatingAIChatWidgetProps> = ({
       id: 'welcome-float-msg',
       sender: 'assistant',
       text: isHindi
-        ? `🙏 नमस्ते! मैं **डाक घर निर्यात केंद्र (DNK) AI चैटबॉट** हूँ।\n\nमैं भारतीय डाक SOP, CBIC सीमा शुल्क, DGFT FTP 2023 और UPU नियमों पर प्रशिक्षित हूँ। PBE, दरें, पैकेजिंग या देश नियमों पर कभी भी पूछें!`
-        : `🙏 Hello! I am the **DNK AI Chatbot & Postal Appraiser**.\n\nTrained on official India Post SOPs, CBIC customs circulars & DGFT FTP 2023. How can I assist your shipment today?`,
+        ? `🙏 नमस्ते! मैं डाक घर निर्यात केंद्र (DNK) AI चैटबॉट हूँ।\n\nमैं भारतीय डाक SOP, CBIC सीमा शुल्क, DGFT FTP 2023 और UPU नियमों पर प्रशिक्षित हूँ। PBE, दरें, पैकेजिंग या देश नियमों पर कभी भी पूछें!`
+        : `🙏 Hello! I am the DNK AI Chatbot & Postal Appraiser.\n\nTrained on official India Post SOPs, CBIC customs circulars & DGFT FTP 2023. How can I assist your shipment today?`,
       timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
       isAiGrounded: true,
       groundedSources: [
@@ -263,8 +264,8 @@ export const FloatingAIChatWidget: React.FC<FloatingAIChatWidgetProps> = ({
           {/* Widget Header: India Post Red */}
           <div className="bg-[#D42426] text-white p-3.5 sm:p-4 flex items-center justify-between shadow-md relative overflow-hidden">
             <div className="flex items-center gap-2.5 relative z-10">
-              <div className="w-8 h-8 rounded-xl bg-white text-[#D42426] flex items-center justify-center font-bold shadow-2xs">
-                <Sparkles className="w-4 h-4 text-[#D42426]" />
+              <div className="w-8 h-8 rounded-xl bg-white flex items-center justify-center shadow-2xs overflow-hidden p-0.5">
+                <DnkLogo variant="emblem" size="xs" isHindi={isHindi} language={language} />
               </div>
               <div>
                 <div className="flex items-center gap-1.5">
@@ -380,8 +381,8 @@ export const FloatingAIChatWidget: React.FC<FloatingAIChatWidgetProps> = ({
                   className={`flex gap-2 ${isUser ? 'justify-end' : 'justify-start'}`}
                 >
                   {!isUser && (
-                    <div className="w-6 h-6 rounded-full bg-[#D42426] text-[#FFC107] flex items-center justify-center font-bold text-[10px] shrink-0 mt-0.5 shadow-2xs">
-                      <Bot className="w-3.5 h-3.5" />
+                    <div className="w-6 h-6 rounded-full bg-[#D42426] flex items-center justify-center shrink-0 mt-0.5 shadow-2xs overflow-hidden p-0.5">
+                      <DnkLogo variant="emblem" size="xs" isHindi={isHindi} language={language} />
                     </div>
                   )}
 
@@ -396,7 +397,7 @@ export const FloatingAIChatWidget: React.FC<FloatingAIChatWidgetProps> = ({
                     </div>
 
                     <p className="whitespace-pre-line leading-relaxed text-gray-800">
-                      {msg.text}
+                      {msg.text.replace(/\*\*/g, '')}
                     </p>
 
                     {/* Official Citations */}
@@ -536,8 +537,8 @@ export const FloatingAIChatWidget: React.FC<FloatingAIChatWidgetProps> = ({
         <div className="pointer-events-auto mb-3 bg-[#D42426] text-white px-3.5 py-2 rounded-2xl shadow-xl border border-amber-300 flex items-center gap-2 cursor-pointer hover:bg-[#B71C1E] transition-all animate-in fade-in duration-150"
           onClick={() => setIsMinimized(false)}
         >
-          <div className="w-6 h-6 rounded-full bg-[#FFC107] text-[#D42426] flex items-center justify-center font-black text-xs">
-            <Bot className="w-3.5 h-3.5" />
+          <div className="w-6 h-6 rounded-full bg-[#FFC107] flex items-center justify-center overflow-hidden p-0.5">
+            <DnkLogo variant="emblem" size="xs" isHindi={isHindi} language={language} />
           </div>
           <div className="text-left">
             <div className="text-xs font-black leading-tight">DNK AI Chatbot</div>
@@ -558,7 +559,7 @@ export const FloatingAIChatWidget: React.FC<FloatingAIChatWidgetProps> = ({
               setIsMinimized(false);
               setHasNewBadge(false);
             }}
-            className="absolute bottom-1.5 right-16 sm:right-18 whitespace-nowrap bg-white text-gray-900 px-3.5 py-2 rounded-2xl shadow-lg border border-red-200 flex items-center gap-2 hover:border-[#D42426] transition-all cursor-pointer group-hover:scale-105"
+            className="absolute bottom-1.5 right-16 sm:right-18 whitespace-nowrap bg-white text-gray-900 px-3.5 py-2 rounded-2xl shadow-lg border border-red-200 flex items-center gap-2 hover:border-[#D42426] transition-all cursor-pointer opacity-0 pointer-events-none translate-x-2 group-hover:opacity-100 group-hover:pointer-events-auto group-hover:translate-x-0 duration-300"
           >
             <span className="w-2 h-2 rounded-full bg-green-500 animate-ping"></span>
             <div className="text-left">
@@ -592,7 +593,7 @@ export const FloatingAIChatWidget: React.FC<FloatingAIChatWidgetProps> = ({
             <X className="w-6 h-6" />
           ) : (
             <>
-              <Bot className="w-7 h-7 text-[#FFC107]" />
+              <DnkLogo variant="emblem" size="md" isHindi={isHindi} language={language} className="p-1 animate-pulse" />
               
               {/* Unread / Online badge */}
               {hasNewBadge && (

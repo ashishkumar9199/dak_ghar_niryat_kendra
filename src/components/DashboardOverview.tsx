@@ -96,18 +96,7 @@ export const DashboardOverview: React.FC<DashboardOverviewProps> = ({
           <div className="flex items-start gap-3 sm:gap-4">
             <DnkLogo variant="badge" size="lg" language={language} isHindi={isHindi} className="hidden sm:inline-flex mt-1 shrink-0" />
             <div>
-              <div className="flex items-center gap-1.5 sm:gap-2 mb-1.5 flex-wrap">
-                <span className="bg-[#C8102E] text-white text-[9px] sm:text-[10px] font-black px-2 sm:px-2.5 py-0.5 rounded-full uppercase tracking-wider">
-                  India Post DGNK
-                </span>
-                <span className="bg-emerald-50 text-emerald-800 border border-emerald-200 text-[9px] sm:text-[10px] font-bold px-2 py-0.5 rounded-md flex items-center gap-1">
-                  <CheckCircle2 className="w-3 h-3 text-emerald-600" />
-                  IEC: {profile.iecCode || 'Active'}
-                </span>
-                <span className="bg-blue-50 text-blue-800 border border-blue-200 text-[9px] sm:text-[10px] font-bold px-2 py-0.5 rounded-md">
-                  LUT: 0% IGST (RFD-11)
-                </span>
-              </div>
+              {/* Removed the three badges per user request */}
 
               <h1 className="text-xl sm:text-2xl lg:text-3xl font-black text-gray-900 tracking-tight">
                 {isHindi 

@@ -3,8 +3,8 @@ import { SupportedLanguage } from '../types';
 import { translations } from '../utils/translations';
 
 interface DnkLogoProps {
-  variant?: 'full' | 'compact' | 'badge' | 'white';
-  size?: 'sm' | 'md' | 'lg' | 'xl';
+  variant?: 'full' | 'compact' | 'badge' | 'white' | 'emblem';
+  size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
   className?: string;
   isHindi?: boolean;
   language?: SupportedLanguage;
@@ -21,14 +21,15 @@ export const DnkLogo: React.FC<DnkLogoProps> = ({
   const t = translations[langKey] || translations.EN;
 
   // Dimensions based on size
-  const sizeMap = {
+  const sizeMap: Record<string, { iconSize: string; textTitle: string; textSub: string }> = {
+    xs: { iconSize: 'w-6 h-6', textTitle: 'text-[10px]', textSub: 'text-[8px]' },
     sm: { iconSize: 'w-8 h-8', textTitle: 'text-xs', textSub: 'text-[9px]' },
     md: { iconSize: 'w-10 h-10', textTitle: 'text-sm', textSub: 'text-[10px]' },
     lg: { iconSize: 'w-12 h-12', textTitle: 'text-base', textSub: 'text-xs' },
     xl: { iconSize: 'w-16 h-16', textTitle: 'text-lg', textSub: 'text-xs' }
   };
 
-  const selectedSize = sizeMap[size];
+  const selectedSize = sizeMap[size] || sizeMap.md;
 
   // The authentic DNK / India Post emblem SVG
   const LogoIcon = () => (
@@ -77,26 +78,11 @@ export const DnkLogo: React.FC<DnkLogoProps> = ({
           stroke="#FFFFFF" 
           strokeWidth="1.5" 
         />
-
-        {/* DNK Text Insignia Bar */}
-        <rect x="22" y="78" width="56" height="15" rx="4" fill="#FFC107" />
-        <text 
-          x="50" 
-          y="89" 
-          fill="#990B20" 
-          fontFamily="system-ui, sans-serif" 
-          fontWeight="900" 
-          fontSize="10" 
-          letterSpacing="1.5" 
-          textAnchor="middle"
-        >
-          DNK
-        </text>
       </svg>
     </div>
   );
 
-  if (variant === 'badge') {
+  if (variant === 'badge' || variant === 'emblem') {
     return (
       <div className={`inline-flex items-center ${className}`}>
         <LogoIcon />

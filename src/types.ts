@@ -17,6 +17,7 @@ export interface KnowledgeChunk {
   lastUpdated: string;
   content: string;
   keywords: string[];
+  summaryBulletPoints?: string[];
 }
 
 export interface GroundedSource {
@@ -138,7 +139,7 @@ export interface ShipmentFormData {
   };
   products: ProductItem[];
   serviceType: 'EMS' | 'ITPS' | 'AirParcel';
-  categoryOfItem: 'Gift' | 'Commercial Sample' | 'Sold Goods (E-Commerce)' | 'Returned Goods' | 'Other';
+  categoryOfItem: 'Gift' | 'Commercial Sample' | 'Sold Goods (E-Commerce)' | 'Returned Goods' | 'Commercial Export (B2B)' | 'Other';
   invoiceNumber: string;
   invoiceDate: string;
   specialInstructions: string;
@@ -185,6 +186,7 @@ export interface TrackingEvent {
   activity?: string;
   description?: string;
   status: string;
+  remarks?: string;
 }
 
 export interface TrackingResult {

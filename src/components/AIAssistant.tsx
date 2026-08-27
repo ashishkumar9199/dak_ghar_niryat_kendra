@@ -34,6 +34,7 @@ import {
   Package
 } from 'lucide-react';
 import { ChatMessage, ExporterProfile, GroundedSource, SupportedLanguage, KnowledgeChunk } from '../types';
+import { DnkLogo } from './DnkLogo';
 
 interface AIAssistantProps {
   profile: ExporterProfile;
@@ -61,8 +62,8 @@ export const AIAssistant: React.FC<AIAssistantProps> = ({
       id: 'welcome-msg',
       sender: 'assistant',
       text: isHindi
-        ? `🙏 नमस्ते! मैं **डाक घर निर्यात केंद्र (DNK) का आधिकारिक AI चैटबॉट व वर्चुअल पोस्टल अप्रैज़र** हूँ।\n\nमैं भारतीय डाक (India Post SOP), सीमा शुल्क (CBIC Circular 14/2018), विदेश व्यापार नीति (DGFT FTP 2023) और UPU अंतरराष्ट्रीय नियमों पर पूरी तरह प्रशिक्षित हूँ।\n\nआप मुझसे किसी भी विषय पर पूछ सकते हैं:\n• **पोस्टल बिल ऑफ एक्सपोर्ट (PBE-I / PBE-II)** और सीमा शुल्क फॉर्म (CN22/CN23)\n• **प्रतिबंधित व खतरनाक वस्तुएं** (लिथियम बैटरी, इत्र, आयुर्वेद, लकड़ी के उत्पाद)\n• **देश-विशिष्ट नियम** (USA $800 Section 321, EU IOSS, UK VAT, UAE, Australia)\n• **GST LUT (RFD-11), AD Code और RoDTEP प्रोत्साहन**\n• **पैकेजिंग मानक और UPU S10 बारकोड**`
-        : `🙏 Welcome to the official **Dak Ghar Niryat Kendra (DNK) AI Chatbot & Virtual Postal Appraiser**.\n\nI am trained on verified **India Post SOPs, CBIC Customs Circulars, DGFT Foreign Trade Policy 2023, and Universal Postal Union (UPU) guidelines**.\n\nHow can I assist your cross-border export today? You can ask me about:\n• **Electronic PBE Filing & Customs Forms** (PBE-I vs PBE-II, CN22 vs CN23)\n• **Prohibited & Restricted Items** (Lithium batteries, perfumes, ayurvedic herbs, wooden art)\n• **Destination Country Protocols** (USA Section 321 $800, EU IOSS €150, UK £135 VAT, Australia biosecurity)\n• **GST LUT Zero-Tax Export, AD Code & RoDTEP Benefits**\n• **India Post Packaging Standards & UPU S10 Barcodes**`,
+        ? `🙏 नमस्ते! मैं डाक घर निर्यात केंद्र (DNK) का आधिकारिक AI चैटबॉट व वर्चुअल पोस्टल अप्रैज़र हूँ।\n\nमैं भारतीय डाक (India Post SOP), सीमा शुल्क (CBIC Circular 14/2018), विदेश व्यापार नीति (DGFT FTP 2023) और UPU अंतरराष्ट्रीय नियमों पर पूरी तरह प्रशिक्षित हूँ।\n\nआप मुझसे किसी भी विषय पर पूछ सकते हैं:\n• पोस्टल बिल ऑफ एक्सपोर्ट (PBE-I / PBE-II) और सीमा शुल्क फॉर्म (CN22/CN23)\n• प्रतिबंधित व खतरनाक वस्तुएं (लिथियम बैटरी, इत्र, आयुर्वेद, लकड़ी के उत्पाद)\n• देश-विशिष्ट नियम (USA $800 Section 321, EU IOSS, UK VAT, UAE, Australia)\n• GST LUT (RFD-11), AD Code और RoDTEP प्रोत्साहन\n• पैकेजिंग मानक और UPU S10 बारकोड`
+        : `🙏 Welcome to the official Dak Ghar Niryat Kendra (DNK) AI Chatbot & Virtual Postal Appraiser.\n\nI am trained on verified India Post SOPs, CBIC Customs Circulars, DGFT Foreign Trade Policy 2023, and Universal Postal Union (UPU) guidelines.\n\nHow can I assist your cross-border export today? You can ask me about:\n• Electronic PBE Filing & Customs Forms (PBE-I vs PBE-II, CN22 vs CN23)\n• Prohibited & Restricted Items (Lithium batteries, perfumes, ayurvedic herbs, wooden art)\n• Destination Country Protocols (USA Section 321 $800, EU IOSS €150, UK £135 VAT, Australia biosecurity)\n• GST LUT Zero-Tax Export, AD Code & RoDTEP Benefits\n• India Post Packaging Standards & UPU S10 Barcodes`,
       timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
       isAiGrounded: true,
       groundedSources: [
@@ -590,8 +591,8 @@ export const AIAssistant: React.FC<AIAssistantProps> = ({
           {/* Chat Window Header */}
           <div className="px-4 sm:px-6 py-3.5 sm:py-4 border-b border-gray-100 bg-gray-50 flex items-center justify-between">
             <div className="flex items-center gap-2.5 sm:gap-3">
-              <div className="w-9 h-9 sm:w-10 sm:h-10 bg-[#D42426] rounded-full flex items-center justify-center text-[#FFC107] shadow-sm shrink-0">
-                <Bot className="w-5 h-5" />
+              <div className="w-9 h-9 sm:w-10 sm:h-10 bg-[#D42426] rounded-full flex items-center justify-center shadow-sm shrink-0 overflow-hidden p-1">
+                <DnkLogo variant="emblem" size="xs" isHindi={isHindi} language={language} />
               </div>
               <div>
                 <div className="flex items-center gap-2">
@@ -659,8 +660,8 @@ export const AIAssistant: React.FC<AIAssistantProps> = ({
                 >
                   {/* Bot Avatar */}
                   {!isUser && (
-                    <div className="w-8 h-8 rounded-full bg-[#D42426] text-[#FFC107] flex items-center justify-center font-bold text-xs shrink-0 shadow-sm mt-1">
-                      <Sparkles className="w-4 h-4" />
+                    <div className="w-8 h-8 rounded-full bg-[#D42426] flex items-center justify-center shrink-0 shadow-sm mt-1 overflow-hidden p-1">
+                      <DnkLogo variant="emblem" size="xs" isHindi={isHindi} language={language} />
                     </div>
                   )}
 
@@ -683,7 +684,7 @@ export const AIAssistant: React.FC<AIAssistantProps> = ({
 
                     {/* Message Body Content */}
                     <div className="text-sm leading-relaxed whitespace-pre-line text-gray-800 font-normal">
-                      {msg.text}
+                      {msg.text.replace(/\*\*/g, '')}
                     </div>
 
                     {/* Official Document Sources (RAG Grounding Citations) */}

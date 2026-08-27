@@ -80,18 +80,18 @@ export async function generateGroundedAnswer(
     const secondChunk = retrievedContexts[1]?.chunk;
     const thirdChunk = retrievedContexts[2]?.chunk;
 
-    const fallbackAnswer = `### Official Grounded Response from Dak Ghar Niryat Kendra (DNK)
+    const fallbackAnswer = `Official Grounded Response from Dak Ghar Niryat Kendra (DNK)
 
-Based on official India Post & Customs regulatory directives (**${topChunk?.sourceDoc || 'India Post DGNK SOP'}**, Ref: *${topChunk?.circularRef || 'DoP Circular'}*):
+Based on official India Post & Customs regulatory directives (${topChunk?.sourceDoc || 'India Post DGNK SOP'}, Ref: ${topChunk?.circularRef || 'DoP Circular'}):
 
 ${topChunk?.content || 'Please consult your designated Dak Ghar Niryat Kendra officer.'}
 
-${secondChunk ? `\n\n**Additional Regulatory Requirement (${secondChunk.sourceDoc} - ${secondChunk.circularRef}):**\n${secondChunk.content}` : ''}
+${secondChunk ? `\n\nAdditional Regulatory Requirement (${secondChunk.sourceDoc} - ${secondChunk.circularRef}):\n${secondChunk.content}` : ''}
 
-${thirdChunk ? `\n\n**Key Standard Reference (${thirdChunk.sourceDoc}):**\n${thirdChunk.content}` : ''}
+${thirdChunk ? `\n\nKey Standard Reference (${thirdChunk.sourceDoc}):\n${thirdChunk.content}` : ''}
 
 ---
-*Official Verification: This information is strictly grounded in verified guidelines from Department of Posts (India Post), Central Board of Indirect Taxes and Customs (CBIC), and Directorate General of Foreign Trade (DGFT).*`;
+Official Verification: This information is strictly grounded in verified guidelines from Department of Posts (India Post), Central Board of Indirect Taxes and Customs (CBIC), and Directorate General of Foreign Trade (DGFT).`;
 
     return {
       answer: fallbackAnswer,
@@ -136,7 +136,8 @@ STRICT GROUNDING & REGULATORY RULES:
    - In your answer, explicitly mention the governing circular or rule (e.g. "As per CBIC Notification 48/2018-Customs (N.T.)...", "Under DGFT FTP 2023 Chapter 9...", "In accordance with UPU S10 Barcode standards...").
 
 3. ANSWER FORMATTING & STRUCTURE:
-   - Use clean Markdown with bold key terms, bullet points, and numbered action steps.
+   - Use clean, neat formatting with simple bullet points (using standard dashes or unicode bullets like •) and numbered action steps.
+   - CRITICAL FORMATTING RULE: Never use markdown bold double-asterisks (**) or single-asterisks (*) anywhere in your responses because the chat interface renders plain text without markdown conversion. To highlight key terms or names, write them in plain text or capitalize them, but NEVER wrap them in double-asterisks (**) or single-asterisks (*).
    - Provide a "Documents Required" checklist when relevant (e.g. 1. PBE-I, 2. CN23, 3. Commercial Invoice with HS Code, 4. LUT).
    - If the user asks in Hindi or another Indian language, respond fluently in that language while keeping technical regulatory terms (PBE, CN22/CN23, HS Code, IEC, DGNK) crystal clear.
 
@@ -211,8 +212,11 @@ Please generate an authoritative, structured, and helpful response grounded in t
       ];
     }
 
+    // Strip all double asterisks from the generated answer before returning
+    const cleanAnswer = answerText.replace(/\*\*/g, '');
+
     return {
-      answer: answerText,
+      answer: cleanAnswer,
       groundedSources: sourcesList,
       isAiGrounded: true,
       query: userQuery,
@@ -228,7 +232,7 @@ Please generate an authoritative, structured, and helpful response grounded in t
     console.error("Gemini API generation error:", error);
     const top = retrievedContexts[0]?.chunk;
     return {
-      answer: `### Official Grounded Response (Dak Ghar Niryat Kendra)\n\nAccording to **${top?.sourceDoc}** (*${top?.circularRef}*):\n\n${top?.content}\n\n*Official Source: ${top?.authority}*`,
+      answer: `Official Grounded Response (Dak Ghar Niryat Kendra)\n\nAccording to ${top?.sourceDoc} (Ref: ${top?.circularRef || 'SOP Guideline'}):\n\n${top?.content}\n\nOfficial Source: ${top?.authority}`,
       groundedSources: sourcesList,
       isAiGrounded: false,
       query: userQuery,

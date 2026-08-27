@@ -490,16 +490,6 @@ export const Navbar: React.FC<NavbarProps> = ({
               onClick={() => handleNav('dashboard')}
               id="brand-logo"
             >
-              {/* Ashoka Lion Emblem Badge */}
-              <div className="hidden sm:flex flex-col items-center justify-center border-r border-white/20 pr-3 shrink-0">
-                <div className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center border border-white/30 text-amber-200">
-                  <Award className="w-4 h-4 text-[#FFC107]" />
-                </div>
-                <span className="text-[7px] font-black uppercase tracking-tighter text-amber-200 mt-0.5">
-                  सत्यमेव जयते
-                </span>
-              </div>
-
               {/* Official DNK Logo */}
               <DnkLogo 
                 variant="compact" 
@@ -511,71 +501,7 @@ export const Navbar: React.FC<NavbarProps> = ({
 
           </div>
 
-          {/* Center Navigation Shortcuts (Desktop) */}
-          <nav className="hidden lg:flex items-center gap-1 xl:gap-1.5">
-            <button
-              onClick={() => handleNav('dashboard')}
-              className={`text-xs font-bold transition-all py-1.5 px-2.5 rounded-xl flex items-center gap-1.5 ${
-                active === 'dashboard' 
-                  ? 'bg-white/20 text-white font-black shadow-2xs border border-white/30' 
-                  : 'text-white/85 hover:text-white hover:bg-white/10'
-              }`}
-            >
-              <Building2 className="w-3.5 h-3.5 text-amber-300" />
-              <span>{t.navDashboard}</span>
-            </button>
-            
-            <button
-              onClick={() => handleNav('assistant')}
-              className={`text-xs font-bold transition-all py-1.5 px-2.5 rounded-xl flex items-center gap-1.5 ${
-                active === 'assistant' 
-                  ? 'bg-white/20 text-white font-black shadow-2xs border border-white/30' 
-                  : 'text-amber-200 hover:text-white hover:bg-white/10'
-              }`}
-            >
-              <Sparkles className="w-3.5 h-3.5 text-[#FFD54F]" />
-              <span>{t.navAssistant}</span>
-              <span className="bg-[#FFC107] text-[#C8102E] text-[8px] font-black px-1 rounded-full uppercase">
-                RAG
-              </span>
-            </button>
 
-            <button
-              onClick={() => handleNav('wizard')}
-              className={`text-xs font-bold transition-all py-1.5 px-2.5 rounded-xl flex items-center gap-1.5 ${
-                active === 'wizard' 
-                  ? 'bg-white/20 text-white font-black shadow-2xs border border-white/30' 
-                  : 'text-white/85 hover:text-white hover:bg-white/10'
-              }`}
-            >
-              <Package className="w-3.5 h-3.5 text-amber-300" />
-              <span>{t.navWizard}</span>
-            </button>
-
-            <button
-              onClick={() => handleNav('calculator')}
-              className={`text-xs font-bold transition-all py-1.5 px-2.5 rounded-xl flex items-center gap-1.5 ${
-                active === 'calculator' 
-                  ? 'bg-white/20 text-white font-black shadow-2xs border border-white/30' 
-                  : 'text-white/85 hover:text-white hover:bg-white/10'
-              }`}
-            >
-              <Calculator className="w-3.5 h-3.5 text-amber-300" />
-              <span>{t.navTariff}</span>
-            </button>
-
-            <button
-              onClick={() => handleNav('tracker')}
-              className={`text-xs font-bold transition-all py-1.5 px-2.5 rounded-xl flex items-center gap-1.5 ${
-                active === 'tracker' 
-                  ? 'bg-white/20 text-white font-black shadow-2xs border border-white/30' 
-                  : 'text-white/85 hover:text-white hover:bg-white/10'
-              }`}
-            >
-              <Search className="w-3.5 h-3.5 text-amber-300" />
-              <span>{t.navTracker}</span>
-            </button>
-          </nav>
 
           {/* Right Action Controls: Prepaid Wallet, Bulk Upload, Profile */}
           <div className="flex items-center gap-1.5 sm:gap-2.5 shrink-0">
@@ -842,7 +768,7 @@ export const Navbar: React.FC<NavbarProps> = ({
           />
 
           {/* Mega Drawer Panel */}
-          <div className="relative w-full max-w-md sm:max-w-lg bg-white h-full shadow-2xl z-10 flex flex-col overflow-hidden animate-in slide-in-from-left duration-300 border-r border-gray-300">
+          <div className="relative w-full max-w-md sm:max-w-lg bg-white h-[100dvh] max-h-screen shadow-2xl z-10 flex flex-col overflow-hidden animate-in slide-in-from-left duration-300 border-r border-gray-300">
             
             {/* Drawer Header with India Post Banner */}
             <div className="bg-gradient-to-r from-[#990B20] via-[#C8102E] to-[#A60D24] text-white p-5 sm:p-6 shrink-0 relative">
@@ -977,35 +903,43 @@ export const Navbar: React.FC<NavbarProps> = ({
               </div>
             </div>
 
-            {/* 10-Language Selector Section */}
-            <div className="p-3 bg-amber-50/80 border-b border-amber-200/90 shrink-0">
-              <div className="flex items-center justify-between mb-2">
+            {/* Single Language Selector Button with Hover Dropdown */}
+            <div className="p-3 bg-amber-50/80 border-b border-amber-200/90 shrink-0 relative group">
+              <div className="flex items-center justify-between">
                 <span className="text-[11px] font-black uppercase tracking-wider text-gray-800 flex items-center gap-1.5">
                   <Globe className="w-3.5 h-3.5 text-[#C8102E]" />
-                  <span>{isHindi ? 'भाषा चुनें (10 भाषाएं)' : 'Select Language (10 Languages)'}</span>
+                  <span>{isHindi ? 'भाषा' : 'Language'}</span>
                 </span>
-                <span className="text-[10px] font-bold px-2 py-0.5 rounded bg-amber-200/80 text-amber-950 font-mono">
-                  {currentLangObj.nativeName} ({currentLangObj.code})
-                </span>
+                
+                {/* The Single Trigger Button */}
+                <div className="px-2.5 py-1 sm:py-1.5 rounded-xl bg-white hover:bg-gray-50 border border-gray-200 text-gray-800 flex items-center gap-1.5 cursor-pointer transition-all shadow-2xs font-bold text-xs">
+                  <span>{currentLangObj.nativeName} ({currentLangObj.code})</span>
+                  <ChevronDown className="w-3 h-3 text-gray-500" />
+                </div>
               </div>
-              <div className="grid grid-cols-2 sm:grid-cols-5 gap-1.5">
+
+              {/* Hover Dropdown Popup containing the 10 languages */}
+              <div className="absolute right-3 top-10 w-[260px] bg-white rounded-xl shadow-xl border border-gray-200 p-2 z-50 grid grid-cols-2 gap-1 opacity-0 pointer-events-none translate-y-1 group-hover:opacity-100 group-hover:pointer-events-auto group-hover:translate-y-0 transition-all duration-200">
+                <div className="col-span-2 text-[10px] font-black text-[#990B20] border-b border-gray-100 pb-1 mb-1 px-1 uppercase tracking-wider">
+                  {isHindi ? '10 भाषाएं उपलब्ध हैं' : '10 Languages Available'}
+                </div>
                 {SUPPORTED_LANGUAGES.map((lang) => {
                   const isSelected = lang.code === language;
                   return (
                     <button
                       key={lang.code}
                       onClick={() => handleSelectLang(lang.code)}
-                      className={`p-1.5 rounded-xl border text-left flex flex-col justify-between transition-all cursor-pointer ${
+                      className={`p-1.5 rounded-lg border text-left flex flex-col justify-between transition-all cursor-pointer ${
                         isSelected
-                          ? 'bg-[#990B20] text-white border-[#990B20] shadow-xs'
+                          ? 'bg-[#990B20] text-white border-[#990B20] shadow-xs font-bold'
                           : 'bg-white hover:bg-gray-100/90 text-gray-800 border-gray-200'
                       }`}
                     >
                       <div className="flex items-center justify-between">
                         <span className="text-xs font-black truncate">{lang.nativeName}</span>
-                        {isSelected && <Check className="w-3 h-3 text-amber-300 shrink-0" />}
+                        {isSelected && <Check className="w-2.5 h-2.5 text-amber-300 shrink-0" />}
                       </div>
-                      <span className={`text-[9px] font-medium truncate mt-0.5 ${isSelected ? 'text-amber-200' : 'text-gray-500'}`}>
+                      <span className={`text-[8px] font-medium truncate ${isSelected ? 'text-amber-200' : 'text-gray-500'}`}>
                         {lang.name} • {lang.code}
                       </span>
                     </button>
@@ -1029,7 +963,7 @@ export const Navbar: React.FC<NavbarProps> = ({
             </div>
 
             {/* Scrollable List of All Pages */}
-            <div className="flex-1 overflow-y-auto p-4 space-y-4">
+            <div className="flex-1 overflow-y-auto p-4 pb-28 space-y-4">
               
               {/* Category 1: Core Portals */}
               <div>
