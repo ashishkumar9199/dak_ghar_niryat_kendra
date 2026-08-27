@@ -36,6 +36,26 @@
     background: radial-gradient(circle, transparent 4px, white 5px);
     background-size: 14px 14px;
   }
+
+  /* Smooth Endless Marquee Animation */
+  @keyframes endless-ticker {
+    0% {
+      transform: translateX(0%);
+    }
+    100% {
+      transform: translateX(-50%);
+    }
+  }
+
+  .animate-endless-scroll {
+    display: flex;
+    width: max-content;
+    animation: endless-ticker 24s linear infinite;
+  }
+
+  .animate-endless-scroll:hover {
+    animation-play-state: paused;
+  }
 }
 
 body {

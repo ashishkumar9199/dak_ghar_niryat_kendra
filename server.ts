@@ -5,7 +5,7 @@ import dotenv from "dotenv";
 import { generateGroundedAnswer } from "./server/gemini.js";
 import { inspectRAGPipeline } from "./server/ragEngine.js";
 import { DGNK_KNOWLEDGE_BASE } from "./server/knowledgeBase.js";
-import { DGNK_CENTERS, HS_CODES_DATABASE, TARIFF_RATES, DEMO_TRACKING_DATA, ShipmentTrackingRecord } from "./server/data.js";
+import { DGNK_CENTERS, HS_CODES_DATABASE, TARIFF_RATES, DEMO_TRACKING_DATA, ShipmentTrackingRecord, CBIC_EXCHANGE_RATES } from "./server/data.js";
 
 dotenv.config();
 
@@ -175,6 +175,25 @@ async function startServer() {
       weightGrams,
       declaredValueINR,
       services: calculatedServices
+    });
+  });
+
+  // 7b. CBIC Customs Exchange Rates endpoint
+  app.get("/api/exchange-rates/cbic", (req: Request, res: Response) => {
+    const { currency } = req.query;
+    if (currency && typeof currency === 'string') {
+      const found = CBIC_EXCHANGE_RATES.find(c => c.currencyCode.toUpperCase() === currency.toUpperCase());
+      if (found) {
+        return res.json({ success: true, rate: found });
+      }
+    }
+    return res.json({
+      success: true,
+      rates: CBIC_EXCHANGE_RATES,
+      authority: "Central Board of Indirect Taxes and Customs (CBIC), Ministry of Finance, Govt. of India",
+      statutorySection: "Section 14 of Customs Act, 1962",
+      effectiveNotification: "CBIC Notif. No. 14/2026-Customs (N.T.)",
+      lastSynchronized: new Date().toISOString()
     });
   });
 

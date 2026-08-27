@@ -29,6 +29,7 @@ import {
 } from 'lucide-react';
 import { ExporterProfile } from '../types';
 import { NoticeTicker } from './NoticeTicker';
+import { DnkLogo } from './DnkLogo';
 
 interface NavbarProps {
   currentTab?: string;
@@ -252,16 +253,59 @@ export const Navbar: React.FC<NavbarProps> = ({
 
   return (
     <>
+      {/* Endless Moving Text Bar - DAK GHAR NIRYAT KENDRA */}
+      <div 
+        id="top-endless-moving-ticker" 
+        className="bg-[#8B0B1D] text-white py-1 text-[11px] font-black uppercase tracking-widest border-b border-[#6E0816] overflow-hidden select-none relative z-30"
+        title="Dak Ghar Niryat Kendra - India Post"
+      >
+        <div className="animate-endless-scroll flex items-center whitespace-nowrap">
+          {/* Set 1 */}
+          <div className="flex items-center gap-6 px-4 shrink-0">
+            <span className="flex items-center gap-2">
+              <span className="w-2 h-2 rounded-full bg-[#FFC107] animate-pulse" />
+              <span className="tracking-[0.18em] text-[#FFC107] font-black">DAK GHAR NIRYAT KENDRA</span>
+            </span>
+            <span className="text-white/40">•</span>
+            <span className="tracking-wider text-white">डाक घर निर्यात केंद्र</span>
+            <span className="text-white/40">•</span>
+            <span className="tracking-[0.18em] text-[#FFC107] font-black">DAK GHAR NIRYAT KENDRA</span>
+            <span className="text-white/40">•</span>
+            <span className="tracking-wider text-amber-200">DEPARTMENT OF POSTS</span>
+            <span className="text-white/40">•</span>
+            <span className="tracking-[0.18em] text-[#FFC107] font-black">DAK GHAR NIRYAT KENDRA</span>
+            <span className="text-white/40">•</span>
+            <span className="tracking-wider text-white">DIGITAL POSTAL BILL OF EXPORT (PBE)</span>
+            <span className="text-white/40">•</span>
+          </div>
+
+          {/* Set 2 (Exact duplicate for seamless endless loop) */}
+          <div className="flex items-center gap-6 px-4 shrink-0" aria-hidden="true">
+            <span className="flex items-center gap-2">
+              <span className="w-2 h-2 rounded-full bg-[#FFC107] animate-pulse" />
+              <span className="tracking-[0.18em] text-[#FFC107] font-black">DAK GHAR NIRYAT KENDRA</span>
+            </span>
+            <span className="text-white/40">•</span>
+            <span className="tracking-wider text-white">डाक घर निर्यात केंद्र</span>
+            <span className="text-white/40">•</span>
+            <span className="tracking-[0.18em] text-[#FFC107] font-black">DAK GHAR NIRYAT KENDRA</span>
+            <span className="text-white/40">•</span>
+            <span className="tracking-wider text-amber-200">DEPARTMENT OF POSTS</span>
+            <span className="text-white/40">•</span>
+            <span className="tracking-[0.18em] text-[#FFC107] font-black">DAK GHAR NIRYAT KENDRA</span>
+            <span className="text-white/40">•</span>
+            <span className="tracking-wider text-white">DIGITAL POSTAL BILL OF EXPORT (PBE)</span>
+            <span className="text-white/40">•</span>
+          </div>
+        </div>
+      </div>
+
       {/* 1. Official Government of India Top Accessibility Bar */}
       <div className="bg-[#212529] text-gray-200 text-[11px] font-medium py-1 px-3 sm:px-6 border-b border-gray-700 select-none">
         <div className="max-w-7xl mx-auto flex items-center justify-between gap-3">
           
           {/* Ministry & Govt Hierarchy */}
           <div className="flex items-center gap-2 overflow-hidden truncate">
-            <span className="font-bold text-white uppercase tracking-wider">
-              {isHindi ? 'भारत सरकार' : 'Government of India'}
-            </span>
-            <span className="text-gray-500">|</span>
             <span className="text-gray-300 hidden sm:inline">
               {isHindi ? 'संचार मंत्रालय' : 'Ministry of Communications'}
             </span>
@@ -352,7 +396,7 @@ export const Navbar: React.FC<NavbarProps> = ({
               </span>
             </button>
 
-            {/* State Emblem of India + India Post Gold Seal */}
+            {/* Official DNK Brand Logo Lockup */}
             <div 
               className="flex items-center gap-3 cursor-pointer group select-none" 
               onClick={() => handleNav('dashboard')}
@@ -368,36 +412,12 @@ export const Navbar: React.FC<NavbarProps> = ({
                 </span>
               </div>
 
-              {/* India Post Iconic Wing Seal */}
-              <div className="w-10 sm:w-11 h-10 sm:h-11 bg-gradient-to-br from-[#FFE082] via-[#FFC107] to-[#FFA000] rounded-xl flex flex-col items-center justify-center font-black text-[#C8102E] shadow-md group-hover:scale-105 transition-transform shrink-0 border-2 border-white/70">
-                <span className="text-xs sm:text-sm font-black tracking-tighter leading-none text-[#A60D24]">डाक</span>
-                <span className="text-[8px] sm:text-[9px] font-black tracking-widest text-[#735A00] leading-none uppercase">POST</span>
-              </div>
-
-              {/* Portal Title & Subtitle */}
-              <div className="flex flex-col">
-                <div className="flex items-center gap-1.5 sm:gap-2">
-                  <span className="text-white font-extrabold text-sm sm:text-base tracking-tight leading-tight group-hover:text-amber-200 transition-colors">
-                    {isHindi ? 'भारतीय डाक' : 'India Post'}
-                  </span>
-                  <span className="text-[9px] sm:text-[10px] bg-white/20 text-amber-200 px-1.5 py-0.2 rounded font-semibold uppercase tracking-wider hidden sm:inline-block border border-white/20">
-                    Govt. of India
-                  </span>
-                  <span className="hidden xl:inline-flex items-center gap-1 bg-emerald-950/60 text-emerald-300 text-[9px] font-black px-1.5 py-0.2 rounded border border-emerald-400/40 uppercase">
-                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-                    ICES Live
-                  </span>
-                </div>
-                
-                <div className="flex items-center gap-1.5 mt-0.5">
-                  <span className="text-[#FFD54F] font-black text-xs sm:text-sm tracking-wide drop-shadow-xs">
-                    {isHindi ? 'डाक घर निर्यात केंद्र' : 'Dak Ghar Niryat Kendra'}
-                  </span>
-                  <span className="bg-[#FFC107] text-[#C8102E] text-[9px] sm:text-[10px] font-black px-1.5 py-0.2 rounded-xs uppercase tracking-wider shadow-2xs">
-                    DNK Portal
-                  </span>
-                </div>
-              </div>
+              {/* Official DNK Logo */}
+              <DnkLogo 
+                variant="compact" 
+                size="md" 
+                isHindi={isHindi} 
+              />
             </div>
 
           </div>
@@ -563,19 +583,11 @@ export const Navbar: React.FC<NavbarProps> = ({
             {/* Drawer Header with India Post Banner */}
             <div className="bg-gradient-to-r from-[#990B20] via-[#C8102E] to-[#A60D24] text-white p-5 sm:p-6 shrink-0 relative">
               <div className="flex items-center justify-between mb-3">
-                <div className="flex items-center gap-2.5">
-                  <div className="w-9 h-9 rounded-xl bg-[#FFC107] text-[#C8102E] flex items-center justify-center font-black text-sm shadow-md">
-                    DNK
-                  </div>
-                  <div>
-                    <span className="text-[10px] uppercase font-black tracking-widest text-amber-200 block">
-                      {isHindi ? 'डाक विभाग • भारत सरकार' : 'Department of Posts • Govt. of India'}
-                    </span>
-                    <h2 className="text-base sm:text-lg font-black text-white leading-tight">
-                      {isHindi ? 'डाक घर निर्यात केंद्र मेन्यू' : 'DNK Services & Tools Menu'}
-                    </h2>
-                  </div>
-                </div>
+                <DnkLogo 
+                  variant="full" 
+                  size="md" 
+                  isHindi={isHindi} 
+                />
 
                 <button
                   onClick={() => setIsMenuOpen(false)}

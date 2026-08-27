@@ -168,3 +168,15 @@ export interface ShipmentTrackingRecord {
     status: string;
   }[];
 }
+
+export interface CbicExchangeRate {
+  currencyCode: string;
+  currencyName: string;
+  symbol: string;
+  exportRateINR: number;
+  importRateINR: number;
+  unit: number;
+  countryCodes: string[];
+  effectiveDate: string;
+  notificationRef: string;
+}

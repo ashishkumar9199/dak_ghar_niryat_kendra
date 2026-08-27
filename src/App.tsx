@@ -17,6 +17,7 @@ import { RagInspectorModal } from './components/RagInspectorModal';
 import { ExporterProfileModal } from './components/ExporterProfileModal';
 import { WalletModal } from './components/WalletModal';
 import { BulkUploadModal } from './components/BulkUploadModal';
+import { DnkLogo } from './components/DnkLogo';
 import { ExporterProfile } from './types';
 import { ShieldCheck, Heart, ExternalLink, Globe, Phone, Mail, Building } from 'lucide-react';
 
@@ -192,9 +193,7 @@ export default function App() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <div className="flex flex-col md:flex-row items-center justify-between gap-4">
             <div className="flex items-center gap-3">
-              <div className="w-8 h-8 rounded-lg bg-[#FFC107] text-[#D42426] flex items-center justify-center font-black text-xs shadow-sm">
-                IP
-              </div>
+              <DnkLogo variant="badge" size="sm" />
               <div className="flex flex-wrap items-center gap-2 uppercase font-bold tracking-widest text-[10px]">
                 <span className="text-white">© {new Date().getFullYear()} DAK GHAR NIRYAT KENDRA (DNK) • INDIA POST</span>
                 <span className="text-gray-600">|</span>
