@@ -27,12 +27,19 @@ import {
   Radio,
   FileSpreadsheet,
   ChevronDown,
-  Check
+  Check,
+  LogIn,
+  UserPlus,
+  LogOut,
+  UserCheck,
+  RefreshCw,
+  KeyRound
 } from 'lucide-react';
 import { ExporterProfile, SupportedLanguage } from '../types';
 import { NoticeTicker } from './NoticeTicker';
 import { DnkLogo } from './DnkLogo';
 import { SUPPORTED_LANGUAGES, translations } from '../utils/translations';
+import { useAuth } from '../context/AuthContext';
 
 interface NavbarProps {
   currentTab?: string;
@@ -78,8 +85,12 @@ export const Navbar: React.FC<NavbarProps> = ({
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [menuSearch, setMenuSearch] = useState('');
   const [isLangDropdownOpen, setIsLangDropdownOpen] = useState(false);
+  const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
   const [fontSizeClass, setFontSizeClass] = useState<'normal' | 'large' | 'small'>('normal');
   const langDropdownRef = useRef<HTMLDivElement>(null);
+  const userMenuRef = useRef<HTMLDivElement>(null);
+
+  const { currentUser, isAuthenticated, openAuthModal, logout } = useAuth();
 
   const t = translations[language] || translations.EN;
   const isHindi = language === 'HI' || language === 'MAI';
@@ -100,11 +111,14 @@ export const Navbar: React.FC<NavbarProps> = ({
     setIsLangDropdownOpen(false);
   };
 
-  // Close dropdown on click outside
+  // Close dropdowns on click outside
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (langDropdownRef.current && !langDropdownRef.current.contains(event.target as Node)) {
         setIsLangDropdownOpen(false);
+      }
+      if (userMenuRef.current && !userMenuRef.current.contains(event.target as Node)) {
+        setIsUserMenuOpen(false);
       }
     };
     document.addEventListener('mousedown', handleClickOutside);
@@ -427,69 +441,6 @@ export const Navbar: React.FC<NavbarProps> = ({
 
   return (
     <>
-      {/* Endless Moving Text Bar - Multi-Language Rolling Ticker */}
-      <div 
-        id="top-endless-moving-ticker" 
-        className="bg-[#8B0B1D] text-white py-1 text-[11px] font-black uppercase tracking-widest border-b border-[#6E0816] overflow-hidden select-none relative z-30"
-        title="Dak Ghar Niryat Kendra - India Post"
-      >
-        <div className="animate-endless-scroll flex items-center whitespace-nowrap">
-          {/* Set 1 */}
-          <div className="flex items-center gap-6 px-4 shrink-0">
-            <span className="flex items-center gap-2">
-              <span className="w-2 h-2 rounded-full bg-[#FFC107] animate-pulse" />
-              <span className="tracking-[0.18em] text-[#FFC107] font-black">DAK GHAR NIRYAT KENDRA</span>
-            </span>
-            <span className="text-white/40">•</span>
-            <span className="tracking-wider text-white">डाक घर निर्यात केंद्र</span>
-            <span className="text-white/40">•</span>
-            <span className="tracking-wider text-amber-200">ಡಾಕ್ ಘರ್ ನಿರ್ಯಾತ್ ಕೇಂದ್ರ</span>
-            <span className="text-white/40">•</span>
-            <span className="tracking-wider text-white">டாக் கர் நிர்யாத் கேந்திரா</span>
-            <span className="text-white/40">•</span>
-            <span className="tracking-wider text-amber-200">ഡാക് ഘർ നിർയാത് കേന്ദ്ര</span>
-            <span className="text-white/40">•</span>
-            <span className="tracking-wider text-white">ਡਾਕ ਘਰ ਨਿਰਯਾਤ ਕੇਂਦਰ</span>
-            <span className="text-white/40">•</span>
-            <span className="tracking-wider text-amber-200">డాక్ ఘర్ నిర్యాత్ కేంద్ర</span>
-            <span className="text-white/40">•</span>
-            <span className="tracking-wider text-white">ડાક ઘર નિકાસ કેન્દ્ર</span>
-            <span className="text-white/40">•</span>
-            <span className="tracking-wider text-amber-200">डाक घर निर्यात केंद्र (मैथिली)</span>
-            <span className="text-white/40">•</span>
-            <span className="tracking-wider text-white">CENTRE D'EXPORTATION POSTALE (FRANÇAIS)</span>
-            <span className="text-white/40">•</span>
-          </div>
-
-          {/* Set 2 (Exact duplicate for seamless endless loop) */}
-          <div className="flex items-center gap-6 px-4 shrink-0" aria-hidden="true">
-            <span className="flex items-center gap-2">
-              <span className="w-2 h-2 rounded-full bg-[#FFC107] animate-pulse" />
-              <span className="tracking-[0.18em] text-[#FFC107] font-black">DAK GHAR NIRYAT KENDRA</span>
-            </span>
-            <span className="text-white/40">•</span>
-            <span className="tracking-wider text-white">डाक घर निर्यात केंद्र</span>
-            <span className="text-white/40">•</span>
-            <span className="tracking-wider text-amber-200">ಡಾಕ್ ಘರ್ ನಿರ್ಯಾತ್ ಕೇಂದ್ರ</span>
-            <span className="text-white/40">•</span>
-            <span className="tracking-wider text-white">டாக் கர் நிர்யாத் கேந்திரா</span>
-            <span className="text-white/40">•</span>
-            <span className="tracking-wider text-amber-200">ഡാക് ഘർ നിർയാത് കേന്ദ്ര</span>
-            <span className="text-white/40">•</span>
-            <span className="tracking-wider text-white">ਡਾਕ ਘਰ ਨਿਰਯਾਤ ਕੇਂਦਰ</span>
-            <span className="text-white/40">•</span>
-            <span className="tracking-wider text-amber-200">డాక్ ఘర్ నిర్యాత్ కేంద్ర</span>
-            <span className="text-white/40">•</span>
-            <span className="tracking-wider text-white">ડાક ઘર નિકાસ કેન્દ્ર</span>
-            <span className="text-white/40">•</span>
-            <span className="tracking-wider text-amber-200">डाक घर निर्यात केंद्र (मैथिली)</span>
-            <span className="text-white/40">•</span>
-            <span className="tracking-wider text-white">CENTRE D'EXPORTATION POSTALE (FRANÇAIS)</span>
-            <span className="text-white/40">•</span>
-          </div>
-        </div>
-      </div>
-
       {/* 1. Official Government of India Top Accessibility Bar */}
       <div className="bg-[#212529] text-gray-200 text-[11px] font-medium py-1 px-3 sm:px-6 border-b border-gray-700 select-none">
         <div className="max-w-7xl mx-auto flex items-center justify-between gap-3">
@@ -761,26 +712,213 @@ export const Navbar: React.FC<NavbarProps> = ({
               </button>
             )}
 
-            {/* Exporter KYC Profile Button */}
-            <button
-              onClick={onOpenProfile}
-              className="flex items-center gap-2 pl-2 pr-3 py-1.5 rounded-xl bg-black/25 hover:bg-black/35 border border-white/20 transition-all text-left"
-              title="Exporter Profile & KYC Settings"
-            >
-              <div className="w-7 h-7 rounded-lg bg-[#FFC107] text-[#990B20] flex items-center justify-center font-black text-xs shadow-xs shrink-0">
-                {profile.businessName ? profile.businessName.charAt(0).toUpperCase() : 'E'}
+            {/* Exporter KYC Profile / Login Button & Dropdown */}
+            {isAuthenticated && currentUser ? (
+              <div className="relative" ref={userMenuRef}>
+                <button
+                  id="btn-exporter-user-menu"
+                  onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
+                  className="flex items-center gap-2 pl-2 pr-2.5 py-1.5 rounded-xl bg-black/25 hover:bg-black/35 border border-white/20 transition-all text-left cursor-pointer group"
+                  title="Exporter Account & KYC Menu"
+                >
+                  <div className="w-7 h-7 rounded-lg bg-[#FFC107] text-[#990B20] flex items-center justify-center font-black text-xs shadow-xs shrink-0 group-hover:scale-105 transition-transform">
+                    {currentUser.businessName ? currentUser.businessName.charAt(0).toUpperCase() : 'E'}
+                  </div>
+                  <div className="hidden sm:block">
+                    <div className="text-xs font-black text-white leading-none truncate max-w-[110px]">
+                      {currentUser.businessName || 'Exporter'}
+                    </div>
+                    <div className="text-[10px] text-amber-200 font-bold leading-tight flex items-center gap-1">
+                      <span>{currentUser.hasIEC && currentUser.iecCode ? `IEC: ${currentUser.iecCode.substring(0, 6)}...` : 'MSME Artisan'}</span>
+                      <ChevronDown className="w-2.5 h-2.5 text-amber-300" />
+                    </div>
+                  </div>
+                </button>
+
+                {/* Exporter Account Dropdown Menu */}
+                {isUserMenuOpen && (
+                  <div className="absolute right-0 mt-2 w-72 bg-white rounded-2xl shadow-2xl border border-gray-200 py-2 z-50 text-gray-800 animate-in fade-in zoom-in-95 duration-150">
+                    
+                    {/* User Card Header */}
+                    <div className="px-4 py-3 border-b border-gray-100 bg-gray-50/80">
+                      <div className="flex items-center gap-2.5">
+                        <div className="w-9 h-9 rounded-xl bg-[#C8102E] text-white flex items-center justify-center font-black text-sm shadow-xs shrink-0">
+                          {currentUser.businessName ? currentUser.businessName.charAt(0).toUpperCase() : 'E'}
+                        </div>
+                        <div className="overflow-hidden">
+                          <div className="text-xs font-black text-gray-900 truncate">
+                            {currentUser.businessName}
+                          </div>
+                          <div className="text-[11px] text-gray-500 truncate flex items-center gap-1">
+                            <span>{currentUser.contactPerson}</span>
+                            <span className="text-[9px] bg-emerald-100 text-emerald-800 font-bold px-1.5 py-0.2 rounded-full">
+                              Verified
+                            </span>
+                          </div>
+                          <div className="text-[10px] text-gray-400 font-mono truncate">
+                            {currentUser.email}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Menu Actions */}
+                    <div className="p-1.5 space-y-0.5">
+                      <button
+                        onClick={() => {
+                          setIsUserMenuOpen(false);
+                          onOpenProfile();
+                        }}
+                        className="w-full px-3 py-2 text-left text-xs font-bold text-gray-700 hover:bg-red-50 hover:text-[#C8102E] rounded-xl flex items-center gap-2.5 transition-colors cursor-pointer"
+                      >
+                        <UserCheck className="w-4 h-4 text-[#C8102E]" />
+                        <span>{isHindi ? 'निर्यातक प्रोफाइल व KYC विवरण' : 'Exporter Profile & KYC Settings'}</span>
+                      </button>
+
+                      {onOpenWallet && (
+                        <button
+                          onClick={() => {
+                            setIsUserMenuOpen(false);
+                            onOpenWallet();
+                          }}
+                          className="w-full px-3 py-2 text-left text-xs font-bold text-gray-700 hover:bg-amber-50 hover:text-amber-900 rounded-xl flex items-center justify-between transition-colors cursor-pointer"
+                        >
+                          <div className="flex items-center gap-2.5">
+                            <Wallet className="w-4 h-4 text-amber-600" />
+                            <span>{isHindi ? 'फ्रैंकिंग वॉलेट बैलेंस' : 'Prepaid Franking Wallet'}</span>
+                          </div>
+                          <span className="text-[11px] font-black text-amber-700 font-mono bg-amber-100 px-2 py-0.5 rounded-md">
+                            ₹{(currentUser.walletBalance ?? 18450).toLocaleString('en-IN')}
+                          </span>
+                        </button>
+                      )}
+
+                      <button
+                        onClick={() => {
+                          setIsUserMenuOpen(false);
+                          openAuthModal('login');
+                        }}
+                        className="w-full px-3 py-2 text-left text-xs font-bold text-gray-700 hover:bg-gray-100 rounded-xl flex items-center gap-2.5 transition-colors cursor-pointer"
+                      >
+                        <RefreshCw className="w-4 h-4 text-gray-500" />
+                        <span>{isHindi ? 'खाता बदलें (Switch Account)' : 'Switch Exporter Account'}</span>
+                      </button>
+
+                      <button
+                        onClick={() => {
+                          setIsUserMenuOpen(false);
+                          openAuthModal('register');
+                        }}
+                        className="w-full px-3 py-2 text-left text-xs font-bold text-gray-700 hover:bg-gray-100 rounded-xl flex items-center gap-2.5 transition-colors cursor-pointer"
+                      >
+                        <UserPlus className="w-4 h-4 text-gray-500" />
+                        <span>{isHindi ? 'नया निर्यातक खाता जोड़ें' : 'Register New Account'}</span>
+                      </button>
+                    </div>
+
+                    {/* Logout Footer */}
+                    <div className="p-1.5 border-t border-gray-100 mt-1">
+                      <button
+                        onClick={() => {
+                          setIsUserMenuOpen(false);
+                          logout();
+                        }}
+                        className="w-full px-3 py-2 text-left text-xs font-bold text-rose-600 hover:bg-rose-50 rounded-xl flex items-center gap-2.5 transition-colors cursor-pointer"
+                      >
+                        <LogOut className="w-4 h-4 text-rose-600" />
+                        <span>{isHindi ? 'लॉगआउट / साइन आउट' : 'Sign Out / Logout'}</span>
+                      </button>
+                    </div>
+
+                  </div>
+                )}
               </div>
-              <div className="hidden sm:block">
-                <div className="text-xs font-black text-white leading-none truncate max-w-[110px]">
-                  {profile.businessName || 'Exporter'}
-                </div>
-                <div className="text-[10px] text-amber-200 font-bold leading-tight">
-                  {profile.iecCode ? `IEC: ${profile.iecCode}` : 'MSME KYC'}
-                </div>
+            ) : (
+              <div className="flex items-center gap-1.5">
+                <button
+                  onClick={() => openAuthModal('login')}
+                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-white text-[#C8102E] hover:bg-amber-50 font-black text-xs shadow-xs transition-all cursor-pointer"
+                  title="Sign In to Dak Ghar Niryat Kendra"
+                >
+                  <LogIn className="w-3.5 h-3.5" />
+                  <span>{isHindi ? 'लॉगिन' : 'Login'}</span>
+                </button>
+
+                <button
+                  onClick={() => openAuthModal('register')}
+                  className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-black/25 hover:bg-black/35 border border-white/25 text-white font-black text-xs transition-all cursor-pointer"
+                  title="Register as New Exporter"
+                >
+                  <UserPlus className="w-3.5 h-3.5 text-[#FFC107]" />
+                  <span>{isHindi ? 'पंजीकरण' : 'Register'}</span>
+                </button>
               </div>
-            </button>
+            )}
           </div>
 
+        </div>
+
+        {/* Endless Moving Text Bar - Multi-Language Rolling Ticker (Next to Header Navigation) */}
+        <div 
+          id="top-endless-moving-ticker" 
+          className="bg-[#8B0B1D]/90 text-white py-1 text-[11px] font-black uppercase tracking-widest border-t border-b border-black/20 overflow-hidden select-none"
+          title="Dak Ghar Niryat Kendra - India Post"
+        >
+          <div className="animate-endless-scroll flex items-center whitespace-nowrap">
+            {/* Set 1 */}
+            <div className="flex items-center gap-6 px-4 shrink-0">
+              <span className="flex items-center gap-2">
+                <span className="w-2 h-2 rounded-full bg-[#FFC107] animate-pulse" />
+                <span className="tracking-[0.18em] text-[#FFC107] font-black">DAK GHAR NIRYAT KENDRA</span>
+              </span>
+              <span className="text-white/40">•</span>
+              <span className="tracking-wider text-white">डाक घर निर्यात केंद्र</span>
+              <span className="text-white/40">•</span>
+              <span className="tracking-wider text-amber-200">ಡಾಕ್ ಘರ್ ನಿರ್ಯಾತ್ ಕೇಂದ್ರ</span>
+              <span className="text-white/40">•</span>
+              <span className="tracking-wider text-white">டாக் கர் நிர்யாத் கேந்திரா</span>
+              <span className="text-white/40">•</span>
+              <span className="tracking-wider text-amber-200">ഡാക് ഘർ നിർയാത് കേന്ദ്ര</span>
+              <span className="text-white/40">•</span>
+              <span className="tracking-wider text-white">ਡਾਕ ਘਰ ਨਿਰਯਾਤ ਕੇਂਦਰ</span>
+              <span className="text-white/40">•</span>
+              <span className="tracking-wider text-amber-200">డాక్ ఘర్ నిర్యాత్ కేంద్ర</span>
+              <span className="text-white/40">•</span>
+              <span className="tracking-wider text-white">ડાક ઘર નિકાસ કેન્દ્ર</span>
+              <span className="text-white/40">•</span>
+              <span className="tracking-wider text-amber-200">डाक घर निर्यात केंद्र (मैथिली)</span>
+              <span className="text-white/40">•</span>
+              <span className="tracking-wider text-white">CENTRE D'EXPORTATION POSTALE (FRANÇAIS)</span>
+              <span className="text-white/40">•</span>
+            </div>
+
+            {/* Set 2 (Exact duplicate for seamless endless loop) */}
+            <div className="flex items-center gap-6 px-4 shrink-0" aria-hidden="true">
+              <span className="flex items-center gap-2">
+                <span className="w-2 h-2 rounded-full bg-[#FFC107] animate-pulse" />
+                <span className="tracking-[0.18em] text-[#FFC107] font-black">DAK GHAR NIRYAT KENDRA</span>
+              </span>
+              <span className="text-white/40">•</span>
+              <span className="tracking-wider text-white">डाक घर निर्यात केंद्र</span>
+              <span className="text-white/40">•</span>
+              <span className="tracking-wider text-amber-200">ಡಾಕ್ ಘರ್ ನಿರ್ಯಾತ್ ಕೇಂದ್ರ</span>
+              <span className="text-white/40">•</span>
+              <span className="tracking-wider text-white">டாக் கர் நிர்யாத் கேந்திரா</span>
+              <span className="text-white/40">•</span>
+              <span className="tracking-wider text-amber-200">ഡാക് ഘർ നിർയാത് കേന്ദ്ര</span>
+              <span className="text-white/40">•</span>
+              <span className="tracking-wider text-white">ਡਾਕ ਘਰ ਨਿਰਯਾਤ ਕੇਂਦਰ</span>
+              <span className="text-white/40">•</span>
+              <span className="tracking-wider text-amber-200">డాక్ ఘర్ నిర్యాత్ కేంద్ర</span>
+              <span className="text-white/40">•</span>
+              <span className="tracking-wider text-white">ડાક ઘર નિકાસ કેન્દ્ર</span>
+              <span className="text-white/40">•</span>
+              <span className="tracking-wider text-amber-200">डाक घर निर्यात केंद्र (मैथिली)</span>
+              <span className="text-white/40">•</span>
+              <span className="tracking-wider text-white">CENTRE D'EXPORTATION POSTALE (FRANÇAIS)</span>
+              <span className="text-white/40">•</span>
+            </div>
+          </div>
         </div>
 
         {/* 3. Official Rolling Flash News & CBIC Notice Ticker */}
@@ -825,28 +963,82 @@ export const Navbar: React.FC<NavbarProps> = ({
                 </button>
               </div>
 
-              {/* Exporter mini status banner in drawer */}
-              <div className="bg-black/20 rounded-xl p-3 border border-white/15 flex items-center justify-between text-xs">
-                <div>
-                  <span className="text-amber-200 font-bold block truncate max-w-[200px]">
-                    {profile.businessName || 'Exporter Profile'}
-                  </span>
-                  <span className="text-[11px] text-white/80 font-mono">
-                    IEC: {profile.iecCode || '0518029481'} | LUT Active
-                  </span>
+              {/* Exporter mini status banner / Auth banner in drawer */}
+              {isAuthenticated && currentUser ? (
+                <div className="bg-black/20 rounded-xl p-3 border border-white/15 text-xs space-y-2">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <span className="text-amber-200 font-bold block truncate max-w-[200px]">
+                        {currentUser.businessName || 'Exporter Profile'}
+                      </span>
+                      <span className="text-[11px] text-white/80 font-mono">
+                        {currentUser.hasIEC && currentUser.iecCode ? `IEC: ${currentUser.iecCode}` : 'MSME Artisan'} | {currentUser.contactPerson}
+                      </span>
+                    </div>
+                    {onOpenWallet && (
+                      <button
+                        onClick={() => {
+                          setIsMenuOpen(false);
+                          onOpenWallet();
+                        }}
+                        className="px-2.5 py-1 bg-[#FFC107] hover:bg-[#FFA000] text-[#C8102E] font-black rounded-lg text-xs shadow-xs cursor-pointer"
+                      >
+                        ₹{(currentUser.walletBalance ?? 18450).toLocaleString('en-IN')}
+                      </button>
+                    )}
+                  </div>
+                  <div className="flex items-center gap-2 pt-1 border-t border-white/10 text-[11px]">
+                    <button
+                      onClick={() => {
+                        setIsMenuOpen(false);
+                        openAuthModal('login');
+                      }}
+                      className="text-amber-200 hover:text-white font-semibold underline flex items-center gap-1 cursor-pointer"
+                    >
+                      <RefreshCw className="w-3 h-3" />
+                      <span>{isHindi ? 'खाता बदलें' : 'Switch Account'}</span>
+                    </button>
+                    <span className="text-white/40">•</span>
+                    <button
+                      onClick={() => {
+                        setIsMenuOpen(false);
+                        logout();
+                      }}
+                      className="text-rose-200 hover:text-white font-semibold underline flex items-center gap-1 cursor-pointer"
+                    >
+                      <LogOut className="w-3 h-3" />
+                      <span>{isHindi ? 'लॉगआउट' : 'Sign Out'}</span>
+                    </button>
+                  </div>
                 </div>
-                {onOpenWallet && (
-                  <button
-                    onClick={() => {
-                      setIsMenuOpen(false);
-                      onOpenWallet();
-                    }}
-                    className="px-2.5 py-1 bg-[#FFC107] hover:bg-[#FFA000] text-[#C8102E] font-black rounded-lg text-xs shadow-xs"
-                  >
-                    ₹{walletAmount.toLocaleString('en-IN')}
-                  </button>
-                )}
-              </div>
+              ) : (
+                <div className="bg-black/20 rounded-xl p-3 border border-white/15 flex items-center justify-between gap-2">
+                  <div>
+                    <div className="text-xs font-bold text-white">Guest Exporter</div>
+                    <div className="text-[11px] text-amber-200">Sign in to save PBEs & Franking</div>
+                  </div>
+                  <div className="flex items-center gap-1.5">
+                    <button
+                      onClick={() => {
+                        setIsMenuOpen(false);
+                        openAuthModal('login');
+                      }}
+                      className="px-2.5 py-1 bg-white text-[#C8102E] font-bold rounded-lg text-xs"
+                    >
+                      {isHindi ? 'लॉगिन' : 'Login'}
+                    </button>
+                    <button
+                      onClick={() => {
+                        setIsMenuOpen(false);
+                        openAuthModal('register');
+                      }}
+                      className="px-2.5 py-1 bg-[#FFC107] text-[#990B20] font-black rounded-lg text-xs"
+                    >
+                      {isHindi ? 'रजिस्टर' : 'Register'}
+                    </button>
+                  </div>
+                </div>
+              )}
             </div>
 
             {/* Search Filter Input in Menu */}

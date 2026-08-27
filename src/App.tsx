@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Navbar } from './components/Navbar';
 import { DashboardOverview } from './components/DashboardOverview';
 import { AIAssistant } from './components/AIAssistant';
@@ -17,11 +17,14 @@ import { RagInspectorModal } from './components/RagInspectorModal';
 import { ExporterProfileModal } from './components/ExporterProfileModal';
 import { WalletModal } from './components/WalletModal';
 import { BulkUploadModal } from './components/BulkUploadModal';
+import { AuthModal } from './components/AuthModal';
 import { DnkLogo } from './components/DnkLogo';
 import { ExporterProfile, SupportedLanguage } from './types';
+import { AuthProvider, useAuth } from './context/AuthContext';
+import { convertUserToExporterProfile } from './services/authService';
 import { ShieldCheck, Heart, ExternalLink, Globe, Phone, Mail, Building } from 'lucide-react';
 
-export default function App() {
+function AppContent() {
   const [currentTab, setCurrentTab] = useState<string>('dashboard');
   const [language, setLanguage] = useState<SupportedLanguage>('EN');
   const [isRagInspectorOpen, setIsRagInspectorOpen] = useState<boolean>(false);
@@ -30,6 +33,15 @@ export default function App() {
   const [isBulkUploadModalOpen, setIsBulkUploadModalOpen] = useState<boolean>(false);
   const [assistantInitialQuery, setAssistantInitialQuery] = useState<string>('');
   const [trackerInitialArticleId, setTrackerInitialArticleId] = useState<string>('EE928410294IN');
+
+  const { 
+    currentUser, 
+    isAuthModalOpen, 
+    closeAuthModal, 
+    authModalTab,
+    updateUserWallet,
+    updateUserProfile
+  } = useAuth();
 
   const [profile, setProfile] = useState<ExporterProfile>({
     businessName: 'Varanasi Silk & Handicrafts Guild',
@@ -47,6 +59,13 @@ export default function App() {
     preferredDGNK: 'Varanasi Cantt HPO DGNK (221002)',
     walletBalance: 18450
   });
+
+  // Sync profile when auth user changes
+  useEffect(() => {
+    if (currentUser) {
+      setProfile(convertUserToExporterProfile(currentUser));
+    }
+  }, [currentUser]);
 
   const handleNavigate = (tab: string) => {
     setCurrentTab(tab);
@@ -68,6 +87,16 @@ export default function App() {
   const handleBulkProcessed = (count: number) => {
     alert(`Successfully imported batch of ${count} export consignments. Ready for PBE generation!`);
     setCurrentTab('wizard');
+  };
+
+  const handleProfileSave = (newProf: ExporterProfile) => {
+    setProfile(newProf);
+    updateUserProfile(newProf);
+  };
+
+  const handleBalanceUpdate = (newBal: number) => {
+    setProfile(p => ({ ...p, walletBalance: newBal }));
+    updateUserWallet(newBal);
   };
 
   return (
@@ -135,7 +164,9 @@ export default function App() {
           <DGNKLocator
             language={language}
             onSelectCenter={(c) => {
-              setProfile(prev => ({ ...prev, preferredDGNK: `${c.name} (${c.pincode})` }));
+              const updated = { ...profile, preferredDGNK: `${c.name} (${c.pincode})` };
+              setProfile(updated);
+              updateUserProfile(updated);
               alert(`Selected "${c.name} (${c.pincode})" as your default DGNK booking counter.`);
             }}
           />
@@ -168,7 +199,7 @@ export default function App() {
         isOpen={isProfileModalOpen}
         onClose={() => setIsProfileModalOpen(false)}
         profile={profile}
-        onSaveProfile={(newProf) => setProfile(newProf)}
+        onSaveProfile={handleProfileSave}
       />
 
       {/* Exporter Prepaid Franking Wallet Modal */}
@@ -177,7 +208,7 @@ export default function App() {
         onClose={() => setIsWalletModalOpen(false)}
         profile={profile}
         language={language}
-        onUpdateBalance={(newBal) => setProfile(p => ({ ...p, walletBalance: newBal }))}
+        onUpdateBalance={handleBalanceUpdate}
       />
 
       {/* Batch Consignment Upload Modal */}
@@ -187,6 +218,14 @@ export default function App() {
         language={language}
         profile={profile}
         onBulkProcessed={handleBulkProcessed}
+      />
+
+      {/* Exporter Authentication Modal (Login / Register / Recover) */}
+      <AuthModal
+        isOpen={isAuthModalOpen}
+        onClose={closeAuthModal}
+        language={language}
+        initialTab={authModalTab}
       />
 
       {/* Footer from Vibrant Palette theme */}
@@ -203,13 +242,13 @@ export default function App() {
             </div>
 
             <div className="flex items-center gap-6 uppercase font-bold tracking-widest text-[10px]">
-              <button onClick={() => handleNavigate('knowledge')} className="hover:text-[#FFC107] transition-colors">
+              <button onClick={() => handleNavigate('knowledge')} className="hover:text-[#FFC107] transition-colors cursor-pointer">
                 CBIC Circulars
               </button>
-              <button onClick={() => handleNavigate('knowledge')} className="hover:text-[#FFC107] transition-colors">
+              <button onClick={() => handleNavigate('knowledge')} className="hover:text-[#FFC107] transition-colors cursor-pointer">
                 DGFT FTP 2023
               </button>
-              <button onClick={() => setIsRagInspectorOpen(true)} className="text-[#FFC107] hover:underline transition-colors">
+              <button onClick={() => setIsRagInspectorOpen(true)} className="text-[#FFC107] hover:underline transition-colors cursor-pointer">
                 RAG Pipeline
               </button>
             </div>
@@ -219,3 +258,12 @@ export default function App() {
     </div>
   );
 }
+
+export default function App() {
+  return (
+    <AuthProvider>
+      <AppContent />
+    </AuthProvider>
+  );
+}
+

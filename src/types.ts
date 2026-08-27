@@ -60,6 +60,52 @@ export interface ExporterProfile {
   walletBalance?: number;
 }
 
+export interface UserAccount {
+  id: string;
+  email: string;
+  contactPerson: string;
+  businessName: string;
+  phone: string;
+  businessCategory: string;
+  hasIEC: boolean;
+  iecCode?: string;
+  hasGST: boolean;
+  gstin?: string;
+  hasLUT: boolean;
+  lutNumber?: string;
+  preferredDGNK: string;
+  address?: string;
+  city?: string;
+  state?: string;
+  pincode?: string;
+  walletBalance: number;
+  role?: 'exporter' | 'admin' | 'customs_officer';
+  createdAt: string;
+  lastLoginAt: string;
+}
+
+export interface RegisterFormData {
+  contactPerson: string;
+  email: string;
+  password: string;
+  confirmPassword?: string;
+  phone: string;
+  businessName: string;
+  businessCategory: string;
+  hasIEC: boolean;
+  iecCode?: string;
+  hasGST: boolean;
+  gstin?: string;
+  hasLUT?: boolean;
+  lutNumber?: string;
+  preferredDGNK: string;
+  address?: string;
+  city?: string;
+  state?: string;
+  pincode?: string;
+  agreeTerms: boolean;
+}
+
 export interface ProductItem {
   id: string;
   name: string;

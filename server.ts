@@ -18,6 +18,35 @@ async function startServer() {
 
   app.use(express.json());
 
+  // In-memory registered users store on server
+  const serverUsers = new Map<string, any>();
+  
+  // Seed server with initial accounts
+  serverUsers.set('exports@varanasihandicrafts.org', {
+    id: 'usr-varanasi-01',
+    email: 'exports@varanasihandicrafts.org',
+    password: 'password123',
+    contactPerson: 'Devendra Sharma',
+    businessName: 'Varanasi Silk & Handicrafts Guild',
+    phone: '+91 98390 12845',
+    businessCategory: 'Handicrafts & Artifacts',
+    hasIEC: true,
+    iecCode: '0518029481',
+    hasGST: true,
+    gstin: '09AAAFV1284M1ZV',
+    hasLUT: true,
+    lutNumber: 'AD0903250084712',
+    preferredDGNK: 'Varanasi Cantt HPO DGNK (221002)',
+    address: 'Plot 42, Chowk Silk Enclave, Godowlia',
+    city: 'Varanasi',
+    state: 'Uttar Pradesh',
+    pincode: '221002',
+    walletBalance: 18450,
+    role: 'exporter',
+    createdAt: '2025-11-15T10:30:00.000Z',
+    lastLoginAt: new Date().toISOString()
+  });
+
   // 1. Health check
   app.get("/api/health", (req: Request, res: Response) => {
     res.json({
@@ -28,6 +57,76 @@ async function startServer() {
       knowledgeChunksCount: DGNK_KNOWLEDGE_BASE.length,
       timestamp: new Date().toISOString()
     });
+  });
+
+  // 1b. Auth Endpoints (Register, Login, Session)
+  app.post("/api/auth/register", (req: Request, res: Response) => {
+    try {
+      const { email, password, contactPerson, businessName, phone, businessCategory, hasIEC, iecCode, hasGST, gstin, preferredDGNK } = req.body;
+      const cleanEmail = (email || '').trim().toLowerCase();
+
+      if (!cleanEmail || !password) {
+        return res.status(400).json({ error: "Email and password are required." });
+      }
+
+      if (serverUsers.has(cleanEmail)) {
+        return res.status(409).json({ error: "An account with this email is already registered." });
+      }
+
+      const newUser = {
+        id: `usr-dnk-${Date.now().toString(36)}`,
+        email: cleanEmail,
+        password: password.trim(),
+        contactPerson: contactPerson || 'Authorized Exporter',
+        businessName: businessName || 'Indian Export MSME',
+        phone: phone || '+91 98765 43210',
+        businessCategory: businessCategory || 'Handicrafts & Artifacts',
+        hasIEC: !!hasIEC,
+        iecCode: iecCode || '',
+        hasGST: !!hasGST,
+        gstin: gstin || '',
+        hasLUT: false,
+        lutNumber: '',
+        preferredDGNK: preferredDGNK || 'New Delhi GPO DGNK (110001)',
+        walletBalance: 5000,
+        role: 'exporter',
+        createdAt: new Date().toISOString(),
+        lastLoginAt: new Date().toISOString()
+      };
+
+      serverUsers.set(cleanEmail, newUser);
+      const { password: _, ...userSafe } = newUser;
+      return res.status(201).json({ success: true, user: userSafe });
+    } catch (err: any) {
+      return res.status(500).json({ error: "Registration failed", details: err.message });
+    }
+  });
+
+  app.post("/api/auth/login", (req: Request, res: Response) => {
+    try {
+      const { email, password } = req.body;
+      const cleanEmail = (email || '').trim().toLowerCase();
+      const cleanPass = (password || '').trim();
+
+      if (!cleanEmail || !cleanPass) {
+        return res.status(400).json({ error: "Email and password are required." });
+      }
+
+      const user = serverUsers.get(cleanEmail);
+      if (!user) {
+        return res.status(404).json({ error: "No account found with this email address. Please register." });
+      }
+
+      if (user.password && user.password !== cleanPass) {
+        return res.status(401).json({ error: "Incorrect password." });
+      }
+
+      user.lastLoginAt = new Date().toISOString();
+      const { password: _, ...userSafe } = user;
+      return res.json({ success: true, user: userSafe });
+    } catch (err: any) {
+      return res.status(500).json({ error: "Login failed", details: err.message });
+    }
   });
 
   // 2. RAG AI Assistant Chat endpoint
