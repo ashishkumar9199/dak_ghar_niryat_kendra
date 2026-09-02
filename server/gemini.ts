@@ -1,4 +1,4 @@
-import { GoogleGenAI } from "@google/genai";
+import { GoogleGenAI, ThinkingLevel } from "@google/genai";
 import { buildPromptContext, retrieveRelevantChunks, RetrievedContext } from "./ragEngine.js";
 import { DEMO_TRACKING_DATA, userShipments, ShipmentTrackingRecord } from "./data.js";
 
@@ -353,6 +353,9 @@ Please generate an authoritative, structured, and helpful response grounded in t
         systemInstruction,
         temperature: 0.3, // Slightly higher for friendly human-like narration while preserving factuality
         topP: 0.9,
+        thinkingConfig: {
+          thinkingLevel: ThinkingLevel.MINIMAL
+        }
       }
     });
 
