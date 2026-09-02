@@ -18,7 +18,6 @@ import { ExporterProfileModal } from './components/ExporterProfileModal';
 import { WalletModal } from './components/WalletModal';
 import { BulkUploadModal } from './components/BulkUploadModal';
 import { AuthModal } from './components/AuthModal';
-import { MobileBottomNav } from './components/MobileBottomNav';
 import { FloatingAIChatWidget } from './components/FloatingAIChatWidget';
 import { DnkLogo } from './components/DnkLogo';
 import { ExporterProfile, SupportedLanguage } from './types';
@@ -273,15 +272,6 @@ function AppContent() {
         onOpenRagInspector={() => setIsRagInspectorOpen(true)}
       />
 
-      {/* Mobile Bottom Quick Navigation Bar for Phone Displays */}
-      <MobileBottomNav
-        currentTab={currentTab}
-        onNavigate={handleNavigate}
-        language={language}
-        onOpenMenu={() => setIsMenuOpen(true)}
-        onOpenWallet={() => setIsWalletModalOpen(true)}
-        walletBalance={profile.walletBalance}
-      />
     </div>
   );
 }

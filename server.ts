@@ -5,12 +5,9 @@ import dotenv from "dotenv";
 import { generateGroundedAnswer } from "./server/gemini.js";
 import { inspectRAGPipeline } from "./server/ragEngine.js";
 import { DGNK_KNOWLEDGE_BASE } from "./server/knowledgeBase.js";
-import { DGNK_CENTERS, HS_CODES_DATABASE, TARIFF_RATES, DEMO_TRACKING_DATA, ShipmentTrackingRecord, CBIC_EXCHANGE_RATES } from "./server/data.js";
+import { DGNK_CENTERS, HS_CODES_DATABASE, TARIFF_RATES, DEMO_TRACKING_DATA, ShipmentTrackingRecord, CBIC_EXCHANGE_RATES, userShipments } from "./server/data.js";
 
 dotenv.config();
-
-// In-memory shipment store for user session creations
-const userShipments = new Map<string, ShipmentTrackingRecord>();
 
 async function startServer() {
   const app = express();
@@ -297,7 +294,7 @@ async function startServer() {
   });
 
   // 8. Tracking API
-  app.get("/api/tracking/track/:id", (req: Request, res: Response) => {
+  app.get(["/api/tracking/track/:id", "/api/shipments/track/:id"], (req: Request, res: Response) => {
     const articleId = (req.params.id || '').toUpperCase().trim();
 
     if (userShipments.has(articleId)) {
@@ -423,7 +420,7 @@ async function startServer() {
   });
 
   // 10. Prohibited & Restricted Item Quick Screener
-  app.post("/api/customs/screen-item", (req: Request, res: Response) => {
+  app.post(["/api/customs/screen-item", "/api/prohibited-check"], (req: Request, res: Response) => {
     const { itemName, destinationCountry } = req.body;
     const name = (itemName || '').toLowerCase();
 

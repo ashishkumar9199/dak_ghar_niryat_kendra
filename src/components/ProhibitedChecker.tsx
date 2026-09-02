@@ -116,7 +116,7 @@ export const ProhibitedChecker: React.FC<{ language: SupportedLanguage; onAskAI?
     setAiScreenResult(null);
 
     try {
-      const response = await fetch('/api/prohibited-check', {
+      const response = await fetch('/api/customs/screen-item', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

@@ -1,5 +1,6 @@
 import { GoogleGenAI } from "@google/genai";
 import { buildPromptContext, retrieveRelevantChunks, RetrievedContext } from "./ragEngine.js";
+import { DEMO_TRACKING_DATA, userShipments, ShipmentTrackingRecord } from "./data.js";
 
 let aiClient: GoogleGenAI | null = null;
 
@@ -43,6 +44,39 @@ export interface AssistantAnswerResponse {
   }[];
 }
 
+function findTrackingId(text: string): string | null {
+  if (!text) return null;
+  const normalizedText = text.toUpperCase().replace(/[\s\-_:,]/g, '');
+  
+  // 1. Check direct map keys
+  for (const id of userShipments.keys()) {
+    if (normalizedText.includes(id.toUpperCase())) {
+      return id;
+    }
+  }
+  for (const id of Object.keys(DEMO_TRACKING_DATA)) {
+    if (normalizedText.includes(id.toUpperCase())) {
+      return id;
+    }
+  }
+
+  // 2. Standard UPU S10 (e.g. EE928410294IN)
+  const upuRegex = /[A-Z]{2}\d{9}[A-Z]{2}/i;
+  const match = text.match(upuRegex);
+  if (match) {
+    return match[0].toUpperCase();
+  }
+
+  // 3. Custom DNK format (e.g. DNK-17182928)
+  const dnkRegex = /DNK\-\d+/i;
+  const dnkMatch = text.match(dnkRegex);
+  if (dnkMatch) {
+    return dnkMatch[0].toUpperCase();
+  }
+
+  return null;
+}
+
 export async function generateGroundedAnswer(
   userQuery: string,
   userProfile?: {
@@ -54,8 +88,71 @@ export async function generateGroundedAnswer(
   },
   history?: ChatHistoryTurn[]
 ): Promise<AssistantAnswerResponse> {
+  // Check for tracking keywords & potential tracking ID
+  const hasTrackingKeywords = /track|order|package|parcel|consignment|shipment|status|where is|receipt/i.test(userQuery);
+  const matchedTrackingId = findTrackingId(userQuery) || (history ? findTrackingId(history.map(h => h.text).join(' ')) : null);
+
+  let trackingContext = "";
+  let foundShipment: ShipmentTrackingRecord | null = null;
+
+  if (matchedTrackingId) {
+    const shipment = userShipments.get(matchedTrackingId) || DEMO_TRACKING_DATA[matchedTrackingId];
+    if (shipment) {
+      foundShipment = shipment;
+      trackingContext = `
+[LIVE SHIPMENT TRACKING DATA RETRIEVED]
+Consignment ID: ${shipment.articleId}
+Booking Date: ${shipment.bookingDate}
+Origin: ${shipment.originDGNK}
+Destination City: ${shipment.destinationCity}
+Destination Country: ${shipment.destinationCountry}
+Recipient Name: ${shipment.recipientName}
+Postal Shipping Service: ${shipment.serviceType}
+Current Status Summary: ${shipment.currentStatus}
+Status Code: ${shipment.currentStatusCode}
+Estimated Delivery: ${shipment.estimatedDelivery}
+
+CHRONOLOGICAL SHIPPING EVENTS LOG (Newest events first):
+${shipment.events.map((e, idx) => `  Event #${idx + 1}:
+    Timestamp: ${e.timestamp}
+    Location: ${e.location}
+    Activity Detail: ${e.activity}
+    Customs/Transit Status: ${e.status}`).join('\n')}
+`;
+    } else {
+      trackingContext = `
+[SHIPMENT TRACKING SYSTEM SEARCH RESULT]
+The user queried for consignment code: "${matchedTrackingId}", but this ID is not found in the live DGNK shipments registry.
+Instructions: Inform the user politely that the consignment ID they entered was not recognized. Encourage them to verify the format (e.g., standard 13-character code like EE928410294IN) or explain that custom shipments can take a short time (2-4 hours) to be indexed in the tracking logs after the physical counter scan.
+`;
+    }
+  }
+
+  const shippingServicesContext = `
+DGNK STANDARD EXPORT SHIPPING SERVICES:
+1. Speed Post International (EMS)
+   - Category: Premium high-priority express air courier.
+   - Transit Time: 4-9 business days to global destinations.
+   - Weight Limit: Up to 35 kg.
+   - Tracking: Premium end-to-end continuous item-level tracking with real-time updates.
+   - Ideal For: Urgent documents, precious handicrafts, medicines, high-value MSME products.
+
+2. International Tracked Packet Service (ITPS)
+   - Category: Economical e-commerce optimized postal packet.
+   - Transit Time: 8-15 business days.
+   - Weight Limit: Strictly up to 2 kg.
+   - Tracking: Cost-effective milestone electronic tracking (updates on dispatch, foreign office entry, customs, and delivery).
+   - Ideal For: Small e-commerce sellers, artisans exporting jewelry, silks, light wooden crafts, or toys.
+
+3. Air Parcel
+   - Category: Reliable standard cargo-weight parcel shipping.
+   - Transit Time: 10-20 business days.
+   - Weight Limit: Up to 20kg - 30kg.
+   - Tracking: Standard parcel exchange office tracking.
+   - Ideal For: Heavy bulky commercial exports, brassware, stone sculptures, large handicraft batches where shipping costs need to be minimized.
+`;
+
   // Step 1: Retrieve relevant official document chunks via RAG engine
-  // Include words from the latest query + previous user message if available for richer multi-turn context
   const fullSearchQuery = history && history.length > 0 
     ? `${userQuery} ${history[history.length - 1]?.text || ''}`.substring(0, 400)
     : userQuery;
@@ -76,6 +173,66 @@ export async function generateGroundedAnswer(
 
   if (!ai) {
     // Grounded synthesis fallback using retrieved official knowledge chunks directly
+    if (foundShipment) {
+      const fallbackAnswer = `Live Consignment Tracking Report (DNK Offline Mode)
+
+I located your active consignment shipment! Here are the live shipping and customs status details:
+
+• Consignment ID: ${foundShipment.articleId}
+• Service Type: ${foundShipment.serviceType}
+• Destination: ${foundShipment.destinationCity}, ${foundShipment.destinationCountry}
+• Recipient: ${foundShipment.recipientName}
+• Latest Status: ${foundShipment.currentStatus}
+• Estimated Delivery: ${foundShipment.estimatedDelivery}
+
+Step-by-step Tracking History:
+${foundShipment.events.map(e => `• [${e.timestamp}] ${e.location}\n  Activity: ${e.activity} (Status: ${e.status})`).join('\n\n')}
+
+Let me know if you would like me to explain any of these events or check package dimensions guidelines!`;
+
+      return {
+        answer: fallbackAnswer,
+        groundedSources: sourcesList,
+        isAiGrounded: true,
+        query: userQuery,
+        timestamp: new Date().toISOString(),
+        suggestedFollowUps: [
+          'What does "Export Out of Charge" mean?',
+          'How do I file Form PBE-I for this consignment?',
+          'View nearest DGNK counter details'
+        ],
+        actionLinks: [
+          { label: 'View Tracking Panel', action: 'open_tracker', icon: 'Search' }
+        ]
+      };
+    } else if (hasTrackingKeywords && !matchedTrackingId) {
+      const fallbackAnswer = `How can I help you track your shipment today?
+
+If you are looking to track your international postal parcel or e-commerce order, I would be delighted to look up the live database and customs status for you!
+
+To search the live registers, please reply with your 13-character Consignment ID (e.g., standard Speed Post format like EE928410294IN).
+
+For your information, Dak Ghar Niryat Kendra (DNK) supports the following three international export shipping services:
+1. Speed Post International (EMS) – End-to-end premium tracking for packages up to 35kg. Excellent for urgent or high-value shipments.
+2. International Tracked Packet Service (ITPS) – Economical milestone-based tracking for lightweight parcels under 2kg. Specifically designed for e-commerce exporters.
+3. Air Parcel – Reliable standard shipping for bulk commercial cargo up to 20-30kg.
+
+Please share your consignment number, and I will instantly retrieve its progress report!`;
+
+      return {
+        answer: fallbackAnswer,
+        groundedSources: sourcesList,
+        isAiGrounded: true,
+        query: userQuery,
+        timestamp: new Date().toISOString(),
+        suggestedFollowUps: [
+          'Track demo shipment EE928410294IN',
+          'What is the difference between ITPS and EMS Speed Post?',
+          'Calculate Postal Shipping Tariff'
+        ]
+      };
+    }
+
     const topChunk = retrievedContexts[0]?.chunk;
     const secondChunk = retrievedContexts[1]?.chunk;
     const thirdChunk = retrievedContexts[2]?.chunk;
@@ -117,6 +274,21 @@ Official Verification: This information is strictly grounded in verified guideli
 YOUR PRIMARY MISSION:
 Provide clear, authoritative, accurate, and step-by-step guidance to Indian exporters, small businesses, rural artisans, weavers, MSMEs, and cross-border e-commerce sellers shipping goods internationally through the India Post DGNK network.
 
+HUMAN-LIKE INTERACTIVE CONVERSATION & TRACKING RULES:
+1. Actively listen and respond in a warm, polite, and human-like conversational manner. Speak naturally, show empathy, and encourage small businesses.
+2. If the user asks to track their shipment, order, or package:
+   - Check if the [LIVE SHIPMENT TRACKING DATA RETRIEVED] context is provided in the prompt.
+   - If a valid shipment record IS provided, explain its status in a friendly, narrative, human-like way:
+     • Greet the user by stating that their parcel was located successfully.
+     • Summarize its journey clearly (e.g. "Great news! Your Speed Post International package is currently on its way to ${foundShipment?.destinationCity || 'its destination'}. It was cleared by customs at the Foreign Post Office in Delhi and has departed on an Air India cargo flight...").
+     • Present the chronological timeline of events in a clean, easy-to-read, and beautifully formatted checklist/table, translating technical terms where helpful (e.g., explain that PBE-I means Postal Bill of Export, and Out of Charge means customs has approved it for transit).
+     • Highlight the estimated delivery date clearly and reassure the user of its safety.
+   - If the user wants to track a package but HAS NOT provided a tracking ID, or if the ID is not found:
+     • Greet them and express your readiness to check the live tracking registers.
+     • Politely ask them to share their 13-character Consignment ID (standard formats like EE928410294IN, or any custom booking confirmation code).
+     • Introduce the standard shipping services of India Post (EMS Speed Post, ITPS, and Air Parcel) so they understand the available service and tracking types.
+3. If the user shares a tracking ID, retrieve it, look it up in the live data, and provide the human-friendly summary as described.
+
 STRICT GROUNDING & REGULATORY RULES:
 1. Ground your answers strictly in the official knowledge chunks provided below. These include:
    - India Post DGNK Standard Operating Procedure (SOP) 2023-24 (Circular 27-02/2021-BD&MD)
@@ -157,6 +329,8 @@ STRICT GROUNDING & REGULATORY RULES:
 
   const userPrompt = `
 ${conversationHistoryText ? `PREVIOUS CHAT CONVERSATION HISTORY:\n${conversationHistoryText}\n\n` : ''}
+${trackingContext ? `LIVE SHIPMENT TRACKING CONTEXT:\n${trackingContext}\n\n` : ''}
+${hasTrackingKeywords ? `DGNK SHIPPING SERVICES REFERENCE FOR TRACKING QUERY:\n${shippingServicesContext}\n\n` : ''}
 CURRENT USER QUERY: "${userQuery}"
 
 ${userProfile ? `EXPORTER PROFILE CONTEXT:
@@ -169,7 +343,7 @@ ${userProfile ? `EXPORTER PROFILE CONTEXT:
 VERIFIED OFFICIAL DGNK / CUSTOMS / DGFT KNOWLEDGE BASE (RETRIEVED VIA RAG):
 ${formattedContext}
 
-Please generate an authoritative, structured, and helpful response grounded in the verified official context above. Highlight required documents, circular numbers, and actionable postal instructions.`;
+Please generate an authoritative, structured, and helpful response grounded in the verified official context above. Highlight required documents, circular numbers, and actionable postal instructions. Keep it highly human-like, narrative, and engaging.`;
 
   try {
     const response = await ai.models.generateContent({
@@ -177,7 +351,7 @@ Please generate an authoritative, structured, and helpful response grounded in t
       contents: userPrompt,
       config: {
         systemInstruction,
-        temperature: 0.2, // High factual grounding
+        temperature: 0.3, // Slightly higher for friendly human-like narration while preserving factuality
         topP: 0.9,
       }
     });
@@ -191,29 +365,46 @@ Please generate an authoritative, structured, and helpful response grounded in t
       'What is the difference between CN22 and CN23?'
     ];
 
-    const qLower = userQuery.toLowerCase();
-    if (qLower.includes('usa') || qLower.includes('america') || qLower.includes('fda')) {
+    if (matchedTrackingId) {
       dynamicFollowUps = [
-        'How do I generate an FDA Prior Notice confirmation number?',
-        'What are the Lacey Act rules for wooden crafts to USA?',
-        'How does the USD $800 Section 321 threshold work?'
+        'How do I claim Duty Drawback / RoDTEP for this shipment?',
+        'What does customs Out of Charge mean?',
+        'How long does Speed Post take to reach destination city?'
       ];
-    } else if (qLower.includes('battery') || qLower.includes('perfume') || qLower.includes('prohibit')) {
-      dynamicFollowUps = [
-        'Can I send batteries installed inside equipment?',
-        'What documents are needed for Ayurvedic medicines?',
-        'How to get a Non-Antiquity Certificate from ASI?'
-      ];
-    } else if (qLower.includes('pbe') || qLower.includes('customs') || qLower.includes('iec')) {
-      dynamicFollowUps = [
-        'When is an IEC code not required under FTP 2023?',
-        'How does FPO issue Export Out of Charge (EOC)?',
-        'Can I claim RoDTEP on postal e-commerce exports?'
-      ];
+    } else {
+      const qLower = userQuery.toLowerCase();
+      if (qLower.includes('usa') || qLower.includes('america') || qLower.includes('fda')) {
+        dynamicFollowUps = [
+          'How do I generate an FDA Prior Notice confirmation number?',
+          'What are the Lacey Act rules for wooden crafts to USA?',
+          'How does the USD $800 Section 321 de minimis work?'
+        ];
+      } else if (qLower.includes('battery') || qLower.includes('perfume') || qLower.includes('prohibit')) {
+        dynamicFollowUps = [
+          'Can I send batteries installed inside equipment?',
+          'What documents are needed for Ayurvedic medicines?',
+          'How to get a Non-Antiquity Certificate from ASI?'
+        ];
+      } else if (qLower.includes('pbe') || qLower.includes('customs') || qLower.includes('iec')) {
+        dynamicFollowUps = [
+          'When is an IEC code not required under FTP 2023?',
+          'How does FPO issue Export Out of Charge (EOC)?',
+          'Can I claim RoDTEP on postal e-commerce exports?'
+        ];
+      }
     }
 
     // Strip all double asterisks from the generated answer before returning
     const cleanAnswer = answerText.replace(/\*\*/g, '');
+
+    const returnedActionLinks = foundShipment ? [
+      { label: 'View Real-time Tracking Panel', action: 'open_tracker', icon: 'Search' },
+      { label: 'Calculate Speed Post Tariff', action: 'open_calculator', icon: 'Calculator' }
+    ] : [
+      { label: 'Create Export Shipment (PBE)', action: 'open_wizard', icon: 'FileText' },
+      { label: 'Calculate Postal Tariff', action: 'open_calculator', icon: 'Calculator' },
+      { label: 'Locate Nearest DGNK Counter', action: 'open_locator', icon: 'MapPin' }
+    ];
 
     return {
       answer: cleanAnswer,
@@ -222,11 +413,7 @@ Please generate an authoritative, structured, and helpful response grounded in t
       query: userQuery,
       timestamp: new Date().toISOString(),
       suggestedFollowUps: dynamicFollowUps,
-      actionLinks: [
-        { label: 'Create Export Shipment (PBE)', action: 'open_wizard', icon: 'FileText' },
-        { label: 'Calculate Postal Tariff', action: 'open_calculator', icon: 'Calculator' },
-        { label: 'Locate Nearest DGNK Counter', action: 'open_locator', icon: 'MapPin' }
-      ]
+      actionLinks: returnedActionLinks
     };
   } catch (error: any) {
     console.error("Gemini API generation error:", error);

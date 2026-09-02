@@ -30,12 +30,15 @@ export const ShipmentTracker: React.FC<{ initialArticleId?: string; language: Su
     setLoading(true);
     setError(null);
     try {
-      const res = await fetch(`/api/shipments/track/${idToSearch.trim()}`);
+      const res = await fetch(`/api/tracking/track/${idToSearch.trim()}`);
       if (!res.ok) {
         throw new Error('Consignment article ID not found.');
       }
       const data = await res.json();
-      setTrackingData(data);
+      if (!data.found || !data.shipment) {
+        throw new Error(data.message || 'Consignment article ID not found.');
+      }
+      setTrackingData(data.shipment);
     } catch (e: any) {
       setError(e.message || 'Tracking information could not be retrieved.');
       setTrackingData(null);

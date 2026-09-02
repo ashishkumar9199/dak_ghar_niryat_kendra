@@ -724,3 +724,6 @@ export const CBIC_EXCHANGE_RATES: CbicExchangeRateData[] = [
     notificationRef: 'CBIC Notif. No. 14/2026-Customs (N.T.)'
   }
 ];
+
+export const userShipments = new Map<string, ShipmentTrackingRecord>();
+
